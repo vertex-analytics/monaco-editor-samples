@@ -69,7 +69,7 @@ require(['vs/editor/editor.main'], function ()
 			// '</html>',
 		].join('\n'),
 		theme: 'vs-dark', // dark theme
-		language: 'javascript',
+		language: 'html',
 		model
 	});
 });
