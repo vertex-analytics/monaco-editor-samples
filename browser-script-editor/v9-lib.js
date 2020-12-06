@@ -1,5 +1,5 @@
 monaco.languages.typescript.javascriptDefaults.addExtraLib(
-	`
+`
 //============================================================================================================
 
 //-----------------------------------------------------------------------------------------------------------=
@@ -761,10 +761,11 @@ window.onfocus= function() {
 };
 //-----------------------------------------------------------------------------------------------------------=
 
+//TODO: make sure this is not overridden by the default event class
 /**
  * Class used for referencing any individual Event from the current feed
  */
-var please = {
+var pEvent = {
 	/**
 	 * @typedef {object} Header
 	 * @property {number} unionID Enumerated value used to find the type of an Event object
@@ -1041,5 +1042,4 @@ var please = {
 	},
 };
 `,
-	'myDefault:some.file.d.ts'
 );
