@@ -280,110 +280,6 @@ class Event {
 	},
 };
 
-class console {
-	constructor (pData)
-	{
-	}
-}
-
-class table {
-	constructor (pData)
-	{
-	}
-}
-
-class sheet {
-	constructor (pData)
-	{
-	}
-}
-
-class book {
-	constructor ()
-	{
-	}
-
-    BookSort ()
-    {
-	}
-
-    BookErro ()
-    {
-	}
-
-    BestRowsA ()
-    {
-	}
-
-    BestRowsB ()
-    {
-	}
-
-    OrdsRowsA ()
-    {
-	}
-
-    OrdsRowsB ()
-    {
-	}
-
-    BaseItemA (cnt)
-    {
-	}
-
-	BaseItemB (cnt)
-    {
-	}
-
-	BestItemA (cnt)
-    {
-	}
-
-    BestItemB (cnt)
-    {
-	}
-
-    OrdsItemA (cnt)
-    {
-	}
-
-    OrdsItemB (cnt)
-    {
-	}
-
-    BookRowsA ()
-    {
-	}
-
-    BookRowsB ()
-    {
-	}
-
-    BookItemA (cnt)
-    {
-	}
-
-    BookItemB (cnt)
-    {
-	}
-
-	onChange (pOrder)
-	{
-	}
-
-	onRender ()
-	{
-	}
-
-	//TODO check if issue with this conflicting name still exists after v9.book is formatted properly
-	onEvent (pEvent)
-	{
-	}
-}
-
-//TODO format other v9 classes like v9.feed
-//TODO make sure everything has proper descriptions
-
 /**
  * Class used for referencing all v9 event Objects and data
  * @namespace
@@ -392,9 +288,23 @@ let v9 = {
 	/**
 	 * This class' functions should be overridden in each script for handling user actions and symbol events
 	 */
-	console: this.console;
-	table: this.table;
-	sheet: this.sheet;
+	console: class {
+		constructor(pData)
+		{
+		}
+	}
+
+	table: class {
+		constructor(pData)
+		{
+		}
+	}
+
+	sheet: class {
+		constructor(pData)
+		{
+		}
+	}
 
 	/**
 	 * This class' functions should be overridden in each script for handling user actions and symbol events
@@ -471,7 +381,87 @@ let v9 = {
 	},
 
 	//TODO: wait for book overhaul
-	book: this.book,
+	book: class {
+		constructor()
+		{
+		}
+
+		BookSort()
+		{
+		}
+
+		BookErro()
+		{
+		}
+
+		BestRowsA()
+		{
+		}
+
+		BestRowsB()
+		{
+		}
+
+		OrdsRowsA()
+		{
+		}
+
+		OrdsRowsB()
+		{
+		}
+
+		BaseItemA(cnt)
+		{
+		}
+
+		BaseItemB(cnt)
+		{
+		}
+
+		BestItemA(cnt)
+		{
+		}
+
+		BestItemB(cnt)
+		{
+		}
+
+		OrdsItemA(cnt)
+		{
+		}
+
+		OrdsItemB(cnt)
+		{
+		}
+
+		BookRowsA()
+		{
+		}
+
+		BookRowsB()
+		{
+		}
+
+		BookItemA(cnt)
+		{
+		}
+
+		BookItemB(cnt)
+		{
+		}
+
+		onChange(pOrder)
+		{
+		}
+
+		onRender()
+		{
+		}
+
+		onEvent(pEvent)
+		{
+		}
+	}
 
 	/**
 	 * @typedef {Object} UnionID

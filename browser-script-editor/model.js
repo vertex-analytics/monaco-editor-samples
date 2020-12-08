@@ -1,7 +1,7 @@
 const model = monaco.editor.createModel(
 `var gConsole;
 
-//Append ".onOpen" and then add an open parentheses below to see oddity with feed function intellisense
+//Append ".onOpen" or ".onEvent" and then add an open parentheses below to see oddity with feed function intellisense
 v9.feed
 
 class MyFeed extends v9.feed {
