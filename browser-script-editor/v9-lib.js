@@ -1,770 +1,652 @@
 monaco.languages.typescript.javascriptDefaults.addExtraLib(
-	`
-//============================================================================================================
-
-//-----------------------------------------------------------------------------------------------------------=
-const	qEditSymb			=	2001;
-const	qEditDate			=	2002;
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-const	littleEndian	=	true;
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-var v9 = {
-
-	edit = class
+`
+class console {
+	constructor (pData)
 	{
-		//-----------------------------------------------------------------------------------------------------------=
-		constructor (pEditType)
-		{
-			this.fEditType	=	qEditSymb;
-
-			if (pEditType)	{
-				if (pEditType.toUpperCase() === "SYMBOL")	{
-					this.fEditType	=	qEditSymb;
-					}
-				if (pEditType.toUpperCase() === "DATE")	{
-					this.fEditType	=	qEditDate;
-					}
-				}
-		}
-		//-----------------------------------------------------------------------------------------------------------=
-
-		//-----------------------------------------------------------------------------------------------------------=
-		set value (pEdit)
-		{
-			return gHome._pagesave (gUniq,this.fEditType,pEdit);
-		}
-		//-----------------------------------------------------------------------------------------------------------=
-
-		//-----------------------------------------------------------------------------------------------------------=
-		get value ()
-		{
-			return gHome._pageread (gUniq,this.fEditType);
-		}
-		//-----------------------------------------------------------------------------------------------------------=
-
-		//-----------------------------------------------------------------------------------------------------------=
-		get symbol ()
-		{
-			return  (this.fEditType==qEditSymb) ? 	this.value : "";
-		}
-		//-----------------------------------------------------------------------------------------------------------=
-
-		//-----------------------------------------------------------------------------------------------------------=
-		get date ()
-		{
-			return  (this.fEditType==qEditDate) ? 	this.value : "";
-		}
-		//-----------------------------------------------------------------------------------------------------------=
-
-	}
-
-	PRICE_NULL_32		:	2147483647,
-	PRICE_NULL_64		:	9223372036854775807n,
-	sGroupSettleID		:	4294967293,
-
-	Aggressor	:
-	{
-		NoAggressor					: 0,
-		Buy							: 1,
-		Sell						: 2
-	},
-
-	HaltReason	:
-	{
-		NotSet						: 255,
-		GroupSchedule				: 0,
-		SurveillanceIntervention	: 1,
-		MarketEvent					: 2,
-		InstrumentActivation		: 3,
-		InstrumentExpiration		: 4,
-		Unknown						: 5,
-	    RecoveryInProcess			: 6
-	},
-
-	SecurityType	:
-	{
-		NotSet						: 0,
-		TradingHalt					: 2,
-		Close						: 4,
-		NewPriceIndication			: 15,
-		ReadyToTrade				: 17,
-		NotAvailableForTrading		: 18,
-		UnknownorInvalid			: 20,
-		PreOpen						: 21,
-		PreCross					: 24,
-		Cross						: 25,
-		PostClose					: 26,
-		NoChange					: 103,
-		PreClos						: 150,
-		Restricted					: 200,
-		Freeze						: 201
-	},
-
-	SecurityEvent	:
-	{
-		NoEvent						: 0,
-		NoCancel					: 1,
-		ResetStatistics				: 4,
-		ImpliedMatchingON			: 5,
-		ImpliedMatchingOFF			: 6
-	},
-
-	BookType	:
-	{
-		NotSet						: 85,
-		Bid							: 66,
-		Ask							: 83,
-		ImpliedBid					: 98,
-		ImpliedAsk					: 115,
-		BookReset					: 82
-	},
-
-	DailyStatisticsType	:
-	{
-		SettlementPrice				: 54,
-		ClearedVolume				: 66,
-		OpenInterest				: 67,
-		FixingPrice					: 87
-	},
-
-	BookAction	:
-	{
-		NotSet						: 255,
-		New							: 0,
-		Change						: 1,
-		Delete						: 2,
-		DeleteThru					: 3,
-		DeleteFrom					: 4,
-		Overlay						: 5,
-		Replace						: 6
-	},
-
-	SessionStatisticsType	:
-	{
-		NotSet						: 127,
-		OpenPrice					: 0,
-		HighTrade					: 1,
-		LowTrade					: 2,
-		LastTrade					: 3,
-		HighestBid					: 4,
-		LowestAsk					: 5,
-		ClosePrice					: 6
-	},
-
-
-	StateType	:
-	{
-		NotSet						: 255,
-		DailyOpenPrice				: 0,
-		IndicativeOpeningPrice		: 5,
-		DailyClosePrice				: 10
-	},
-
-	PutOrCall	:
-	{
-		NotSet						: 255,
-		Put							: 0,
-		Call						: 1
-	},
-
-	SettleType	:
-	{
-		Final						: 1,
-		Actual						: 2,
-		Rounded						: 4,
-		Intraday					: 8,
-		ReservedBits				: 16,
-		NullValue					: 128
-	},
-
-	TransactionType	:
-	{
-		NotSet						: 255,
-		TransactionStart			: 0,
-		TransactionEnd				: 1
-	},
-
-	EventIndicator	:
-	{
-		NotSet						: 0,
-		LastOfType					: 1,
-		EndOfEvent					: 128
-	},
-
-	UnionID				:
-	{
-		NotSet						: 255,
-		NotMapped					: 250,
-		TradeSummary				: 0,
-		TradeMatch					: 1,
-		VolumeUpdate				: 2,
-		BookLevel					: 3,
-		OrderBook					: 4,
-		SecurityStatus				: 5,
-		DailyStatistics				: 6,
-		SessionStatistics			: 7,
-		LimitsBanding				: 8,
-		ChannelReset				: 9,
-		TransactionMarker			: 10,
-	}
-
-};
-//-----------------------------------------------------------------------------------------------------------=
-
-//============================================================================================================
-
-//-----------------------------------------------------------------------------------------------------------=
-v9.lineChart = class
-{
-	constructor (pID) {
-		this.fLineEnum		=	gHome.MakeLine (gUniq,(pID) ? document.getElementById(pID) : null);
-		}
-
-	linePush (pItem,pRate,pTime)
-	{
-		gHome.LinePush (gUniq,pItem.fCalcEnum,pRate,pTime);
-	}
-
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-v9.cubeChart = class
-{
-	constructor (pID) {
-		this.fCubeEnum		=	gHome.MakeCube (gUniq,(pID) ? document.getElementById(pID) : null);
-		}
-
-	cubePlus (pItem,pData,pSize)
-	{
-		gHome.CubePlus (gUniq,pItem,pData,pSize);
-	}
-
-	cubeDele (pItem,pData)
-	{
-		gHome.CubeDele (gUniq,pItem,pData);
-	}
-
-	cubeSave (pItem,pData,pSize)
-	{
-		gHome.CubeSave (gUniq,pItem,pData,pSize);
-	}
-
-	cubeRead (pItem,pData)
-	{
-		gHome.CubeRead (gUniq,pItem,pData);
-	}
-
-	cubeFree (pItem)
-	{
-		gHome.CubeFree (gUniq,pItem);
-	}
-
-	cubePush (pItem,pSave)
-	{
-		gHome.CubePush (gUniq,pItem,pSave);
-	}
-
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-v9.plotChart = class
-{
-	constructor (pID) {
-		this.fPlotEnum		=	gHome.MakePlot (gUniq,(pID) ? document.getElementById(pID) : null);
-		}
-
-	plotPlus (pItem,pData,pSize)
-	{
-		gHome.PlotPlus (gUniq,pItem,pData,pSize);
-	}
-
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-v9.lineItem = class
-{
-
-
-	constructor (pPane) {
-		try	{
-			this.fCalcEnum		=	gHome.MakeCalc (gUniq,this);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"MakeCalc",e);
-			}
-		}
-
-	set lineWidth (pData)
-	{
-		try	{
-			this._lineWidth	=	pData;
-			gHome.Calc_lineWidth (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"lineWidth",e);
-			}
-	}
-
-	set strokeStyle (pData)
-	{
-		try	{
-			this._strokeStyle	=	pData;
-			gHome.Calc_strokeStyle (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErroo (gUniq,"strokeStyle",e);
-			}
-	}
-
-	set format (pData)
-	{
-		try	{
-			this._format	=	pData;
-			gHome.Calc_format (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"format",e);
-			}
-	}
-
-	set textStyle (pData)
-	{
-		try	{
-			this._textStyle	=	pData;
-			gHome.Calc_textStyle (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"textStyle",e);
-			}
-	}
-
-	set bodyStyle (pData)
-	{
-		try	{
-			this._bodyStyle	=	pData;
-			gHome.Calc_bodyStyle (gUniq,this.fCalcEnum,pData);
-			//postMessage ([_Calc_bodyStyle,gCodeDash,this.fCalcUniq,pData]);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"textStyle",e);
-			}
-	}
-
-	set title (pData)
-	{
-		try	{
-			this._title	=	pData;
-			gHome.Calc_title (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"title",e);
-			}
-	}
-
-	set name (pData)
-	{
-		try	{
-			this._name	=	pData;
-			gHome.Calc_name (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"name",e);
-			}
-	}
-
-	get lineWidth ()
-	{
-		return this._lineWidth;
-	}
-
-	get strokeStyle ()
-	{
-		return this._strokeStyle;
-	}
-
-	get textStyle ()
-	{
-		return this._textStyle;
-	}
-
-	get eventStyle ()
-	{
-		return this._eventStyle;
-	}
-
-	get title ()
-	{
-		return this._title;
-	}
-
-	get format ()
-	{
-		return this._format;
 	}
 }
-//-----------------------------------------------------------------------------------------------------------=
 
-//-----------------------------------------------------------------------------------------------------------=
-v9.cubeItem = class
-{
-
-
-	constructor (pPane) {
-		try	{
-			this.fCalcEnum		=	gHome.MakeCalc (gUniq,this);
-			this.fCubeMaps		=	new Map();
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"MakeCalc",e);
-			}
-		}
-
-	set lineWidth (pData)
+class table {
+	constructor (pData)
 	{
-		try	{
-			this._lineWidth	=	pData;
-			gHome.Calc_lineWidth (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"lineWidth",e);
-			}
-	}
-
-	set strokeStyle (pData)
-	{
-		try	{
-			this._strokeStyle	=	pData;
-			gHome.Calc_strokeStyle (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErroo (gUniq,"strokeStyle",e);
-			}
-	}
-
-	set format (pData)
-	{
-		try	{
-			this._format	=	pData;
-			gHome.Calc_format (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"format",e);
-			}
-	}
-
-	set textStyle (pData)
-	{
-		try	{
-			this._textStyle	=	pData;
-			gHome.Calc_textStyle (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"textStyle",e);
-			}
-	}
-
-	set bodyStyle (pData)
-	{
-		try	{
-			this._bodyStyle	=	pData;
-			gHome.Calc_bodyStyle (gUniq,this.fCalcEnum,pData);
-			//postMessage ([_Calc_bodyStyle,gCodeDash,this.fCalcUniq,pData]);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"textStyle",e);
-			}
-	}
-
-	set title (pData)
-	{
-		try	{
-			this._title	=	pData;
-			gHome.Calc_title (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"title",e);
-			}
-	}
-
-	set name (pData)
-	{
-		try	{
-			this._name	=	pData;
-			gHome.Calc_name (gUniq,this.fCalcEnum,pData);
-			}
-		catch (e)	{
-			gHome.PageErro (gUniq,"name",e);
-			}
-	}
-
-	get lineWidth ()
-	{
-		return this._lineWidth;
-	}
-
-	get strokeStyle ()
-	{
-		return this._strokeStyle;
-	}
-
-	get textStyle ()
-	{
-		return this._textStyle;
-	}
-
-	get eventStyle ()
-	{
-		return this._eventStyle;
-	}
-
-	get title ()
-	{
-		return this._title;
-	}
-
-	get format ()
-	{
-		return this._format;
 	}
 }
-//-----------------------------------------------------------------------------------------------------------=
 
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-v9.objectCopy	=	 function (pObject)
-{
-	return Object.assign({},pObject);
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-v9.eventCopy	=	 function (pEvent)
-{
-
-	let	tEvent	=	{};
-
-	if (pEvent.header)	{
-		tEvent.header	=	v9.objectCopy (pEvent.header);
-		}
-
-	try	{
-		switch (pEvent.header.unionID)	{
-			case	v9.UnionID.TransactionMarker	:
-				tEvent.transactionMarker	=	v9.objectCopy (pEvent.transactionMarker);
-				break;
-			case	v9.UnionID.ChannelReset			:
-				tEvent.channelReset			=	v9.objectCopy (pEvent.channelReset);
-				break;
-			case	v9.UnionID.TradeSummary			:
-				tEvent.tradeSummary			=	v9.objectCopy (pEvent.tradeSummary);
-				break;
-			case	v9.UnionID.TradeMatch			:
-				tEvent.tradeMatch			=	v9.objectCopy (pEvent.tradeMatch);
-				break;
-			case	v9.UnionID.VolumeUpdate			:
-				tEvent.volumeUpdate			=	v9.objectCopy (pEvent.volumeUpdate);
-				break;
-			case	v9.UnionID.BookLevel			:
-				tEvent.bookLevel			=	v9.objectCopy (pEvent.bookLevel);
-				break;
-			case	v9.UnionID.OrderBook			:
-				tEvent.orderBook			=	v9.objectCopy (pEvent.orderBook);
-				break;
-			case	v9.UnionID.SecurityStatus		:
-				tEvent.securityStatus		=	v9.objectCopy (pEvent.securityStatus);
-				break;
-			case	v9.UnionID.DailyStatistics		:
-				tEvent.dailyStatistics		=	v9.objectCopy (pEvent.dailyStatistics);
-				break;
-			case	v9.UnionID.SessionStatistics	:
-				tEvent.sessionStatistics	=	v9.objectCopy (pEvent.sessionStatistics);
-				break;
-			case	v9.UnionID.LimitsBanding		:
-				tEvent.limitsBanding		=	v9.objectCopy (pEvent.limitsBanding);
-				break;
-			case	v9.UnionID.ClearingPrice		:
-				tEvent.clearingPrice		=	v9.objectCopy (pEvent.clearingPrice);
-				break;
-			}
-		}
-	catch (e)	{
-		tEvent	=	{};
-		}
-
-	return tEvent;
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-
-//-----------------------------------------------------------------------------------------------------------=
-v9.feed = class
-{
-
-	//-----------------------------------------------------------------------------------------------------------=
-	constructor (pSymbol,pDate)
+class sheet {
+	constructor (pData)
 	{
-		//DSS ("CALLING PageBack");
-		//gHome._pageback (gUniq,qMakeFeed,pSymbol);
-		gHome.MakeFeed (gUniq,pSymbol,pDate);
-		gFeed	=	this;
 	}
-	//-----------------------------------------------------------------------------------------------------------=
+}
 
-	//-----------------------------------------------------------------------------------------------------------=
+class feed {
+	constructor (pSymbol,pStartDate, pStopDate, weekends)
+	{
+	}
+
+	onInit ()
+	{
+	}
+
 	onOpen (pMeta)
 	{
 	}
-	//-----------------------------------------------------------------------------------------------------------=
 
-	//-----------------------------------------------------------------------------------------------------------=
-	onLoad ()
-	{
-	}
-	//-----------------------------------------------------------------------------------------------------------=
-
-	//-----------------------------------------------------------------------------------------------------------=
-	onEvent (pSymbol,pEvent,pRealTime)
-	{
-	}
-	//-----------------------------------------------------------------------------------------------------------=
-
-	//-----------------------------------------------------------------------------------------------------------=
 	onRender ()
 	{
 	}
-	//-----------------------------------------------------------------------------------------------------------=
 
-	//-----------------------------------------------------------------------------------------------------------=
-	onStop ()
+	onEvent (pSymbol,pEvent,pRealTime)
 	{
 	}
-	//-----------------------------------------------------------------------------------------------------------=
 
-	//-----------------------------------------------------------------------------------------------------------=
-	formatPrice (pPrice,pSymbolID)
+	onExit ()
 	{
-		return gHome.FormatPrice (gUniq,pPrice,pSymbolID);
 	}
-	//-----------------------------------------------------------------------------------------------------------=
 
-	////-----------------------------------------------------------------------------------------------------------=
-	//symbol (pPrice,pSymbol)
-	//{
-	//	if (!_meta)	return "";
-	//	return gHome._FracText (pPrice,pSymbol);
-	//}
-	////-----------------------------------------------------------------------------------------------------------=
-
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-function onOpen (pMeta)
-{
-	if (!gFeed)	return;
-	gFeed.onOpen (pMeta);
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//----------------------------------------------------------------  -------------------------------------------=
-function onLoad ()
-{
-	if (!gFeed)	return;
-	gFeed.onLoad ();
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-function onEvent (pSymbol,pEvent,pRealTime)
-{
-	if (!gFeed)	return;
-	gFeed.onEvent (pSymbol,pEvent,pRealTime);
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-function onRender ()
-{
-	if (!gFeed)	return;
-	gFeed.onRender ();
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-function onStop ()
-{
-	if (!gFeed)	return;
-	gFeed.onStop ();
-}
-//-----------------------------------------------------------------------------------------------------------=
-
-////-----------------------------------------------------------------------------------------------------------=
-//const	kPageNone	=	0;
-//const	kPageOpen	=	1;
-//const	kPageLoad	=	2;
-//const	kPageTick	=	3;
-////-----------------------------------------------------------------------------------------------------------=
-//
-////-----------------------------------------------------------------------------------------------------------=
-//function _pagetask (pTask,pData)
-//{
-//	switch (pTask)	{
-//		case	kPageOpen	:
-//			gFeed.onOpen();
-//			break;
-//		case	kPageLoad	:
-//			gFeed.onLoad();
-//			break;
-//		}
-//
-//}
-////-----------------------------------------------------------------------------------------------------------=
-
-//-----------------------------------------------------------------------------------------------------------=
-window.onerror = function (msg, url, lineNo, columnNo, error) {
-	var string = msg.toLowerCase();
-	var substring = "script error";
-	if (string.indexOf(substring) > -1){
-		gHome._pageerro (gUniq,'Script Error: See Browser Console for Detail');
-		}
-	else {
-		//var message = [
-		//	'Message: ' + msg,
-		//	'URL: ' + url,
-		//	'Line: ' + lineNo,
-		//	'Column: ' + columnNo,
-		//	'Error object: ' + JSON.stringify(error)
-		//].join(' - ');
-
-		var message = [
-			'Message: ' + msg,
-			'Line: ' + lineNo,
-			'Column: ' + columnNo
-		].join(' - ');
-
-		gHome._pageerro (gUniq,message);
-		}
+	onShut ()
+	{
 	}
-//-----------------------------------------------------------------------------------------------------------=
+}
 
-//-----------------------------------------------------------------------------------------------------------=
-window.onfocus= function() {
-	gHome._pagesele (gUniq);
-};
-//-----------------------------------------------------------------------------------------------------------=
+class book {
+	constructor ()
+	{
+	}
+
+    BookSort ()
+    {
+	}
+
+    BookErro ()
+    {
+	}
+
+    BestRowsA ()
+    {
+	}
+
+    BestRowsB ()
+    {
+	}
+
+    OrdsRowsA ()
+    {
+	}
+
+    OrdsRowsB ()
+    {
+	}
+
+    BaseItemA (cnt)
+    {
+	}
+
+	BaseItemB (cnt)
+    {
+	}
+
+	BestItemA (cnt)
+    {
+	}
+
+    BestItemB (cnt)
+    {
+	}
+
+    OrdsItemA (cnt)
+    {
+	}
+
+    OrdsItemB (cnt)
+    {
+	}
+
+    BookRowsA ()
+    {
+	}
+
+    BookRowsB ()
+    {
+	}
+
+    BookItemA (cnt)
+    {
+	}
+
+    BookItemB (cnt)
+    {
+	}
+
+	onChange (pOrder)
+	{
+	}
+
+	onRender ()
+	{
+	}
+
+	onEvent (pEvent)
+	{
+	}
+}
+
+//TODO make sure everything has proper descriptions
+
+/**
+ * Class used for referencing all v9 event enumerations and data
+ */
+var v9 = {
+	console = this.console;
+	table = this.table;
+	sheet = this.sheet;
+	feed = this.feed;
+	book = this.book;
+
+	/**
+	 * @typedef {enumeration} UnionID
+	 * @property {number} NotSet 255
+	 * @property {number} NotMapped 250
+	 * @property {number} TradeSummary 0 : Message that contains summary information about trades
+	 * @property {number} TradeMatch 1 : Message that contains information on a match of a trade event
+	 * @property {number} VolumeUpdate 2 : Message that updates volume data after a TradeSummary event. On certain exchanges if two implied quotes are matched, a VolumeUpdate event will occur showing the change in the total volume, but it will not be tied to a TradeSummary event
+	 * @property {number} BookLevel 3 : Message that contains information on a quote that occurred in the first n levels of the book. The instrument definition from the exchange specifies the exact number of levels. This message can show up alongside an OD message
+	 * @property {number} OrderBook 4 : Message that contains information on a quote for all price levels
+	 * @property {number} SecurityStatus 5 : Message that provides the security group market state change
+	 * @property {number} DailyStatistics 6 : Message that provides information about a complete session
+	 * @property {number} SessionStatistics 7 : Message that provides information about the session during the session
+	 * @property {number} LimitsBanding 8 : Message that provides the daily limits for the current session
+	 * @property {number} ChannelReset 9 : Message that indicates if the channel the contract is on was reset and at what time
+	 * @property {number} TransactionMarker 10 : The TS message marks the start of a bundle, and the TE message marks the end of that bundle. The exchange considers all the messages between the start and end marker to have been processed together, regardless of how the packets were split during exchange transmission
+	 */
+
+	/**
+	 * A {@link v9}․{@link UnionID} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - v9.UnionID
+	 * @type {enumeration}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *         case v9.UnionID.<Value>:
+	 *             // Do something when pEvent.header.unionID is equal to v9.UnionID.<Value>
+	 *             break;
+	 *         default :
+	 *             break;
+	 *     }
+	 * }
+	 */
+	UnionID = {
+		NotSet: 255,
+		NotMapped: 250,
+		TradeSummary: 0,
+		TradeMatch: 1,
+		VolumeUpdate: 2,
+		BookLevel: 3,
+		OrderBook: 4,
+		SecurityStatus: 5,
+		DailyStatistics: 6,
+		SessionStatistics: 7,
+		LimitsBanding: 8,
+		ChannelReset: 9,
+		TransactionMarker: 10,
+		Test: 11, //Deprecated
+		ClearingPrice: 12 // FUTURE
+	};
+
+	/**
+	 * @typedef {enumeration} Aggressor
+	 * @property {number} NoAggressor 0
+	 * @property {number} Buy 1
+	 * @property {number} Sell 2
+	 */
+	/**
+	 * A {@link v9}․{@link Aggressor} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.tradeSummary.aggressor
+	 * @type {Aggressor}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.TradeSummary:
+	 *                  var agr = pEvent.tradeSummary.aggressor;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	Aggressor = {
+		NoAggressor: 0,
+		Buy: 1,
+		Sell: 2
+	};
+
+	/**
+	 * @typedef {enumeration} HaltReason
+	 * @property {number} NotSet 255
+	 * @property {number} GroupSchedule 0
+	 * @property {number} SurveillanceIntervention 1
+	 * @property {number} MarketEvent 2
+	 * @property {number} InstrumentActivation 3
+	 * @property {number} InstrumentExpiration 4
+	 * @property {number} Unknown 5
+	 * @property {number} RecoveryInProcess 6
+	 */
+	/**
+	 * A {@link v9}․{@link HaltReason} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.securityStatus.haltReason
+	 * @type {HaltReason}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *         case v9.UnionID.SecurityStatus:
+	 *             var hlt = pEvent.securityStatus.haltReason;
+	 *             break;
+	 *         default :
+	 *             break;
+	 *     }
+	 * }
+	 */
+	HaltReason = {
+		NotSet: 255,
+		GroupSchedule: 0,
+		SurveillanceIntervention: 1,
+		MarketEvent: 2,
+		InstrumentActivation: 3,
+		InstrumentExpiration: 4,
+		Unknown: 5,
+		RecoveryInProcess: 6
+	};
+
+	/**
+	 * @typedef {enumeration} SecurityType
+	 * @property {number} NotSet 0
+	 * @property {number} TradingHalt 2
+	 * @property {number} Close 4
+	 * @property {number} NewPriceIndication 15
+	 * @property {number} ReadyToTrade 17
+	 * @property {number} NotAvailableForTrading 18
+	 * @property {number} UnknownorInvalid 20
+	 * @property {number} PreOpen 21
+	 * @property {number} PreCross 24
+	 * @property {number} PostClose 26
+	 * @property {number} NoChange 103
+	 * @property {number} PreClose 150 : Only ICE Exchange
+	 * @property {number} Restricted 200 : Only EUREX Exchange
+	 * @property {number} Freeze 201 : Only EUREX Exchange
+	 */
+	/**
+	 * A {@link v9}․{@link SecurityType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.securityStatus.type
+	 * @type {SecurityType}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *         case v9.UnionID.SecurityStatus:
+	 *             var typ = pEvent.securityStatus.type;
+	 *             break;
+	 *         default :
+	 *             break;
+	 *     }
+	 * }
+	 */
+	SecurityType = {
+		NotSet: 0,
+		TradingHalt: 2,
+		Close: 4,
+		NewPriceIndication: 15,
+		ReadyToTrade: 17,
+		NotAvailableForTrading: 18,
+		UnknownorInvalid: 20,
+		PreOpen: 21,
+		PreCross: 24,
+		Cross: 25,
+		PostClose: 26,
+		NoChange: 103,
+		PreClose: 150,
+		Restricted: 200,
+		Freeze: 201
+	};
+
+	/**
+	 * @typedef {enumeration} SecurityEvent
+	 * @property {number} NoEvent 0
+	 * @property {number} NoCancel 1
+	 * @property {number} ResetStatistics 4
+	 * @property {number} ImpliedMatchingON 5
+	 * @property {number} ImpliedMatchingOFF 6
+	 */
+	/**
+	 * A {@link v9}․{@link SecurityEvent} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.securityStatus.securityEvent
+	 * @type {SecurityEvent}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.SecurityStatus:
+	 *                  var sev = pEvent.securityStatus.securityEvent;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	SecurityEvent = {
+		NoEvent: 0,
+		NoCancel: 1,
+		ResetStatistics: 4,
+		ImpliedMatchingON: 5,
+		ImpliedMatchingOFF: 6
+	};
+
+	/**
+	 * @typedef {enumeration} BookType
+	 * @property {number} NotSet 85
+	 * @property {number} Bid 66
+	 * @property {number} Ask 83
+	 * @property {number} ImpliedBid 98
+	 * @property {number} ImpliedAsk 115
+	 * @property {number} BookReset 82
+	 */
+	/**
+	 * A {@link v9}․{@link BookType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.orderBook.type
+	 *  - pEvent.bookLevel.type
+	 * @type {BookType}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.OrderBook:
+	 *                  var typ = pEvent.orderBook.type;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	BookType = {
+		NotSet: 85,
+		Bid: 66,
+		Ask: 83,
+		ImpliedBid: 98,
+		ImpliedAsk: 115,
+		BookReset: 82
+	};
+
+	/**
+	 * @typedef {enumeration} DailyStatisticsType
+	 * @property {number} SettlePrice '6'
+	 * @property {number} ClearedVolume 'B'
+	 * @property {number} OpenInterest 'C'
+	 * @property {number} Fixing 'W'
+	 */
+	/**
+	 * A {@link v9}․{@link DailyStatisticsType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.dailyStatistics.type
+	 * @type {DailyStatisticsType}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.DailyStatistics:
+	 *                  var typ = pEvent.dailyStatistics.type;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	DailyStatisticsType = {
+		SettlementPrice: 54,
+		ClearedVolume: 66,
+		OpenInterest: 67,
+		FixingPrice: 87
+	};
+
+	/**
+	 * @typedef {enumeration} BookAction
+	 * @property {number} NotSet 255
+	 * @property {number} New 0
+	 * @property {number} Change 1
+	 * @property {number} Delete 2
+	 * @property {number} DeleteThru 3
+	 * @property {number} DeleteFrom 4
+	 * @property {number} Overlay 5
+	 * @property {number} Replace 6
+	 */
+	/**
+	 * A {@link v9}․{@link BookAction} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.orderBook.action
+	 *  - pEvent.bookLevel.action
+	 * @type {BookAction}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.OrderBook:
+	 *                  var act = pEvent.orderBook.action;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	BookAction = {
+		NotSet: 255,
+		New: 0,
+		Change: 1,
+		Delete: 2,
+		DeleteThru: 3,
+		DeleteFrom: 4,
+		Overlay: 5,
+		Replace: 6
+	};
+
+	/**
+	 * @typedef {enumeration} SessionStatisticsType
+	 * @property {number} NotSet 127
+	 * @property {number} OpenPrice 0
+	 * @property {number} HighTrade 1
+	 * @property {number} LowTrade 2
+	 * @property {number} LastTrade 3
+	 * @property {number} HighestBid 4
+	 * @property {number} LowestAsk 5
+	 * @property {number} ClosePrice 6
+	 */
+	/**
+	 * A {@link v9}․{@link SessionStatisticsType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.sessionStatistics.type
+	 * @type {SessionStatisticsType}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *         case v9.UnionID.SessionStatistics:
+	 *                  var typ = pEvent.sessionStatistics.type;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	SessionStatisticsType = {
+		NotSet: 127,
+		OpenPrice: 0,
+		HighTrade: 1,
+		LowTrade: 2,
+		LastTrade: 3,
+		HighestBid: 4,
+		LowestAsk: 5,
+		ClosePrice: 6
+	};
+
+	/**
+	 * @typedef {enumeration} StateType
+	 * @property {number} NotSet 255
+	 * @property {number} DailyOpenPrice 0
+	 * @property {number} IndicativeOpeningPrice 5
+	 * @property {number} DailyClosingPrice 10
+	 */
+	/**
+	 * A {@link v9}․{@link StateType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.sessionStatistics.stateType
+	 * @type {StateType}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.SessionStatistics:
+	 *                  var stt = pEvent.sessionStatistics.stateType;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	StateType = {
+		NotSet: 255,
+		DailyOpenPrice: 0,
+		IndicativeOpeningPrice: 5,
+		DailyClosePrice: 10
+	};
+
+	/**
+	 * @typedef {enumeration} PutOrCall
+	 * @property {number} NotSet 255
+	 * @property {number} Put 0
+	 * @property {number} Call 1
+	 */
+	/**
+	 * A {@link v9}․{@link PutOrCall} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.PutOrCall.type
+	 * @type {PutOrCall}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     // N/A
+	 * }
+	 */
+	PutOrCall = {
+		NotSet: 255,
+		Put: 0,
+		Call: 1
+	};
+
+	/**
+	 * @typedef {enumeration} SettleType
+	 * @property {number} Final 1
+	 * @property {number} Actual 2
+	 * @property {number} Rounded 4
+	 * @property {number} Intraday 8
+	 * @property {number} ReservedBits 16
+	 * @property {number} NullValue 128
+	 */
+	/**
+	 * A {@link v9}․{@link SettleType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.dailyStatistics.settleType
+	 * @type {SettleType}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.DailyStatistics:
+	 *                  var stl = pEvent.dailyStatistics.settleType;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	SettleType = {
+		Final: 1,
+		Actual: 2,
+		Rounded: 4,
+		Intraday: 8,
+		ReservedBits: 16,
+		NullValue: 128
+	};
+
+	/**
+	 * @typedef {enumeration} TransactionType
+	 * @property {number} NotSet 255
+	 * @property {number} TransactionStart 0
+	 * @property {number} TransactionEnd 1
+	 */
+	/**
+	 * A {@link v9}․{@link TransactionType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.transactionMarker.transactionType
+	 * @type {TransactionType}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.TransactionMarker:
+	 *                  var ttp = pEvent.transactionMarker.transactionType;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	TransactionType = {
+		NotSet: 255,
+		TransactionStart: 0,
+		TransactionEnd: 1
+	};
+
+	/**
+	 * @typedef {enumeration} EventIndicator
+	 * @property {number} NotSet 0
+	 * @property {number} LastOfType 1
+	 * @property {number} EndOfEvent 128
+	 */
+	/**
+	 * A {@link v9}․{@link EventIndicator} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - pEvent.header.eventIndicator
+	 * @type {EventIndicator}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *     switch (pEvent.header.unionID) {
+	 *    case v9.UnionID.EventIndicator:
+	 *                  var ind = pEvent.header.eventIndicator;
+	 *              break;
+	 *          default :
+	 *              break;
+	 *     }
+	 * }
+	 */
+	EventIndicator = {
+		NotSet: 0,
+		LastOfType: 1,
+		EndOfEvent: 128
+	};
+
+	/**
+	 * @typedef {enumeration} InvestigateStatus
+	 * @property {number} NotSet 0
+	 * @property {number} UnderInvestigation 1
+	 * @property {number} InvestigationStatus 2
+	 */
+	/**
+	 * A {@link v9}․{@link InvestigateStatus} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 *  - N/A
+	 * @type {InvestigateStatus}
+	 * @example
+	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 *    // N/A
+	 * }
+	 */
+	InvestigateStatus = {
+		NotSet: 0,
+		UnderInvestigation: 1,
+		InvestigationCompleted: 2
+	};
+
+	eventToJson(pEvent) {
+	}
+
+	objectCopy(pObject) {
+	}
+
+	eventCopy(pEvent) {
+	}
+}
 
 /**
  * Class used for referencing any individual Event from the current feed
  */
-var please = {
+var pEvent = {
 	/**
 	 * @typedef {object} Header
 	 * @property {number} unionID Enumerated value used to find the type of an Event object
@@ -1041,5 +923,4 @@ var please = {
 	},
 };
 `,
-	'myDefault:some.file.d.ts'
 );
