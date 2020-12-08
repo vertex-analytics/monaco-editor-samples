@@ -19,7 +19,8 @@ class sheet {
 }
 
 class feed {
-	constructor (pSymbol,pStartDate, pStopDate, weekends)
+
+	constructor (pSymbol, pStartDate, pStopDate, weekends)
 	{
 	}
 
@@ -35,7 +36,7 @@ class feed {
 	{
 	}
 
-	onEvent (pSymbol,pEvent,pRealTime)
+	onEvent (pSymbol, pEvent, pRealTime)
 	{
 	}
 
@@ -133,7 +134,7 @@ class book {
 //TODO make sure everything has proper descriptions
 
 /**
- * Class used for referencing all v9 event enumerations and data
+ * Class used for referencing all v9 event objects and data
  */
 var v9 = {
 	console = this.console;
@@ -143,7 +144,7 @@ var v9 = {
 	book = this.book;
 
 	/**
-	 * @typedef {enumeration} UnionID
+	 * @typedef {object} UnionID
 	 * @property {number} NotSet 255
 	 * @property {number} NotMapped 250
 	 * @property {number} TradeSummary 0 : Message that contains summary information about trades
@@ -158,11 +159,10 @@ var v9 = {
 	 * @property {number} ChannelReset 9 : Message that indicates if the channel the contract is on was reset and at what time
 	 * @property {number} TransactionMarker 10 : The TS message marks the start of a bundle, and the TE message marks the end of that bundle. The exchange considers all the messages between the start and end marker to have been processed together, regardless of how the packets were split during exchange transmission
 	 */
-
 	/**
-	 * A {@link v9}․{@link UnionID} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link UnionID} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - v9.UnionID
-	 * @type {enumeration}
+	 * @type {object}
 	 * @example
 	 * onEvent(pSymbol, pEvent, pRealTime) {
 	 *     switch (pEvent.header.unionID) {
@@ -174,7 +174,7 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	UnionID = {
+	UnionID: {
 		NotSet: 255,
 		NotMapped: 250,
 		TradeSummary: 0,
@@ -190,16 +190,16 @@ var v9 = {
 		TransactionMarker: 10,
 		Test: 11, //Deprecated
 		ClearingPrice: 12 // FUTURE
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} Aggressor
+	 * @typedef {object} Aggressor
 	 * @property {number} NoAggressor 0
 	 * @property {number} Buy 1
 	 * @property {number} Sell 2
 	 */
 	/**
-	 * A {@link v9}․{@link Aggressor} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link Aggressor} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.tradeSummary.aggressor
 	 * @type {Aggressor}
 	 * @example
@@ -213,14 +213,14 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	Aggressor = {
+	Aggressor: {
 		NoAggressor: 0,
 		Buy: 1,
 		Sell: 2
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} HaltReason
+	 * @typedef {object} HaltReason
 	 * @property {number} NotSet 255
 	 * @property {number} GroupSchedule 0
 	 * @property {number} SurveillanceIntervention 1
@@ -231,7 +231,7 @@ var v9 = {
 	 * @property {number} RecoveryInProcess 6
 	 */
 	/**
-	 * A {@link v9}․{@link HaltReason} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link HaltReason} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.securityStatus.haltReason
 	 * @type {HaltReason}
 	 * @example
@@ -245,7 +245,7 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	HaltReason = {
+	HaltReason: {
 		NotSet: 255,
 		GroupSchedule: 0,
 		SurveillanceIntervention: 1,
@@ -254,10 +254,10 @@ var v9 = {
 		InstrumentExpiration: 4,
 		Unknown: 5,
 		RecoveryInProcess: 6
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} SecurityType
+	 * @typedef {object} SecurityType
 	 * @property {number} NotSet 0
 	 * @property {number} TradingHalt 2
 	 * @property {number} Close 4
@@ -274,7 +274,7 @@ var v9 = {
 	 * @property {number} Freeze 201 : Only EUREX Exchange
 	 */
 	/**
-	 * A {@link v9}․{@link SecurityType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link SecurityType} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.securityStatus.type
 	 * @type {SecurityType}
 	 * @example
@@ -288,7 +288,7 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	SecurityType = {
+	SecurityType: {
 		NotSet: 0,
 		TradingHalt: 2,
 		Close: 4,
@@ -304,10 +304,10 @@ var v9 = {
 		PreClose: 150,
 		Restricted: 200,
 		Freeze: 201
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} SecurityEvent
+	 * @typedef {object} SecurityEvent
 	 * @property {number} NoEvent 0
 	 * @property {number} NoCancel 1
 	 * @property {number} ResetStatistics 4
@@ -315,7 +315,7 @@ var v9 = {
 	 * @property {number} ImpliedMatchingOFF 6
 	 */
 	/**
-	 * A {@link v9}․{@link SecurityEvent} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link SecurityEvent} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.securityStatus.securityEvent
 	 * @type {SecurityEvent}
 	 * @example
@@ -329,16 +329,16 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	SecurityEvent = {
+	SecurityEvent: {
 		NoEvent: 0,
 		NoCancel: 1,
 		ResetStatistics: 4,
 		ImpliedMatchingON: 5,
 		ImpliedMatchingOFF: 6
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} BookType
+	 * @typedef {object} BookType
 	 * @property {number} NotSet 85
 	 * @property {number} Bid 66
 	 * @property {number} Ask 83
@@ -347,7 +347,7 @@ var v9 = {
 	 * @property {number} BookReset 82
 	 */
 	/**
-	 * A {@link v9}․{@link BookType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link BookType} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.orderBook.type
 	 *  - pEvent.bookLevel.type
 	 * @type {BookType}
@@ -362,24 +362,24 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	BookType = {
+	BookType: {
 		NotSet: 85,
 		Bid: 66,
 		Ask: 83,
 		ImpliedBid: 98,
 		ImpliedAsk: 115,
 		BookReset: 82
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} DailyStatisticsType
+	 * @typedef {object} DailyStatisticsType
 	 * @property {number} SettlePrice '6'
 	 * @property {number} ClearedVolume 'B'
 	 * @property {number} OpenInterest 'C'
 	 * @property {number} Fixing 'W'
 	 */
 	/**
-	 * A {@link v9}․{@link DailyStatisticsType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link DailyStatisticsType} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.dailyStatistics.type
 	 * @type {DailyStatisticsType}
 	 * @example
@@ -393,15 +393,15 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	DailyStatisticsType = {
+	DailyStatisticsType: {
 		SettlementPrice: 54,
 		ClearedVolume: 66,
 		OpenInterest: 67,
 		FixingPrice: 87
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} BookAction
+	 * @typedef {object} BookAction
 	 * @property {number} NotSet 255
 	 * @property {number} New 0
 	 * @property {number} Change 1
@@ -412,7 +412,7 @@ var v9 = {
 	 * @property {number} Replace 6
 	 */
 	/**
-	 * A {@link v9}․{@link BookAction} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link BookAction} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.orderBook.action
 	 *  - pEvent.bookLevel.action
 	 * @type {BookAction}
@@ -427,7 +427,7 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	BookAction = {
+	BookAction: {
 		NotSet: 255,
 		New: 0,
 		Change: 1,
@@ -436,10 +436,10 @@ var v9 = {
 		DeleteFrom: 4,
 		Overlay: 5,
 		Replace: 6
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} SessionStatisticsType
+	 * @typedef {object} SessionStatisticsType
 	 * @property {number} NotSet 127
 	 * @property {number} OpenPrice 0
 	 * @property {number} HighTrade 1
@@ -450,7 +450,7 @@ var v9 = {
 	 * @property {number} ClosePrice 6
 	 */
 	/**
-	 * A {@link v9}․{@link SessionStatisticsType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link SessionStatisticsType} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.sessionStatistics.type
 	 * @type {SessionStatisticsType}
 	 * @example
@@ -464,7 +464,7 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	SessionStatisticsType = {
+	SessionStatisticsType: {
 		NotSet: 127,
 		OpenPrice: 0,
 		HighTrade: 1,
@@ -473,17 +473,17 @@ var v9 = {
 		HighestBid: 4,
 		LowestAsk: 5,
 		ClosePrice: 6
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} StateType
+	 * @typedef {object} StateType
 	 * @property {number} NotSet 255
 	 * @property {number} DailyOpenPrice 0
 	 * @property {number} IndicativeOpeningPrice 5
 	 * @property {number} DailyClosingPrice 10
 	 */
 	/**
-	 * A {@link v9}․{@link StateType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link StateType} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.sessionStatistics.stateType
 	 * @type {StateType}
 	 * @example
@@ -497,21 +497,21 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	StateType = {
+	StateType: {
 		NotSet: 255,
 		DailyOpenPrice: 0,
 		IndicativeOpeningPrice: 5,
 		DailyClosePrice: 10
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} PutOrCall
+	 * @typedef {object} PutOrCall
 	 * @property {number} NotSet 255
 	 * @property {number} Put 0
 	 * @property {number} Call 1
 	 */
 	/**
-	 * A {@link v9}․{@link PutOrCall} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link PutOrCall} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.PutOrCall.type
 	 * @type {PutOrCall}
 	 * @example
@@ -519,14 +519,14 @@ var v9 = {
 	 *     // N/A
 	 * }
 	 */
-	PutOrCall = {
+	PutOrCall: {
 		NotSet: 255,
 		Put: 0,
 		Call: 1
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} SettleType
+	 * @typedef {object} SettleType
 	 * @property {number} Final 1
 	 * @property {number} Actual 2
 	 * @property {number} Rounded 4
@@ -535,7 +535,7 @@ var v9 = {
 	 * @property {number} NullValue 128
 	 */
 	/**
-	 * A {@link v9}․{@link SettleType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link SettleType} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.dailyStatistics.settleType
 	 * @type {SettleType}
 	 * @example
@@ -549,23 +549,23 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	SettleType = {
+	SettleType: {
 		Final: 1,
 		Actual: 2,
 		Rounded: 4,
 		Intraday: 8,
 		ReservedBits: 16,
 		NullValue: 128
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} TransactionType
+	 * @typedef {object} TransactionType
 	 * @property {number} NotSet 255
 	 * @property {number} TransactionStart 0
 	 * @property {number} TransactionEnd 1
 	 */
 	/**
-	 * A {@link v9}․{@link TransactionType} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link TransactionType} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.transactionMarker.transactionType
 	 * @type {TransactionType}
 	 * @example
@@ -579,20 +579,20 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	TransactionType = {
+	TransactionType: {
 		NotSet: 255,
 		TransactionStart: 0,
 		TransactionEnd: 1
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} EventIndicator
+	 * @typedef {object} EventIndicator
 	 * @property {number} NotSet 0
 	 * @property {number} LastOfType 1
 	 * @property {number} EndOfEvent 128
 	 */
 	/**
-	 * A {@link v9}․{@link EventIndicator} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link EventIndicator} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.header.eventIndicator
 	 * @type {EventIndicator}
 	 * @example
@@ -606,20 +606,20 @@ var v9 = {
 	 *     }
 	 * }
 	 */
-	EventIndicator = {
+	EventIndicator: {
 		NotSet: 0,
 		LastOfType: 1,
 		EndOfEvent: 128
-	};
+	},
 
 	/**
-	 * @typedef {enumeration} InvestigateStatus
+	 * @typedef {object} InvestigateStatus
 	 * @property {number} NotSet 0
 	 * @property {number} UnderInvestigation 1
 	 * @property {number} InvestigationStatus 2
 	 */
 	/**
-	 * A {@link v9}․{@link InvestigateStatus} {@link enumeration} that contains each of the different values that may be returned from:</br>
+	 * A {@link v9}․{@link InvestigateStatus} {@link object} that contains each of the different values that may be returned from:</br>
 	 *  - N/A
 	 * @type {InvestigateStatus}
 	 * @example
@@ -627,19 +627,19 @@ var v9 = {
 	 *    // N/A
 	 * }
 	 */
-	InvestigateStatus = {
+	InvestigateStatus: {
 		NotSet: 0,
 		UnderInvestigation: 1,
 		InvestigationCompleted: 2
-	};
+	},
 
-	eventToJson(pEvent) {
+	eventToJson(pEvent): function {
 	}
 
-	objectCopy(pObject) {
+	objectCopy(pObject): function {
 	}
 
-	eventCopy(pEvent) {
+	eventCopy(pEvent): function {
 	}
 }
 
@@ -682,7 +682,7 @@ var pEvent = {
 	},
 
 	/**
-	 * @typedef {enumeration} TradeSummary
+	 * @typedef {object} TradeSummary
 	 * @property {number} price The price of the current Event
 	 * @property {number} quantity The total quantity matched for the the current Event
 	 * @property {number} matches The number of upcoming orders that will participate in the current Event
