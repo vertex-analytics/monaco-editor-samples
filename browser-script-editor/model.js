@@ -20,10 +20,10 @@ class MyFeed extends v9.feed {
 // \t\t
 //     }
 
-    onRender()
-    {
-\t\t
-    }
+//     onTrigger(pOrder, pType)
+//     {
+// \t\t
+//     }
 
 //     onEvent (pSymbol,pEvent,pRealTime)
 //     {

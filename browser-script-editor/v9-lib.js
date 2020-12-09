@@ -511,7 +511,7 @@ let v9 = {
 		}
 	},
 
-	//TODO: Complete sheet intellisense once it's in production
+	//TODO: Complete sheet intellisense once v9.sheet is in production
 	// sheet: class {
 	// 	/**
 	// 	 * The constructor is called when the user instantiates a new v9.sheet using:
