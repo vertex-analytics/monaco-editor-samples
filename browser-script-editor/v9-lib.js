@@ -539,7 +539,7 @@ let v9 = {
 	 * @property {number} TransactionMarker 10 : The TS message marks the start of a bundle, and the TE message marks the end of that bundle. The exchange considers all the messages between the start and end marker to have been processed together, regardless of how the packets were split during exchange transmission
 	 */
 	/**
-	 * A {@link v9}․{@link UnionID} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․UnionID Object that contains each of the different values that may be returned from:</br>
 	 *  - v9.UnionID
 	 * @type {UnionID}
 	 * @example
@@ -576,7 +576,7 @@ let v9 = {
 	 * @property {number} Sell 2
 	 */
 	/**
-	 * A {@link v9}․{@link Aggressor} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․Aggressor Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.tradeSummary.aggressor
 	 * @type {Aggressor}
 	 * @example
@@ -608,7 +608,7 @@ let v9 = {
 	 * @property {number} RecoveryInProcess 6
 	 */
 	/**
-	 * A {@link v9}․{@link HaltReason} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․HaltReason Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.securityStatus.haltReason
 	 * @type {HaltReason}
 	 * @example
@@ -651,7 +651,7 @@ let v9 = {
 	 * @property {number} Freeze 201 : Only EUREX Exchange
 	 */
 	/**
-	 * A {@link v9}․{@link SecurityType} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․SecurityType Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.securityStatus.type
 	 * @type {SecurityType}
 	 * @example
@@ -692,7 +692,7 @@ let v9 = {
 	 * @property {number} ImpliedMatchingOFF 6
 	 */
 	/**
-	 * A {@link v9}․{@link SecurityEvent} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․SecurityEvent Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.securityStatus.securityEvent
 	 * @type {SecurityEvent}
 	 * @example
@@ -724,7 +724,7 @@ let v9 = {
 	 * @property {number} BookReset 82
 	 */
 	/**
-	 * A {@link v9}․{@link BookType} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․BookType Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.orderBook.type
 	 *  - pEvent.bookLevel.type
 	 * @type {BookType}
@@ -756,7 +756,7 @@ let v9 = {
 	 * @property {number} Fixing 'W'
 	 */
 	/**
-	 * A {@link v9}․{@link DailyStatisticsType} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․DailyStatisticsType Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.dailyStatistics.type
 	 * @type {DailyStatisticsType}
 	 * @example
@@ -789,7 +789,7 @@ let v9 = {
 	 * @property {number} Replace 6
 	 */
 	/**
-	 * A {@link v9}․{@link BookAction} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․BookAction Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.orderBook.action
 	 *  - pEvent.bookLevel.action
 	 * @type {BookAction}
@@ -827,7 +827,7 @@ let v9 = {
 	 * @property {number} ClosePrice 6
 	 */
 	/**
-	 * A {@link v9}․{@link SessionStatisticsType} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․SessionStatisticsType Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.sessionStatistics.type
 	 * @type {SessionStatisticsType}
 	 * @example
@@ -860,7 +860,7 @@ let v9 = {
 	 * @property {number} DailyClosingPrice 10
 	 */
 	/**
-	 * A {@link v9}․{@link StateType} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․StateType Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.sessionStatistics.stateType
 	 * @type {StateType}
 	 * @example
@@ -888,7 +888,7 @@ let v9 = {
 	 * @property {number} Call 1
 	 */
 	/**
-	 * A {@link v9}․{@link PutOrCall} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․PutOrCall Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.PutOrCall.type
 	 * @type {PutOrCall}
 	 * @example
@@ -912,7 +912,7 @@ let v9 = {
 	 * @property {number} NullValue 128
 	 */
 	/**
-	 * A {@link v9}․{@link SettleType} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․SettleType Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.dailyStatistics.settleType
 	 * @type {SettleType}
 	 * @example
@@ -942,7 +942,7 @@ let v9 = {
 	 * @property {number} TransactionEnd 1
 	 */
 	/**
-	 * A {@link v9}․{@link TransactionType} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․TransactionType Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.transactionMarker.transactionType
 	 * @type {TransactionType}
 	 * @example
@@ -969,7 +969,7 @@ let v9 = {
 	 * @property {number} EndOfEvent 128
 	 */
 	/**
-	 * A {@link v9}․{@link EventIndicator} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․EventIndicator Object that contains each of the different values that may be returned from:</br>
 	 *  - pEvent.header.eventIndicator
 	 * @type {EventIndicator}
 	 * @example
@@ -996,7 +996,7 @@ let v9 = {
 	 * @property {number} InvestigationStatus 2
 	 */
 	/**
-	 * A {@link v9}․{@link InvestigateStatus} {@link Object} that contains each of the different values that may be returned from:</br>
+	 * A v9․InvestigateStatus Object that contains each of the different values that may be returned from:</br>
 	 *  - N/A
 	 * @type {InvestigateStatus}
 	 * @example
