@@ -281,31 +281,55 @@ class Event {
 };
 
 /**
+ * Class used for referencing any individual Order from the current feed
+ */
+class Order {
+	/**
+	 * The exact entry time of the current Order in nanoseconds as a BigInt
+	 */
+	entry: 0n;
+	/**
+	 * The current Order's number of fills
+	 */
+	fills: 0;
+	/**
+	 * The current Order's flag
+	 */
+	flag: 0;
+	/**
+	 * The current Order's number of mods
+	 */
+	mods: 0;
+	/**
+	 * The current Order's unique ID as a BigInt
+	 */
+	orderID: 0n;
+	/**
+	 * The current Order's price
+	 */
+	price: 0;
+	/**
+	 * The current Order's quantity
+	 */
+	quantity: 0;
+	/**
+	 * The exact fill time of the current Order in nanoseconds as a BigInt
+	 */
+	time: 0n;
+};
+
+/**
  * Class used for referencing all v9 event Objects and data
- * @namespace
  */
 let v9 = {
-	/**
-	 * This class' functions should be overridden in each script for handling user actions and symbol events
-	 */
-	console: class {
-		constructor(pData)
-		{
-		}
-	}
-
-	table: class {
-		constructor(pData)
-		{
-		}
-	}
-
-	sheet: class {
-		constructor(pData)
-		{
-		}
-	}
-
+	// /**
+	//  * @typedef {Object} Trigger
+	//  * @property {string} asset - The current asset name
+	//  * @property {string} contractSymbol - The current symbol name
+	//  * @property {number} tickSize - The percentage of a handle that each tick is worth (divide by 1e10^11)
+	//  * @property {number} tickValue - The value of each tick in USD
+	//  * @property {number} unitOfMeasure - The value of each handle in USD
+	//  */
 	/**
 	 * This class' functions should be overridden in each script for handling user actions and symbol events
 	 */
@@ -317,6 +341,8 @@ let v9 = {
 		 * @param {string} pData.pStartDate - The starting date of the script
 		 * @param {string} pData.pStopDate - The ending date of the script
 		 * @param {boolean} pData.weekends - Whether or not to execute on weekends
+		 * @param {boolean} pData.books - Whether or not the feed handles book building
+		 * @param {Number[]} pData.trigger - Array containing event types that evoke v9.feed.onTrigger()
 		 * @type {function}
 		 */
 		constructor(pData)
@@ -348,7 +374,16 @@ let v9 = {
 		}
 
 		/**
-		 * onRender is called once for each frame that is rendered to the viewport
+		 * onTrigger is called when an order is hit that matches the user defined triggers specified in v9.feed.trigger
+		 * @param {Order} pOrder - The current order being handled
+		 * @param {string} pType - The type of the current order being handled
+		 */
+		onTrigger (pOrder, pType)
+		{
+		}
+
+		/**
+		 * onRender is called once for each frame that is rendered to the viewport\n
 		 * **onRender is useful for performing resource intensive code that would otherwise slow down the onEvent function**
 		 */
 		onRender()
@@ -378,90 +413,114 @@ let v9 = {
 		onExit()
 		{
 		}
-	},
 
-	//TODO: wait for book overhaul
-	book: class {
-		constructor()
-		{
-		}
-
-		BookSort()
-		{
-		}
-
-		BookErro()
-		{
-		}
-
-		BestRowsA()
-		{
-		}
-
-		BestRowsB()
-		{
-		}
-
-		OrdsRowsA()
-		{
-		}
-
-		OrdsRowsB()
-		{
-		}
-
-		BaseItemA(cnt)
-		{
-		}
-
-		BaseItemB(cnt)
-		{
-		}
-
-		BestItemA(cnt)
-		{
-		}
-
-		BestItemB(cnt)
-		{
-		}
-
-		OrdsItemA(cnt)
-		{
-		}
-
-		OrdsItemB(cnt)
-		{
-		}
-
-		BookRowsA()
-		{
-		}
-
-		BookRowsB()
-		{
-		}
-
+		/**
+		 * BookItemA returns a specific ask level of the current feed's book as an Object using:
+		 * - this.BookItemA(cnt: Number)
+		 * @param {number} cnt - The level of the order you want to know the price and quantity of
+		 */
 		BookItemA(cnt)
 		{
+			if (!_v9book)	{
+				throw new Error("'books' have not been defined in the configuration");
+			}
+			return _v9book.BookItemA(cnt);
 		}
 
+		/**
+		 * BookItemB returns a specific bid level of the current feed's book as an Object using:
+		 * - this.BookItemB(cnt: Number)
+		 * @param {number} cnt - The level of the order you want to know the price and quantity of
+		 */
 		BookItemB(cnt)
 		{
+			if (!_v9book)	{
+				throw new Error("'books' have not been defined in the configuration");
+			}
+			return _v9book.BookItemB(cnt);
 		}
 
-		onChange(pOrder)
+		/**
+		 * BookRowsA returns the number of ask levels within the current feed's book using:
+		 * - this.BookRowsA()
+		 */
+		BookRowsA()
 		{
+			if (!_v9book)	{
+				throw new Error("'books' have not been defined in the configuration");
+				}
+			return _v9book.BookRowsA();
 		}
 
-		onRender()
+		/**
+		 * BookRowsB returns the number of bid levels within the current feed's book using:
+		 * - this.BookRowsB()
+		 */
+		BookRowsB()
 		{
+			if (!_v9book)	{
+				throw new Error("'books' have not been defined in the configuration");
+				}
+			return _v9book.BookRowsB();
 		}
+	},
 
-		onEvent(pEvent)
+	/**
+	 * The constructor is called when the user instantiates a new v9.console using:
+	 * - new v9.console({ fillColor: String, textColor: String })
+	 */
+	console: class {
+		/**
+		 * The constructor is called when the user instantiates a new v9.console using:
+		 * - new v9.console(pData: Object)
+		 * @param {Object} pData - Object containing console properties
+		 * @param {string} pData.fillColor - The background color of the console as a hexadecimal string
+		 * @param {string} pData.textColor - The text color of the console as a hexadecimal string
+		 * @type {function}
+		 */
+		constructor(pData)
 		{
 		}
-	}
+	},
+
+	/**
+	 * This class' functions should be overridden in each script for handling user actions and symbol events
+	 */
+	table: class {
+		/**
+		 * @typedef {Object} Header
+		 * @property {number} width - Array containing the width of each cell in pixels
+		 * @property {number} digits - Array containing the number of digits past the decimal point to display in each cell
+		 * @property {number} align - Array containing the alignment values of each cell
+		 * @property {number} name - Array containing the name of each cell header
+		 * @property {number} format - Array containing the type of each cell as strings
+		 */
+		/**
+		 * The constructor is called when the user instantiates a new v9.table using:
+		 * - new v9.table(pData: Object)
+		 * @param {Object} pData - Object containing table properties
+		 * @param {string} pData.fillColor - The background color of the console as a hexadecimal string
+		 * @param {string} pData.textColor - The text color of the console as a hexadecimal string
+		 * @param {string} pData.gridColor - The text color of the console as a hexadecimal string
+		 * @param {string} pData.columns - The number of columns to be displayed within the table
+		 * @param {Header} pData.header - Object containing table formatting properties
+		 * @type {function}
+		 */
+		constructor(pData)
+		{
+		}
+	},
+
+	//TODO: Complete sheet intellisense once it's in production
+	// sheet: class {
+	// 	/**
+	// 	 * The constructor is called when the user instantiates a new v9.sheet using:
+	// 	 * - new v9.sheet(pData: Object)
+	// 	 */
+	// 	constructor(pData)
+	// 	{
+	// 	}
+	// },
 
 	/**
 	 * @typedef {Object} UnionID
@@ -951,22 +1010,26 @@ let v9 = {
 		InvestigationCompleted: 2
 	},
 
+	/**
+	 * Returns a JSON Object representation of the provided Event
+	 * @param {Event} pEvent - The Event to be converted to a JSON Object
+	 */
 	eventToJson(pEvent): function {
 	}
 
-	ObjectCopy(pObject): function {
+	/**
+	 * Returns an identical copy of the provided Object
+	 * @param {Object} pObject - The Object to be copied
+	 */
+	objectCopy(pObject): function {
 	}
 
+	/**
+	 * Returns an identical copy of the provided Event
+	 * @param {Event} pEvent - The Event to be copied
+	 */
 	eventCopy(pEvent): function {
 	}
 }
-
-/**
- * Class used for referencing any individual Event from the current feed
- */
-class MyFeed {
-
-}
-
 `,
 );

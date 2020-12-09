@@ -20,6 +20,11 @@ class MyFeed extends v9.feed {
 // \t\t
 //     }
 
+    onRender()
+    {
+\t\t
+    }
+
 //     onEvent (pSymbol,pEvent,pRealTime)
 //     {
 //         if (pEvent.header.isSnapshot) return;
