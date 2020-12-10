@@ -3,9 +3,9 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 /**
  * Class used for referencing any individual Event from the current feed
  */
-class Event {
+class v9_Event {
 	/**
-	 * @typedef {Object} Header
+	 * @typedef {Object} event_Header
 	 * @property {number} unionID Enumerated value used to find the type of an Event Object
 	 * @property {number} sequence The current Event Object's session array index
 	 * @property {number} time The exact time of the current Event in nanoseconds as a BigInt
@@ -16,7 +16,7 @@ class Event {
 	/**
 	 * Each Event’s header Object provides access to general Event information and is accessed using:
 	 *  - <EventName>.header.<memberName>
-	 * @type {Header}
+	 * @type {event_Header}
 	 * @example
 	 * onEvent(pSymbol, pEvent, pRealTime) {
 	 *     switch (pEvent.header.unionID) {
@@ -283,7 +283,7 @@ class Event {
 /**
  * Class used for referencing any individual Order from the current feed
  */
-class Order {
+class v9_Order {
 	/**
 	 * The exact entry time of the current Order in nanoseconds as a BigInt
 	 */
@@ -336,17 +336,23 @@ let v9 = {
 	feed: class {
 		/**
 		 * The constructor is called when the user instantiates a new v9.feed
-		 * @param {Object} pData - Object containing feed properties
-		 * @param {string} pData.pSymbol - The current market symbol
-		 * @param {string} pData.pStartDate - The starting date of the script
-		 * @param {string} pData.pStopDate - The ending date of the script
-		 * @param {boolean} pData.weekends - Whether or not to execute on weekends
-		 * @param {boolean} pData.books - Whether or not the feed handles book building
-		 * @param {Number[]} pData.trigger - Array containing event types that evoke v9.feed.onTrigger()
+		 * @param {Object} pConfiguration - Object containing feed properties
+		 * @param {string} pConfiguration.symbol - The current market symbol
+		 * @param {string} pConfiguration.startDate - The starting date of the script
+		 * @param {string} pConfiguration.stopDate - The ending date of the script
+		 * @param {boolean} pConfiguration.weekends - Whether or not to execute on weekends
+		 * @param {boolean} pConfiguration.buildBooks - Whether or not the feed handles book building
+		 * @param {Number[]} pConfiguration.trigger - Array containing event types that evoke v9.feed.onTrigger()
 		 * @type {function}
 		 */
-		constructor(pData)
+		constructor(pConfiguration)
 		{
+			this.fMeta = new Object();
+			this.fEvent = new v9_Event();
+			this.fRealTime = new boolean();
+			this.fSymbol = new string();
+			this.fOrder = new v9_Order();
+			this.fType = new string();
 		}
 
 		/**
@@ -373,6 +379,7 @@ let v9 = {
 		onOpen(pMeta) {
 		}
 
+		//TODO remove params
 		/**
 		 * onTrigger is called when an order is hit that matches the user defined triggers specified in v9.feed.trigger
 		 * @param {Order} pOrder - The current order being handled
@@ -472,13 +479,20 @@ let v9 = {
 	console: class {
 		/**
 		 * The constructor is called when the user instantiates a new v9.console using:
-		 * - new v9.console(pData: Object)
-		 * @param {Object} pData - Object containing console properties
-		 * @param {string} pData.fillColor - The background color of the console as a hexadecimal string
-		 * @param {string} pData.textColor - The text color of the console as a hexadecimal string
+		 * - new v9.console(pConfiguration: Object)
+		 * @param {Object} pConfiguration - Object containing console properties
+		 * @param {string} pConfiguration.fillColor - The background color of the console as a hexadecimal string
+		 * @param {string} pConfiguration.textColor - The text color of the console as a hexadecimal string
 		 * @type {function}
 		 */
-		constructor(pData)
+		constructor(pConfiguration)
+		{
+		}
+
+		/**
+		 * Sets the text color of the current line of the console
+		 */
+		textColor (pColor)
 		{
 		}
 	},
@@ -488,25 +502,29 @@ let v9 = {
 	 */
 	table: class {
 		/**
-		 * @typedef {Object} Header
-		 * @property {number} width - Array containing the width of each cell in pixels
-		 * @property {number} digits - Array containing the number of digits past the decimal point to display in each cell
-		 * @property {number} align - Array containing the alignment values of each cell
-		 * @property {number} name - Array containing the name of each cell header
-		 * @property {number} format - Array containing the type of each cell as strings
+		 * @typedef {Object} table_Header
+		 * @property {number[]} width - Array containing the width of each cell in pixels
+		 * @property {number[]} digits - Array containing the number of digits past the decimal point to display in each cell
+		 * @property {v9.Align[]} align - Array containing the alignment values of each cell
+		 * @property {string[]} name - Array containing the name of each cell header
+		 * @property {string[]} format - Array containing the type of each cell as strings
 		 */
 		/**
 		 * The constructor is called when the user instantiates a new v9.table using:
-		 * - new v9.table(pData: Object)
-		 * @param {Object} pData - Object containing table properties
-		 * @param {string} pData.fillColor - The background color of the console as a hexadecimal string
-		 * @param {string} pData.textColor - The text color of the console as a hexadecimal string
-		 * @param {string} pData.gridColor - The text color of the console as a hexadecimal string
-		 * @param {string} pData.columns - The number of columns to be displayed within the table
-		 * @param {Header} pData.header - Object containing table formatting properties
+		 * - new v9.table(pConfiguration: Object)
+		 * @param {Object} pConfiguration - Object containing table properties
+		 * @param {string} pConfiguration.fillColor - The background color of the console as a hexadecimal string
+		 * @param {string} pConfiguration.textColor - The text color of the console as a hexadecimal string
+		 * @param {string} pConfiguration.gridColor - The text color of the console as a hexadecimal string
+		 * @param {string} pConfiguration.width - The number of columns to be displayed within the table
+		 * @param {string} pConfiguration.digits - The default number of digits past the decimal point to display for each cell
+		 * @param {string} pConfiguration.align - The default alignment for each cell
+		 * @param {string} pConfiguration.columns - The number of columns displayed within the table
+		 * @param {string} pConfiguration.format - The default format of every cell in the table
+		 * @param {table_Header} pConfiguration.header - Object containing table formatting properties
 		 * @type {function}
 		 */
-		constructor(pData)
+		constructor(pConfiguration)
 		{
 		}
 	},
@@ -515,9 +533,9 @@ let v9 = {
 	// sheet: class {
 	// 	/**
 	// 	 * The constructor is called when the user instantiates a new v9.sheet using:
-	// 	 * - new v9.sheet(pData: Object)
+	// 	 * - new v9.sheet(pConfiguration: Object)
 	// 	 */
-	// 	constructor(pData)
+	// 	constructor(pConfiguration)
 	// 	{
 	// 	}
 	// },
@@ -1030,6 +1048,8 @@ let v9 = {
 	 */
 	eventCopy(pEvent): function {
 	}
+
+	//TODO add MyFeed functions that are dups of v9.feed for param intellisense
 }
 `,
 );

@@ -5,50 +5,50 @@ const model = monaco.editor.createModel(
 v9.feed
 
 class MyFeed extends v9.feed {
-//     onInit ()
-//     {
-// \t\t
-//     }
+    onInit ()
+    {
+\t\t
+    }
 
-//     onOpen (pMeta)
-//     {
-//\t\t
-//     }
+    onOpen ()
+    {
+\t\t
+    }
 
-//     onRender()
-//     {
-// \t\t
-//     }
+    onRender()
+    {
+\t\t
+    }
 
-//     onTrigger(pOrder, pType)
-//     {
-// \t\t
-//     }
+    onTrigger(pOrder, pType)
+    {
+\t\t
+    }
 
-//     onEvent (pSymbol,pEvent,pRealTime)
-//     {
-//         if (pEvent.header.isSnapshot) return;
-//         switch (pEvent.header.unionID) {
-//             case v9.UnionID.TradeSummary:
-//                 if (this.fTickSequ < 5) {
-//                     gConsole.print ("TRD",pEvent.tradeSummary.price,pEvent.tradeSummary.quantity);
-// 				}
-//                 this.fTickSequ++;
-//                 break;
-//             default :
-//                 break;
-// 		}
-//     }
+    onEvent ()
+    {
+        if (pEvent.header.isSnapshot) return;
+        switch (pEvent.header.unionID) {
+            case v9.UnionID.TradeSummary:
+                if (this.fTickSequ < 5) {
+                    gConsole.print ("TRD",pEvent.tradeSummary.price,pEvent.tradeSummary.quantity);
+				}
+                this.fTickSequ++;
+                break;
+            default :
+                break;
+		}
+    }
 
-//     onShut ()
-//     {
-// \t\t
-//     }
+    onShut ()
+    {
+\t\t
+    }
 
-//     onExit ()
-//     {
-// \t\t
-// 	}
+    onExit ()
+    {
+\t\t
+	}
 }
 
 gConsole = new v9.console();
