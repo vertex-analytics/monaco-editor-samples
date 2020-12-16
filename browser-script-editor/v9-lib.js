@@ -2,36 +2,40 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 `
 /**
  * Class used for referencing any individual Event from the current feed
+ * @property {TradeSummary} tradeSummary
  */
 class v9_Event {
 	/**
 	 * @typedef {Object} event_Header
-	 * @property {number} unionID Enumerated value used to find the type of an Event Object
+	 * @property {v9.UnionID} unionID Enumerated value used to find the type of an Event Object
+	 * @property {number} instrumentID The unique instrument identifier for the current exchange
 	 * @property {number} sequence The current Event Object's session array index
-	 * @property {number} time The exact time of the current Event in nanoseconds as a BigInt
-	 * @property {number} timeH The higher half of the aforementioned time member as a Number
-	 * @property {number} timeL The lower half of the aforementioned time member as a Number
-	 * @property {number} milliseconds The aforementioned time member in milliseconds as a Number
+	 * @property {number} channelSequence The packet ID of the current Event
+	 * @property {number} instrumentSequence The unique ID of the current within the current instrument
+	 * @property {number} milliseconds The exact time of the current Event in milliseconds as a number
+	 * @property {bigint} time The exact time of the current Event in nanoseconds as a BigInt
 	 */
 	/**
 	 * Each Event’s header Object provides access to general Event information and is accessed using:
 	 *  - <EventName>.header.<memberName>
 	 * @type {event_Header}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
-	 *         case v9.UnionID.TradeSummary:
-	 *             var fTime = new Date(pEvent.header.milliseconds).toLocalTimeString(); //Formats the date and time based off of the current Event's time in milliseconds
-	 *             break;
-	 *         default :
-	 *             break;
-	 *     }
+	 *
+	 * onEvent() {
+	 * 	 switch (this.pEvent.header.unionID) {
+	 * 		 case v9.UnionID.TradeSummary:
+	 * 			 var tmp = this.pEvent.header.time;
+	 * 			 break;
+	 * 		 default:
+	 * 			 break;
+	 * 	 }
 	 * }
+
 	 */
 	header:
 	{
 		unionID: 255,
-		sequence: 0, //Each event within a feed has an assigned sequence value that
+		sequence: 0,
 		time: 0,
 		timeH: 0,
 		timeL: 0,
@@ -45,7 +49,7 @@ class v9_Event {
 	 * @property {number} matches The number of upcoming orders that will participate in the current Event
 	 * @property {Aggressor} aggressor The aggressor of the trade the current Event is summarizing
 	 * @property {boolean} isImplied Whether or not the trade the current Event is summarizing was implied
-	 * @property {number} isSnapshot Whether or not the current Event is a market summary
+	 * @property {boolean} isSnapshot Whether or not the current Event is a market summary
 	 * @property {number} volume The accumulated volume of the current session
 	 */
 	/**
@@ -54,6 +58,9 @@ class v9_Event {
 	 * @type {TradeSummary}
 	 */
 	tradeSummary: {
+		/**
+		 * The price of the current Event
+		 */
 		price: 0,
 		quantity: 0,
 		matches: 0,
@@ -68,10 +75,10 @@ class v9_Event {
 	 * @property {number} price The price of the current Event
 	 * @property {number} quantity The total quantity matched for the current Event
 	 * @property {number} number The enumerated value from 0 to number of TradeSummary.matches
-	 * @property {boolean} isAggressor Whether or not the current Event was made by the aggressor of the trade.
+	 * @property {boolean} isAggressor Whether or not the current Event was made by the aggressor of the trade
 	 * @property {number} orderID The identifier for the current Event’s order
-	 * @property {number} auxilaryID The original identifier for the current Event’s order.
-	 * @property {number} flags These bits are exchange specific. If you don’t know which exchange this file came from, the exchange for this instrId is located in the Instrument Information message.
+	 * @property {number} auxilaryID The original identifier for the current Event’s order (ICE)
+	 * @property {number} flags These bits are exchange specific. Please refer to the docs
 	 */
 	/**
 	 * Each tradeMatch Event Object is accessed using:
@@ -138,10 +145,11 @@ class v9_Event {
 	 * @property {BookType} type The type of the current Event
 	 * @property {number} quantity The total quantity matched for the current Event
 	 * @property {number} priorityID The order priority for execution on the current order book : Lower = higher priority
-	 * @property {boolean} auxilaryID The first OrderID assigned because some exchanges change the orderID : Only ICE and Eurex Exchanges
+	 * @property {number} auxilaryID The first OrderID assigned because some exchanges change the orderID : Only ICE and Eurex Exchanges
 	 * @property {number} previousID If an orderID is changed, this is the ID that was just replaced : Eurex
 	 * @property {number} orderID The identifier for the current Event's order
 	 * @property {BookAction} action The book action of the order corresponding to the current event
+	 * @property {boolean} isSnapshot Whether or not the current Event is a market summary
 	 */
 	/**
 	 * Each orderBook Event Object is accessed using:
@@ -156,17 +164,18 @@ class v9_Event {
 		auxiliaryID: 0,
 		previousID: 0,
 		orderID: 0,
-		action: 255
+		action: 255,
+		isSnapshot: 0
 	},
 
 	/**
 	 * @typedef {Object} SecurityStatus
-	 * @property {number} group The exchange specific code assigned to a group of related securities, which are concurrently affected by market events
-	 * @property {BookType} asset The underlying asset code represented as a String
+	 * @property {string} group The exchange specific code assigned to a group of related securities, which are concurrently affected by market events
+	 * @property {string} asset The underlying asset code represented as a String
 	 * @property {number} sessionDate The date of the current Event's trading session
-	 * @property {number} type The total implied quantity at the current event's price level
+	 * @property {SecurityType} type The total implied quantity at the current event's price level
 	 * @property {HaltReason} haltReason The reason why the market has been halted
-	 * @property {SecurityEvent} securityEvent Additional reasoning for the market being halted
+	 * @property {SecurityEvent} event Additional reasoning for the market being halted
 	 */
 	/**
 	 * Each securityStatus Event Object is accessed using:
@@ -179,20 +188,17 @@ class v9_Event {
 		sessionDate: 0,
 		type: 0,
 		haltReason: 255,
-		securityEvent: 0
+		event: 0
 	},
 
 	/**
 	 * @typedef {Object} DailyStatistics
 	 * @property {number} price The price of the current Event
 	 * @property {number} instrumentID The unique instrument identifier for the current exchange
-	 * @property {number} impliedQuantity The total number of Events in the current session : Only applies to OpenInterest type
-	 * @property {number} impliedOrders The total number of implied orders at the current event's price level
-	 * @property {number} level The price level at which the event occurred
-	 * @property {BookAction} action The book action of the order corresponding to the current event
+	 * @property {number} size The total number of Events in the current session (Only applies to OpenInterest type)
+	 * @property {number} sessionDate The session date pertaining to the current Event (Not always current session)
 	 * @property {DailyStatisticsType} type The type of the current Event
 	 * @property {SettleType} settleType The settlement type of the current Event
-	 * @property {boolean} isEndEvent Whether or not the current Event is the last Event of the packet
 	 */
 	/**
 	 * Each dailyStatistics Event Object is accessed using:
@@ -203,13 +209,9 @@ class v9_Event {
 		price: 0,
 		instrumentID: 0,
 		size: 0,
-		impliedQuantity: 0,
-		impliedOrders: 0,
-		level: 0,
-		action: 255,
-		type: 0, // waiting for Ed
-		settleType: 0,
-		isEndEvent: false
+		sessionDate: 0,
+		type: 0,
+		settleType: 0
 	},
 
 	/**
@@ -219,7 +221,7 @@ class v9_Event {
 	 * @property {StateType} stateType The OpeningPrice type of the current Event
 	 * @property {BookAction} action The book action of the order corresponding to the current event
 	 * @property {SessionStatisticsType} type The type of the current Event
-	 * @property {number} size The total number of Events in the current session
+	 * @property {number} volume The total number of Events in the current session
 	 */
 	/**
 	 * Each sessionStatistics Event Object is accessed using:
@@ -232,7 +234,7 @@ class v9_Event {
 		stateType: 255,
 		action: 255,
 		type: 127,
-		size: 0
+		volume: 0
 	},
 
 	/**
@@ -322,37 +324,37 @@ class v9_Order {
  * Class used for referencing all v9 event Objects and data
  */
 let v9 = {
-	// /**
-	//  * @typedef {Object} Trigger
-	//  * @property {string} asset - The current asset name
-	//  * @property {string} contractSymbol - The current symbol name
-	//  * @property {number} tickSize - The percentage of a handle that each tick is worth (divide by 1e10^11)
-	//  * @property {number} tickValue - The value of each tick in USD
-	//  * @property {number} unitOfMeasure - The value of each handle in USD
-	//  */
+	/**
+	 * @typedef {Object} v9_Trigger
+	 * @property {string} asset The current asset name
+	 * @property {string} contractSymbol The current symbol name
+	 * @property {number} tickSize The percentage of a handle that each tick is worth (divide by 1e10^11)
+	 * @property {number} tickValue The value of each tick in USD
+	 * @property {number} unitOfMeasure The value of each handle in USD
+	 */
 	/**
 	 * This class' functions should be overridden in each script for handling user actions and symbol events
 	 */
 	feed: class {
 		/**
 		 * The constructor is called when the user instantiates a new v9.feed
-		 * @param {Object} pConfiguration - Object containing feed properties
-		 * @param {string} pConfiguration.symbol - The current market symbol
-		 * @param {string} pConfiguration.startDate - The starting date of the script
-		 * @param {string} pConfiguration.stopDate - The ending date of the script
-		 * @param {boolean} pConfiguration.weekends - Whether or not to execute on weekends
-		 * @param {boolean} pConfiguration.buildBooks - Whether or not the feed handles book building
-		 * @param {Number[]} pConfiguration.trigger - Array containing event types that evoke v9.feed.onTrigger()
+		 * @param {Object} pConfiguration Object containing feed properties
+		 * @param {string} pConfiguration.symbol The current market symbol
+		 * @param {string} pConfiguration.startDate The starting date of the script
+		 * @param {string} pConfiguration.stopDate The ending date of the script
+		 * @param {boolean} pConfiguration.weekends Whether or not to execute on weekends
+		 * @param {boolean} pConfiguration.buildBooks Whether or not the feed handles book building
+		 * @param {Number[]} pConfiguration.trigger Array containing event types that evoke v9.feed.onTrigger()
 		 * @type {function}
 		 */
 		constructor(pConfiguration)
 		{
-			this.fMeta = new Object();
-			this.fEvent = new v9_Event();
-			this.fRealTime = new boolean();
-			this.fSymbol = new string();
-			this.fOrder = new v9_Order();
-			this.fType = new string();
+			this.pMeta = new v9_Meta();
+			this.pEvent = new v9_Event();
+			this.pRealTime = new boolean();
+			this.pSymbol = new string();
+			this.pOrder = new v9_Order();
+			this.pType = new string();
 		}
 
 		/**
@@ -363,47 +365,57 @@ let v9 = {
 		}
 
 		/**
-		 * @typedef {Object} Instrument
-		 * @property {string} asset - The current asset name
-		 * @property {string} contractSymbol - The current symbol name
-		 * @property {number} tickSize - The percentage of a handle that each tick is worth (divide by 1e10^11)
-		 * @property {number} tickValue - The value of each tick in USD
-		 * @property {number} unitOfMeasure - The value of each handle in USD
+		 * @typedef {Object} v9_Instrument
+		 * @property {string} asset The current asset name
+		 * @property {string} contractSymbol The current symbol name
+		 * @property {number} tickSize The percentage of a handle that each tick is worth (divide by 1e10^11)
+		 * @property {number} tickValue The value of each tick in USD
+		 * @property {number} unitOfMeasure The value of each handle in USD
 		 */
 		/**
-		 * onOpen is called at the start of each day between the startDate and endDate parameters of a multi-day script
-		 * @param {Object} pMeta - Object representing json meta information. It currently provides the instrument definitions of the supplied symbol
-		 * @param {string} pMeta.date - The current date
-		 * @param {Instrument[]} pMeta.instruments - Object containing the many properties of each instrument involved in the current algorithm
+		 * @typedef {Object} v9_Meta
+		 * @property {string} asset The current asset name
+		 * @property {string} date The current date
+		 * @property {v9_Instrument[]} instruments Array containing objects with the properties of each instrument referenced in the current algorithm
 		 */
-		onOpen(pMeta) {
+		/**
+		 * **pMeta is accessable**
+		 *
+		 * onOpen is called at the start of each day between the startDate and endDate parameters of a multi-day script
+		 * @param {v9_Meta} pMeta Object representing json meta information. It currently provides the instrument definitions of the supplied symbol
+		 */
+		onOpen() {
 		}
 
-		//TODO remove params
 		/**
-		 * onTrigger is called when an order is hit that matches the user defined triggers specified in v9.feed.trigger
-		 * @param {Order} pOrder - The current order being handled
-		 * @param {string} pType - The type of the current order being handled
+		 * **pOrder, pType are accessable**
+		 *
+		 * onTrigger is called when an order is hit that matches the user defined triggers specified in v9.Feed.Trigger
+		 * @param {v9_Order} pOrder The current order being handled
+		 * @param {v9_Trigger} pType The type of the current order being handled
 		 */
-		onTrigger (pOrder, pType)
+		onTrigger()
 		{
 		}
 
 		/**
+		 * **Useful for performing resource intensive code outside onEvent()**
+		 *
 		 * onRender is called once for each frame that is rendered to the viewport\n
-		 * **onRender is useful for performing resource intensive code that would otherwise slow down the onEvent function**
 		 */
 		onRender()
 		{
 		}
 
 		/**
-		 * onEvent is called once for each timestamp tracked in your symbol(s).
-		 * @param {string} pSymbol - Name of the current symbol
-		 * @param {Event} pEvent - Current event being handled
-		 * @param {boolean} pRealTime - Boolean determining whether or not to only handle current events
+		 * **pSymbol, pEvent, pRealTime are accessable**
+		 *
+		 * onEvent is called once for each timestamp tracked in your symbol(s)
+		 * @param {string} pSymbol Name of the current symbol
+		 * @param {Event} pEvent Current event being handled
+		 * @param {boolean} pRealTime Boolean determining whether or not to only handle current events
 		 */
-		onEvent(pSymbol, pEvent, pRealTime)
+		onEvent()
 		{
 		}
 
@@ -424,7 +436,7 @@ let v9 = {
 		/**
 		 * BookItemA returns a specific ask level of the current feed's book as an Object using:
 		 * - this.BookItemA(cnt: Number)
-		 * @param {number} cnt - The level of the order you want to know the price and quantity of
+		 * @param {number} - cnt The level of the order you want to know the price and quantity of
 		 */
 		BookItemA(cnt)
 		{
@@ -507,7 +519,7 @@ let v9 = {
 		 * @property {number[]} digits - Array containing the number of digits past the decimal point to display in each cell
 		 * @property {v9.Align[]} align - Array containing the alignment values of each cell
 		 * @property {string[]} name - Array containing the name of each cell header
-		 * @property {string[]} format - Array containing the type of each cell as strings
+		 * @property {string[]} format - Array containing the type of each cell as strings. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond
 		 */
 		/**
 		 * The constructor is called when the user instantiates a new v9.table using:
@@ -520,7 +532,7 @@ let v9 = {
 		 * @param {string} pConfiguration.digits - The default number of digits past the decimal point to display for each cell
 		 * @param {string} pConfiguration.align - The default alignment for each cell
 		 * @param {string} pConfiguration.columns - The number of columns displayed within the table
-		 * @param {string} pConfiguration.format - The default format of every cell in the table
+		 * @param {string} pConfiguration.format - The default format for every column within the table. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond
 		 * @param {table_Header} pConfiguration.header - Object containing table formatting properties
 		 * @type {function}
 		 */
@@ -561,10 +573,10 @@ let v9 = {
 	 *  - v9.UnionID
 	 * @type {UnionID}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *         case v9.UnionID.<Value>:
-	 *             // Do something when pEvent.header.unionID is equal to v9.UnionID.<Value>
+	 *             // Do something when this.pEvent.header.unionID is equal to v9.UnionID.<Value>
 	 *             break;
 	 *         default :
 	 *             break;
@@ -595,13 +607,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․Aggressor Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.tradeSummary.aggressor
+	 *  - this.pEvent.tradeSummary.aggressor
 	 * @type {Aggressor}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.TradeSummary:
-	 *                  var agr = pEvent.tradeSummary.aggressor;
+	 *                  var agr = this.pEvent.tradeSummary.aggressor;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -627,13 +639,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․HaltReason Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.securityStatus.haltReason
+	 *  - this.pEvent.securityStatus.haltReason
 	 * @type {HaltReason}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *         case v9.UnionID.SecurityStatus:
-	 *             var hlt = pEvent.securityStatus.haltReason;
+	 *             var hlt = this.pEvent.securityStatus.haltReason;
 	 *             break;
 	 *         default :
 	 *             break;
@@ -670,13 +682,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․SecurityType Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.securityStatus.type
+	 *  - this.pEvent.securityStatus.type
 	 * @type {SecurityType}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *         case v9.UnionID.SecurityStatus:
-	 *             var typ = pEvent.securityStatus.type;
+	 *             var typ = this.pEvent.securityStatus.type;
 	 *             break;
 	 *         default :
 	 *             break;
@@ -711,13 +723,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․SecurityEvent Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.securityStatus.securityEvent
+	 *  - this.pEvent.securityStatus.securityEvent
 	 * @type {SecurityEvent}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.SecurityStatus:
-	 *                  var sev = pEvent.securityStatus.securityEvent;
+	 *                  var sev = this.pEvent.securityStatus.securityEvent;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -743,14 +755,14 @@ let v9 = {
 	 */
 	/**
 	 * A v9․BookType Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.orderBook.type
-	 *  - pEvent.bookLevel.type
+	 *  - this.pEvent.orderBook.type
+	 *  - this.pEvent.bookLevel.type
 	 * @type {BookType}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.OrderBook:
-	 *                  var typ = pEvent.orderBook.type;
+	 *                  var typ = this.pEvent.orderBook.type;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -775,13 +787,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․DailyStatisticsType Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.dailyStatistics.type
+	 *  - this.pEvent.dailyStatistics.type
 	 * @type {DailyStatisticsType}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.DailyStatistics:
-	 *                  var typ = pEvent.dailyStatistics.type;
+	 *                  var typ = this.pEvent.dailyStatistics.type;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -808,14 +820,14 @@ let v9 = {
 	 */
 	/**
 	 * A v9․BookAction Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.orderBook.action
-	 *  - pEvent.bookLevel.action
+	 *  - this.pEvent.orderBook.action
+	 *  - this.pEvent.bookLevel.action
 	 * @type {BookAction}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.OrderBook:
-	 *                  var act = pEvent.orderBook.action;
+	 *                  var act = this.pEvent.orderBook.action;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -846,13 +858,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․SessionStatisticsType Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.sessionStatistics.type
+	 *  - this.pEvent.sessionStatistics.type
 	 * @type {SessionStatisticsType}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *         case v9.UnionID.SessionStatistics:
-	 *                  var typ = pEvent.sessionStatistics.type;
+	 *                  var typ = this.pEvent.sessionStatistics.type;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -879,13 +891,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․StateType Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.sessionStatistics.stateType
+	 *  - this.pEvent.sessionStatistics.stateType
 	 * @type {StateType}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.SessionStatistics:
-	 *                  var stt = pEvent.sessionStatistics.stateType;
+	 *                  var stt = this.pEvent.sessionStatistics.stateType;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -907,10 +919,10 @@ let v9 = {
 	 */
 	/**
 	 * A v9․PutOrCall Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.PutOrCall.type
+	 *  - this.pEvent.PutOrCall.type
 	 * @type {PutOrCall}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
 	 *     // N/A
 	 * }
 	 */
@@ -931,13 +943,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․SettleType Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.dailyStatistics.settleType
+	 *  - this.pEvent.dailyStatistics.settleType
 	 * @type {SettleType}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.DailyStatistics:
-	 *                  var stl = pEvent.dailyStatistics.settleType;
+	 *                  var stl = this.pEvent.dailyStatistics.settleType;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -961,13 +973,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․TransactionType Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.transactionMarker.transactionType
+	 *  - this.pEvent.transactionMarker.transactionType
 	 * @type {TransactionType}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.TransactionMarker:
-	 *                  var ttp = pEvent.transactionMarker.transactionType;
+	 *                  var ttp = this.pEvent.transactionMarker.transactionType;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -988,13 +1000,13 @@ let v9 = {
 	 */
 	/**
 	 * A v9․EventIndicator Object that contains each of the different values that may be returned from:</br>
-	 *  - pEvent.header.eventIndicator
+	 *  - this.pEvent.header.eventIndicator
 	 * @type {EventIndicator}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
-	 *     switch (pEvent.header.unionID) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
+	 *     switch (this.pEvent.header.unionID) {
 	 *    case v9.UnionID.EventIndicator:
-	 *                  var ind = pEvent.header.eventIndicator;
+	 *                  var ind = this.pEvent.header.eventIndicator;
 	 *              break;
 	 *          default :
 	 *              break;
@@ -1018,7 +1030,7 @@ let v9 = {
 	 *  - N/A
 	 * @type {InvestigateStatus}
 	 * @example
-	 * onEvent(pSymbol, pEvent, pRealTime) {
+	 * onEvent(pSymbol, this.pEvent, pRealTime) {
 	 *    // N/A
 	 * }
 	 */
@@ -1030,9 +1042,9 @@ let v9 = {
 
 	/**
 	 * Returns a JSON Object representation of the provided Event
-	 * @param {Event} pEvent - The Event to be converted to a JSON Object
+	 * @param {Event} this.pEvent - The Event to be converted to a JSON Object
 	 */
-	eventToJson(pEvent): function {
+	eventToJson(this.pEvent): function {
 	}
 
 	/**
@@ -1044,9 +1056,9 @@ let v9 = {
 
 	/**
 	 * Returns an identical copy of the provided Event
-	 * @param {Event} pEvent - The Event to be copied
+	 * @param {Event} this.pEvent - The Event to be copied
 	 */
-	eventCopy(pEvent): function {
+	eventCopy(this.pEvent): function {
 	}
 
 	//TODO add MyFeed functions that are dups of v9.feed for param intellisense
