@@ -47,6 +47,116 @@ const model = monaco.editor.createModel(
      * @param {boolean} pRealTime Boolean determining whether or not to only handle current events
      */
     onEvent(pSymbol, pEvent, pRealTime) {
+		v9;
+
+		v9.UnionID;
+		v9.Aggressor;
+		v9.BookAction;
+		v9.BookType;
+		v9.DailyStatisticsType;
+		v9.HaltReason;
+		v9.SecurityEvent;
+		v9.SecurityType;
+		v9.SessionStatisticsType;
+		v9.SettleType;
+		v9.StateType;
+		v9.Trigger;
+		v9.Align;
+
+		v9.UnionID.BookLevel;
+		v9.UnionID.DailyStatistics;
+		v9.UnionID.LimitsBanding;
+		v9.UnionID.NotMapped;
+		v9.UnionID.NotSet;
+		v9.UnionID.OrderBook;
+		v9.UnionID.SecurityStatus;
+		v9.UnionID.SessionStatistics;
+		v9.UnionID.TradeMatch;
+		v9.UnionID.TradeSummary;
+		v9.UnionID.VolumeUpdate;
+
+		v9.Aggressor.Buy;
+		v9.Aggressor.Sell;
+		v9.Aggressor.NoAggressor;
+
+		v9.BookAction.Change;
+		v9.BookAction.Delete;
+		v9.BookAction.DeleteFrom;
+		v9.BookAction.DeleteThru;
+		v9.BookAction.New;
+		v9.BookAction.NotSet;
+		v9.BookAction.Overlay;
+		v9.BookAction.Replace;
+
+		v9.BookType.Ask;
+		v9.BookType.Bid;
+		v9.BookType.BookReset;
+		v9.BookType.ImpliedAsk;
+		v9.BookType.ImpliedBid;
+		v9.BookType.NotSet;
+
+		v9.DailyStatisticsType.ClearedVolume;
+		v9.DailyStatisticsType.FixingPrice;
+		v9.DailyStatisticsType.OpenInterest;
+		v9.DailyStatisticsType.SettlementPrice;
+
+		v9.HaltReason.NotSet;
+		v9.HaltReason.RecoveryInProcess;
+		v9.HaltReason.SurveillanceIntervention;
+		v9.HaltReason.Unknown;
+
+		v9.SecurityEvent.ImpliedMatchingOFF;
+		v9.SecurityEvent.ImpliedMatchingON;
+		v9.SecurityEvent.NoCancel;
+		v9.SecurityEvent.NoEvent;
+		v9.SecurityEvent.ResetStatistics;
+
+		v9.SecurityType.NotSet;
+		v9.SecurityType.TradingHalt;
+		v9.SecurityType.Close;
+		v9.SecurityType.NewPriceIndication;
+		v9.SecurityType.ReadyToTrade;
+		v9.SecurityType.NotAvailableForTrading;
+		v9.SecurityType.UnknownorInvalid;
+		v9.SecurityType.PreOpen;
+		v9.SecurityType.PreCross;
+		v9.SecurityType.Cross;
+		v9.SecurityType.PostClose;
+		v9.SecurityType.NoChange;
+		v9.SecurityType.PreClose;
+		v9.SecurityType.Restricted;
+		v9.SecurityType.Freeze;
+
+		v9.SessionStatisticsType.ClosePrice;
+		v9.SessionStatisticsType.HighTrade;
+		v9.SessionStatisticsType.HighestBid;
+		v9.SessionStatisticsType.LastTrade;
+		v9.SessionStatisticsType.LowTrade;
+		v9.SessionStatisticsType.LowestAsk;
+		v9.SessionStatisticsType.NotSet;
+		v9.SessionStatisticsType.OpenPrice;
+
+		v9.SettleType.Actual;
+		v9.SettleType.Final;
+		v9.SettleType.Intraday;
+		v9.SettleType.NullValue;
+		v9.SettleType.ReservedBits;
+		v9.SettleType.Rounded;
+
+		v9.StateType.DailyClosePrice;
+		v9.StateType.DailyOpenPrice;
+		v9.StateType.IndicativeOpeningPrice;
+		v9.StateType.NotSet;
+
+		v9.Trigger.IcebergOrders;
+		v9.Trigger.StopOrders;
+		v9.Trigger.SweepTrades;
+
+		v9.Align.Default;
+		v9.Align.Center;
+		v9.Align.Left;
+		v9.Align.Right;
+
 		pEvent.header.unionID;
 		pEvent.header.instrumentID;
 		pEvent.header.sequence;

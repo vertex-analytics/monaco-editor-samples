@@ -585,8 +585,10 @@ let v9 = {
 	// },
 
 	/**
-	 * A v9․Trigger Object that contains each of the different values that may be returned from:
-	 *  - v9․Trigger
+	 * A Trigger is a flag that enables the use of the v9.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
+	 *  - v9․Trigger.<property>
+	 * \n
+	 * v9.Trigger is used for all Order types in v9.feed.onTrigger()
 	 */
 	Trigger: {
 		/**
@@ -604,6 +606,35 @@ let v9 = {
 	},
 
 	/**
+	 * v9.Align allows for the alignment of sheet and table date within cells and is always referenced as:
+	 *  - v9.Align.<property>
+	 * \n
+	 * v9.Align is used for the following v9.table properties:
+	 * - v9.table.align
+	 * - v9.table.header.align
+	 * - v9.sheet.align
+	 * - v9.sheet.header.align
+	 */
+	Align: {
+		/**
+		 * Aligns data within a cell to its default position
+		 */
+		Default: 0,
+		/**
+		 * Aligns data within a cell to the middle horizontally
+		 */
+		Center: 1,
+		/**
+		 * Aligns data within a cell to the left
+		 */
+		Left: 2,
+		/**
+		 * Aligns data within a cell to the right
+		 */
+		Right: 3
+	},
+
+	/**
 	 * @typedef {Object} UnionID
 	 * @property {number} NotSet 255
 	 * @property {number} NotMapped 250
@@ -618,8 +649,8 @@ let v9 = {
 	 * @property {number} LimitsBanding 8 : Message that provides the daily limits for the current session
 	 */
 	/**
-	 * A v9․UnionID Object that contains each of the different values that may be returned from:
-	 *  - v9.UnionID
+	 * A UnionID marks the type of an event and is always referenced as:
+	 * - v9.UnionID.<ID>
 	 */
 	UnionID: {
 		NotSet: 255,
@@ -642,8 +673,11 @@ let v9 = {
 	 * @property {number} Sell 2
 	 */
 	/**
-	 * A v9․Aggressor Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.tradeSummary.aggressor
+	 * An Aggressor is a type of event and is always referenced as:
+	 * - v9.Aggressor.<property>
+	 *\n
+	 * v9.Aggressor is used for the following event types:
+	 * - this.pEvent.tradeSummary.aggressor
 	 */
 	Aggressor: {
 		NoAggressor: 0,
@@ -663,8 +697,11 @@ let v9 = {
 	 * @property {number} RecoveryInProcess 6
 	 */
 	/**
-	 * A v9․HaltReason Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.securityStatus.haltReason
+	 * A HaltReason is a type of event and is always referenced as:
+	 * - v9.HaltReason.<property>
+	 *\n
+	 * v9.HaltReason is used for the following event types:
+	 * - this.pEvent.securityStatus.haltReason
 	 */
 	HaltReason: {
 		NotSet: 255,
@@ -695,8 +732,11 @@ let v9 = {
 	 * @property {number} Freeze 201 : Only EUREX Exchange
 	 */
 	/**
-	 * A v9․SecurityType Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.securityStatus.type
+	 * A SecurityType is a type of event and is always referenced as:
+	 * - v9.SecurityType.<property>
+	 *\n
+	 * v9.SecurityType is used for the following event types:
+	 * - this.pEvent.securityStatus.type
 	 */
 	SecurityType: {
 		NotSet: 0,
@@ -725,8 +765,11 @@ let v9 = {
 	 * @property {number} ImpliedMatchingOFF 6
 	 */
 	/**
-	 * A v9․SecurityEvent object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.securityStatus.securityEvent
+	 * A SecurityEvent is a type of event and is always referenced as:
+	 * - v9.SecurityEvent.<property>
+	 *\n
+	 * v9.SecurityEvent is used for the following event types:
+	 * - this.pEvent.securityStatus.event
 	 */
 	SecurityEvent: {
 		NoEvent: 0,
@@ -746,9 +789,12 @@ let v9 = {
 	 * @property {number} BookReset 82
 	 */
 	/**
-	 * A v9․BookType Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.orderBook.type
-	 *  - this.pEvent.bookLevel.type
+	 * A BookType is a type of event and is always referenced as:
+	 * - v9.BookType.<property>
+	 *\n
+	 * v9.BookType is used for the following event types:
+	 * - this.pEvent.orderBook.type
+	 * - this.pEvent.bookLevel.type
 	 */
 	BookType: {
 		NotSet: 85,
@@ -767,8 +813,11 @@ let v9 = {
 	 * @property {number} Fixing 'W'
 	 */
 	/**
-	 * A v9․DailyStatisticsType Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.dailyStatistics.type
+	 * A DailyStatisticsType is a type of event and is always referenced as:
+	 * - v9.DailyStatisticsType.<property>
+	 *\n
+	 * v9.DailyStatisticsType is used for the following event types:
+	 * - this.pEvent.dailyStatistics.type
 	 */
 	DailyStatisticsType: {
 		SettlementPrice: 54,
@@ -789,9 +838,14 @@ let v9 = {
 	 * @property {number} Replace 6
 	 */
 	/**
-	 * A v9․BookAction Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.orderBook.action
-	 *  - this.pEvent.bookLevel.action
+	 * A BookAction is a type of event and is always referenced as:
+	 * - v9.BookAction.<property>
+	 *\n
+	 * v9.BookAction is used for the following event types:
+	 * - this.pEvent.orderBook.action
+	 * - this.pEvent.bookLevel.action
+	 * - this.pEvent.dailyStatistics.action
+	 * - this.pEvent.sessionStatistics.action
 	 */
 	BookAction: {
 		NotSet: 255,
@@ -816,8 +870,11 @@ let v9 = {
 	 * @property {number} ClosePrice 6
 	 */
 	/**
-	 * A v9․SessionStatisticsType Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.sessionStatistics.type
+	 * A SessionStatisticsType is a type of event and is always referenced as:
+	 * - v9.SessionStatisticsType.<property>
+	 *\n
+	 * v9.SessionStatisticsType is used for the following event types:
+	 * - this.pEvent.sessionStatistics.type
 	 */
 	SessionStatisticsType: {
 		NotSet: 127,
@@ -838,8 +895,11 @@ let v9 = {
 	 * @property {number} DailyClosingPrice 10
 	 */
 	/**
-	 * A v9․StateType Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.sessionStatistics.stateType
+	 * A StateType is a type of event and is always referenced as:
+	 * - v9.StateType.<property>
+	 *\n
+	 * v9.StateType is used for the following event types:
+	 * - this.pEvent.sessionStatistics.stateType
 	 */
 	StateType: {
 		NotSet: 255,
@@ -858,8 +918,11 @@ let v9 = {
 	 * @property {number} NullValue 128
 	 */
 	/**
-	 * A v9․SettleType Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.dailyStatistics.settleType
+	 * A SettleType is a type of event and is always referenced as:
+	 * - v9.SettleType.<property>
+	 *\n
+	 * v9.SettleType is used for the following event types:
+	 * - this.pEvent.dailyStatistics.settleType
 	 */
 	SettleType: {
 		Final: 1,
@@ -868,22 +931,6 @@ let v9 = {
 		Intraday: 8,
 		ReservedBits: 16,
 		NullValue: 128
-	},
-
-	/**
-	 * @typedef {Object} EventIndicator
-	 * @property {number} NotSet 0
-	 * @property {number} LastOfType 1
-	 * @property {number} EndOfEvent 128
-	 */
-	/**
-	 * A v9․EventIndicator Object that contains each of the different values that may be returned from:
-	 *  - this.pEvent.header.eventIndicator
-	 */
-	EventIndicator: {
-		NotSet: 0,
-		LastOfType: 1,
-		EndOfEvent: 128
 	},
 
 	/**
