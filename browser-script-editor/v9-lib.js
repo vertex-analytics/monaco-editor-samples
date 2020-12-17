@@ -1,6 +1,15 @@
 monaco.languages.typescript.javascriptDefaults.addExtraLib(
 `
 /**
+ * Code.VX Intellisense
+ *
+ * By: Blake Boris
+ * blakeboris.com
+ *
+ * December 2020
+ */
+
+/**
  * Class used for referencing any individual Event from the current feed
  */
 class v9_Event {
@@ -367,7 +376,7 @@ class v9_Order {
 };
 
 /**
- * Class used for referencing all v9 event Objects and data
+ * Base Object used for referencing all major types, classes, and functions for Code.VX
  */
 let v9 = {
 	/**
@@ -650,7 +659,7 @@ let v9 = {
 	 */
 	/**
 	 * A UnionID marks the type of an event and is always referenced as:
-	 * - v9.UnionID.<ID>
+	 * - v9.UnionID.<property>
 	 */
 	UnionID: {
 		NotSet: 255,
