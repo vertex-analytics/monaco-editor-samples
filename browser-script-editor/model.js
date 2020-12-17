@@ -28,29 +28,22 @@ const model = monaco.editor.createModel(
 
     /**
      * @param {v9_Order} pOrder The current order being handled
-     * @param {v9_Trigger} pType The type of the current order being handled
      */
     onTrigger(pOrder, pType)
     {
         pOrder.entry;
         pOrder.fills;
-        pOrder.flag;
         pOrder.mods;
         pOrder.orderID;
         pOrder.price;
         pOrder.quantity;
-        pOrder.time;
-
-		pType.asset;
-		pType.contractSymbol;
-		pType.tickSize;
-		pType.tickValue;
-		pType.unitOfMeasure;
+		pOrder.time;
+		pOrder.type;
     }
 
     /**
      * @param {string} pSymbol Name of the current symbol
-     * @param {Event} pEvent Current event being handled
+     * @param {v9_Event} pEvent Current event being handled
      * @param {boolean} pRealTime Boolean determining whether or not to only handle current events
      */
     onEvent(pSymbol, pEvent, pRealTime) {
@@ -125,10 +118,6 @@ const model = monaco.editor.createModel(
 		pEvent.securityStatus.type;
 		pEvent.securityStatus.haltReason;
         pEvent.securityStatus.event;
-
-        pEvent.channelReset.type;
-
-        pEvent.transactionMarker.type;
     }
 
     onShut ()

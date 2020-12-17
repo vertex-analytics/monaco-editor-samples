@@ -2,283 +2,329 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 `
 /**
  * Class used for referencing any individual Event from the current feed
- * @property {TradeSummary} tradeSummary
  */
 class v9_Event {
 	/**
-	 * @typedef {Object} event_Header
-	 * @property {v9.UnionID} unionID Enumerated value used to find the type of an Event Object
-	 * @property {number} instrumentID The unique instrument identifier for the current exchange
-	 * @property {number} sequence The current Event Object's session array index
-	 * @property {number} channelSequence The packet ID of the current Event
-	 * @property {number} instrumentSequence The unique ID of the current within the current instrument
-	 * @property {number} milliseconds The exact time of the current Event in milliseconds as a number
-	 * @property {bigint} time The exact time of the current Event in nanoseconds as a BigInt
-	 */
-	/**
-	 * Each Event’s header Object provides access to general Event information and is accessed using:
+	 * Each Event's header object provides access to identifying Event information and is accessed using:
 	 *  - <EventName>.header.<memberName>
-	 * @type {event_Header}
-	 * @example
-	 *
-	 * onEvent() {
-	 * 	 switch (this.pEvent.header.unionID) {
-	 * 		 case v9.UnionID.TradeSummary:
-	 * 			 var tmp = this.pEvent.header.time;
-	 * 			 break;
-	 * 		 default:
-	 * 			 break;
-	 * 	 }
-	 * }
-
 	 */
 	header:
 	{
+		/**
+		 * **v9.UnionID** Enumerated value used to find the type of an Event object
+		 */
 		unionID: 255,
+		/**
+		 * The unique instrument identifier for the current exchange
+		 */
+		instrumentID: 0,
+		/**
+		 * The current Event object's session array index
+		 */
 		sequence: 0,
-		time: 0,
-		timeH: 0,
-		timeL: 0,
+		/**
+		* The packet ID of the current Event
+		*/
+		channelSequence: 0,
+	   	/**
+		 * The unique ID of the current within the current instrument
+		 */
+		instrumentSequence: 0,
+		/**
+		 * The exact time of the current Event in milliseconds as a number
+		 */
 		milliseconds: 0
+		/**
+		 * The exact time of the current Event in nanoseconds as a BigInt
+		 */
+		time: 0,
 	},
 
 	/**
-	 * @typedef {Object} TradeSummary
-	 * @property {number} price The price of the current Event
-	 * @property {number} quantity The total quantity matched for the the current Event
-	 * @property {number} matches The number of upcoming orders that will participate in the current Event
-	 * @property {Aggressor} aggressor The aggressor of the trade the current Event is summarizing
-	 * @property {boolean} isImplied Whether or not the trade the current Event is summarizing was implied
-	 * @property {boolean} isSnapshot Whether or not the current Event is a market summary
-	 * @property {number} volume The accumulated volume of the current session
-	 */
-	/**
-	 * Each tradeSummary Event Object is accessed using:
-	 *  - <EventName>.header.tradeSummary
-	 * @type {TradeSummary}
+	 * Each Event's tradeSummary object provides access to each trade that occurs and is accessed using:
+	 *  - <EventName>.tradeSummary.<property>
 	 */
 	tradeSummary: {
 		/**
 		 * The price of the current Event
 		 */
 		price: 0,
+		/**
+		 * The total quantity matched for the the current Event
+		 */
 		quantity: 0,
+		/**
+		 * The number of upcoming orders that will participate in the current Event
+		 */
 		matches: 0,
+		/**
+		 * **v9.Aggressor** The aggressor of the trade the current Event is summarizing
+		 */
 		aggressor: 0,
+		/**
+		 * Whether or not the trade the current Event is summarizing was implied
+		 */
 		isImplied: false,
+		/**
+		 * Whether or not the current Event is a market summary
+		 */
 		isSnapshot: false,
+		/**
+		 * The accumulated volume of the current session
+		 */
 		volume: 0
 	},
 
 	/**
-	 * @typedef {Object} TradeMatch
-	 * @property {number} price The price of the current Event
-	 * @property {number} quantity The total quantity matched for the current Event
-	 * @property {number} number The enumerated value from 0 to number of TradeSummary.matches
-	 * @property {boolean} isAggressor Whether or not the current Event was made by the aggressor of the trade
-	 * @property {number} orderID The identifier for the current Event’s order
-	 * @property {number} auxilaryID The original identifier for the current Event’s order (ICE)
-	 * @property {number} flags These bits are exchange specific. Please refer to the docs
-	 */
-	/**
-	 * Each tradeMatch Event Object is accessed using:
-	 *  - <EventName>.header.tradeMatch
-	 * @type {TradeMatch}
+	 * Each Event's tradeMatch object provides access to every order matched in a trade and can be accessed using:
+	 *  - <EventName>.tradeMatch.<property>
 	 */
 	tradeMatch: {
+		/**
+		 * The price of the current Event
+		 */
 		price: 0,
+		/**
+		 * The total quantity matched for the current Event
+		 */
 		quantity: 0,
+		/**
+		 * The enumerated value from 0 to number of TradeSummary.matches
+		 */
 		number: 0,
+		/**
+		 * Whether or not the current Event was made by the aggressor of the trade
+		 */
 		isAggressor: 0,
+		/**
+		 * The identifier for the current Event’s order
+		 */
 		orderID: 0,
+		/**
+		 * The original identifier for the current Event’s order : ICE
+		 */
 		auxiliaryID: 0,
+		/**
+		 * These bits are exchange specific. Please refer to the docs
+		 */
 		flags: 0
 	},
 
 	/**
-	 * @typedef {Object} VolumeUpdate
-	 * @property {number} volume The total volume for the session including the current Event
-	 * @property {number} vwap An ICE-specific stat metric
-	 */
-	/**
-	 * Each volumeUpdate Event Object is accessed using:
-	 *  - <EventName>.header.volumeUpdate
-	 * @type {VolumeUpdate}
-	 * */
-	volumeUpdate: {
-		volume: 0,
-		vwap: 0
-	},
-
-	/**
-	 * @typedef {Object} BookLevel
-	 * @property {number} price The price of the current Event
-	 * @property {number} quantity The total quantity matched for the the current Event
-	 * @property {number} orders The number of orders that participated at the current Event’s price level
-	 * @property {number} impliedQuantity The total implied quantity at the current event’s price level
-	 * @property {number} impliedOrders The total number of implied orders at the current event’s price level
-	 * @property {number} level The price level at which the event occurred
-	 * @property {BookAction} action The book action of the order corresponding to the current event
-	 * @property {BookType} type The type of the current Event
-	 * @property {boolean} isEndEvent Whether or not the current Event is the last Event of the packet
-	 */
-	/**
-	 * Each bookLevel Event Object is accessed using:
-	 *  - <EventName>.header.bookLevel
-	 * @type {BookLevel}
-	 */
-	bookLevel: {
-		price: 0,
-		quantity: 0,
-		orders: 0,
-		impliedQuantity: 0,
-		impliedOrders: 0,
-		level: 0,
-		action: 255,
-		type: 85,
-		isEndEvent: false
-	},
-
-	/**
-	 * @typedef {Object} OrderBook
-	 * @property {number} price The price of the current Event
-	 * @property {BookType} type The type of the current Event
-	 * @property {number} quantity The total quantity matched for the current Event
-	 * @property {number} priorityID The order priority for execution on the current order book : Lower = higher priority
-	 * @property {number} auxilaryID The first OrderID assigned because some exchanges change the orderID : Only ICE and Eurex Exchanges
-	 * @property {number} previousID If an orderID is changed, this is the ID that was just replaced : Eurex
-	 * @property {number} orderID The identifier for the current Event's order
-	 * @property {BookAction} action The book action of the order corresponding to the current event
-	 * @property {boolean} isSnapshot Whether or not the current Event is a market summary
-	 */
-	/**
-	 * Each orderBook Event Object is accessed using:
-	 *  - <EventName>.header.orderBook
-	 * @type {OrderBook}
+	 * Each Event's orderBook object provides access to every action of every order at all price levels and can be accessed using:
+	 *  - <EventName>.orderBook.<property>
+	 *
+	 * Each Event's orderBook has a one-to-many relationship with Event.bookLevel.level (levels 0-10)
 	 */
 	orderBook: {
+		/**
+		 * The price of the current Event
+		 */
 		price: 0,
+		/**
+		 * **v9.BookType** The type of the current Event
+		 */
 		type: 85,
+		/**
+		 * The total quantity matched for the current Event
+		 */
 		quantity: 0,
+		/**
+		 * The order priority for execution on the current order book : Lower = higher priority
+		 */
 		priorityID: 0,
+		/**
+		 * The first OrderID assigned because some exchanges change the orderID : Only ICE and Eurex Exchanges
+		 */
 		auxiliaryID: 0,
+		/**
+		 * If an orderID is changed, this is the ID that was just replaced : Eurex
+		 */
 		previousID: 0,
+		/**
+		 * The identifier for the current Event's order
+		 */
 		orderID: 0,
+		/**
+		 * **v9.BookAction** The book action of the order corresponding to the current event
+		 */
 		action: 255,
+		/**
+		 * Whether or not the current Event is a market summary
+		 */
 		isSnapshot: 0
 	},
 
 	/**
-	 * @typedef {Object} SecurityStatus
-	 * @property {string} group The exchange specific code assigned to a group of related securities, which are concurrently affected by market events
-	 * @property {string} asset The underlying asset code represented as a String
-	 * @property {number} sessionDate The date of the current Event's trading session
-	 * @property {SecurityType} type The total implied quantity at the current event's price level
-	 * @property {HaltReason} haltReason The reason why the market has been halted
-	 * @property {SecurityEvent} event Additional reasoning for the market being halted
+	 * Each Event's bookLevel object provides access to quote activity and price level summations for levels 1 through 10 on each side of the book.\nEach Event's bookLevel object has a corresponding orderBook event which provides details about the quote itself with a matching nanosecond timestamp.\nProperties of bookLevel can be accessed using:
+	 *  - <EventName>.bookLevel.<property>
+	 *
+	 * Each Event's bookLevel (levels 0-10) has a many-to-one relationship with Event.orderBook
 	 */
-	/**
-	 * Each securityStatus Event Object is accessed using:
-	 *  - <EventName>.header.securityStatus
-	 * @type {SecurityStatus}
-	 */
-	securityStatus: {
-		group: "",
-		asset: "",
-		sessionDate: 0,
-		type: 0,
-		haltReason: 255,
-		event: 0
+	bookLevel: {
+		/**
+		 * The price of the current Event
+		 */
+		price: 0,
+		/**
+		 * The total quantity matched for the the current Event
+		 */
+		quantity: 0,
+		/**
+		 * The number of orders that participated at the current Event’s price level
+		 */
+		orders: 0,
+		/**
+		 * The total implied quantity at the current event’s price level
+		 */
+		impliedQuantity: 0,
+		/**
+		 * The total number of implied orders at the current event’s price level
+		 */
+		impliedOrders: 0,
+		/**
+		 * The price level at which the event occurred
+		 */
+		level: 0,
+		/**
+		 * **v9.BookAction** The book action of the order corresponding to the current event
+		 */
+		action: 255,
+		/**
+		 * **v9.BookType** The type of the current Event
+		 */
+		type: 85,
+		/**
+		 * Whether or not the current Event is the last Event of the packet
+		 */
+		isEndEvent: false
 	},
 
 	/**
-	 * @typedef {Object} DailyStatistics
-	 * @property {number} price The price of the current Event
-	 * @property {number} instrumentID The unique instrument identifier for the current exchange
-	 * @property {number} size The total number of Events in the current session (Only applies to OpenInterest type)
-	 * @property {number} sessionDate The session date pertaining to the current Event (Not always current session)
-	 * @property {DailyStatisticsType} type The type of the current Event
-	 * @property {SettleType} settleType The settlement type of the current Event
-	 */
+	 * Each Event's volumneUpdate object provides access to each session volume update sent by the exchange and can be accessed using:
+	 *  - <EventName>.volumeUpdate.<property>
+	 * */
+	volumeUpdate: {
+		/**
+		 * The total volume for the session including the current Event
+		 */
+		volume: 0,
+		/**
+		 * The current volume weighted average price : ICE
+		 */
+		vwap: 0
+	},
+
 	/**
-	 * Each dailyStatistics Event Object is accessed using:
-	 *  - <EventName>.header.dailyStatistics
-	 * @type {DailyStatistics}
+	 * Each Event's dailyStatistics object provides access to each of the daily statistics sent by the exchange. Properties of dailyStatistics can be accessed using:
+	 *  - <EventName>.dailyStatistics.<property>
 	 */
 	dailyStatistics: {
+		/**
+		 * The price of the current Event
+		 */
 		price: 0,
+		/**
+		 * The unique instrument identifier for the current exchange
+		 */
 		instrumentID: 0,
+		/**
+		 * The total number of Events in the current session (Only applies to OpenInterest type)
+		 */
 		size: 0,
+		/**
+		 * The session date pertaining to the current Event (Not always current session)
+		 */
 		sessionDate: 0,
+		/**
+		 * **v9.DailyStatisticsType** The type of the current Event
+		 */
 		type: 0,
+		/**
+		 * **v9.SettleType** The settlement type of the current Event
+		 */
 		settleType: 0
 	},
 
 	/**
-	 * @typedef {Object} SessionStatistics
-	 * @property {number} price The price of the current Event
-	 * @property {number} instrumentID The unique instrument identifier for the current exchange
-	 * @property {StateType} stateType The OpeningPrice type of the current Event
-	 * @property {BookAction} action The book action of the order corresponding to the current event
-	 * @property {SessionStatisticsType} type The type of the current Event
-	 * @property {number} volume The total number of Events in the current session
-	 */
-	/**
-	 * Each sessionStatistics Event Object is accessed using:
-	 *  - <EventName>.header.sessionStatistics
-	 * @type {SessionStatistics}
-	 */
-	sessionStatistics: {
-		price: 0,
-		instrumentID: 0,
-		stateType: 255,
-		action: 255,
-		type: 127,
-		volume: 0
-	},
-
-	/**
-	 * @typedef {Object} LimitsBanding
-	 * @property {number} highLimit The lowest price level the contract can trade in this session
-	 * @property {number} lowLimit The highest price level the contract can trade in this session
-	 * @property {number} maxVariation The maximum tradeable range for this session
-	 */
-	/**
-	 * Each limitsBanding Event Object is accessed using:
-	 *  - <EventName>.header.limitsBanding
-	 * @type {LimitsBanding}
+	 * Each Event's limitsBanding object provides access to the session limit levels sent by the exchange and can be accessed using:
+	 *  - <EventName>.limitsBanding.<property>
 	 */
 	limitsBanding: {
+		/**
+		 * The highest price level the contract can trade in this session
+		 */
 		highLimit: 0,
+		/**
+		 * The lowest price level the contract can trade in this session
+		 */
 		lowLimit: 0,
+		/**
+		 * The maximum tradeable range for this session
+		 */
 		maxVariation: 0
 	},
 
 	/**
-	 * @typedef {Object} ChannelReset
-	 * @property {BookType} type The type of the current Event
+	 * Each Event's sessionStatistics object provides access to each of the session statistics from the exchange. Properties of sessionStatistics can be accessed using:
+	 *  - <EventName>.sessionStatistics.<property>
 	 */
-	/**
-	 * Each channelReset Event Object is accessed using:
-	 *  - <EventName>.header.channelReset
-	 * @type {ChannelReset}
-	 * */
-	channelReset: {
-		type: 85
+	sessionStatistics: {
+		/**
+		 * The price of the current Event
+		 */
+		price: 0,
+		/**
+		 * The unique instrument identifier for the current exchange
+		 */
+		instrumentID: 0,
+		/**
+		 * **v9.StateType** The type of the current Event
+		 */
+		stateType: 255,
+		/**
+		 * **v9.BookAction** The book action of the order corresponding to the current event
+		 */
+		action: 255,
+		/**
+		 * **v9.SessionStatisticsType** The type of the current Event
+		 */
+		type: 127,
+		/**
+		 * The total number of Events in the current session
+		 */
+		volume: 0
 	},
 
 	/**
-	 * @typedef {Object} TransactionMarker
-	 * @property {TransactionType} type The type of the current Event
+	 * Each Event's securityStatus object provides access to each security message from the exchange and can be accessed using:
+	 *  - <EventName>.securityStatus.<property>
 	 */
-	/**
-	 * Each transactionMarker Event Object is accessed using:
-	 *  - <EventName>.header.transactionMarker
-	 * @type {TransactionMarker}
-	 * @return
-	 */
-	transactionMarker: {
-		type: 255
+	securityStatus: {
+		/**
+		 * The exchange specific code assigned to a group of related securities, which are concurrently affected by market events
+		 */
+		group: "",
+		/**
+		 * The underlying asset code represented as a String
+		 */
+		asset: "",
+		/**
+		 * The date of the current Event's trading session
+		 */
+		sessionDate: 0,
+		/**
+		 * **v9.SecurityType** The type of the current Event
+		 */
+		type: 0,
+		/**
+		 * **v9.HaltReason** The reason why the market has been halted
+		 */
+		haltReason: 255,
+		/**
+		 * **v9.SecurityEvent** Additional reasoning for the market being halted
+		 */
+		event: 0
 	},
 };
 
@@ -291,15 +337,11 @@ class v9_Order {
 	 */
 	entry: 0n;
 	/**
-	 * The current Order's number of fills
+	 * The number of times this order has been matched in a trade
 	 */
 	fills: 0;
 	/**
-	 * The current Order's flag
-	 */
-	flag: 0;
-	/**
-	 * The current Order's number of mods
+	 * The number of times this order has moved price levels or changed quantities
 	 */
 	mods: 0;
 	/**
@@ -311,27 +353,23 @@ class v9_Order {
 	 */
 	price: 0;
 	/**
-	 * The current Order's quantity
+	 * The current Order's shown quantity
 	 */
 	quantity: 0;
 	/**
 	 * The exact fill time of the current Order in nanoseconds as a BigInt
 	 */
 	time: 0n;
+	/**
+	 * The type of the current Order as a v9.Trigger value
+	 */
+	type: 0;
 };
 
 /**
  * Class used for referencing all v9 event Objects and data
  */
 let v9 = {
-	/**
-	 * @typedef {Object} v9_Trigger
-	 * @property {string} asset The current asset name
-	 * @property {string} contractSymbol The current symbol name
-	 * @property {number} tickSize The percentage of a handle that each tick is worth (divide by 1e10^11)
-	 * @property {number} tickValue The value of each tick in USD
-	 * @property {number} unitOfMeasure The value of each handle in USD
-	 */
 	/**
 	 * This class' functions should be overridden in each script for handling user actions and symbol events
 	 */
@@ -349,12 +387,6 @@ let v9 = {
 		 */
 		constructor(pConfiguration)
 		{
-			this.pMeta = new v9_Meta();
-			this.pEvent = new v9_Event();
-			this.pRealTime = new boolean();
-			this.pSymbol = new string();
-			this.pOrder = new v9_Order();
-			this.pType = new string();
 		}
 
 		/**
@@ -392,7 +424,7 @@ let v9 = {
 		 *
 		 * onTrigger is called when an order is hit that matches the user defined triggers specified in v9.Feed.Trigger
 		 * @param {v9_Order} pOrder The current order being handled
-		 * @param {v9_Trigger} pType The type of the current order being handled
+		 * @param {v9.Trigger} pType The type of the current order being handled
 		 */
 		onTrigger()
 		{
@@ -553,6 +585,25 @@ let v9 = {
 	// },
 
 	/**
+	 * A v9․Trigger Object that contains each of the different values that may be returned from:
+	 *  - v9․Trigger
+	 */
+	Trigger: {
+		/**
+		 * TODO
+		 */
+		IcebergOrders: 1,
+		/**
+		 * TODO
+		 */
+		StopOrders: 2,
+		/**
+		 * TODO
+		 */
+		SweepTrades: 3
+	},
+
+	/**
 	 * @typedef {Object} UnionID
 	 * @property {number} NotSet 255
 	 * @property {number} NotMapped 250
@@ -565,23 +616,10 @@ let v9 = {
 	 * @property {number} DailyStatistics 6 : Message that provides information about a complete session
 	 * @property {number} SessionStatistics 7 : Message that provides information about the session during the session
 	 * @property {number} LimitsBanding 8 : Message that provides the daily limits for the current session
-	 * @property {number} ChannelReset 9 : Message that indicates if the channel the contract is on was reset and at what time
-	 * @property {number} TransactionMarker 10 : The TS message marks the start of a bundle, and the TE message marks the end of that bundle. The exchange considers all the messages between the start and end marker to have been processed together, regardless of how the packets were split during exchange transmission
 	 */
 	/**
-	 * A v9․UnionID Object that contains each of the different values that may be returned from:</br>
+	 * A v9․UnionID Object that contains each of the different values that may be returned from:
 	 *  - v9.UnionID
-	 * @type {UnionID}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *         case v9.UnionID.<Value>:
-	 *             // Do something when this.pEvent.header.unionID is equal to v9.UnionID.<Value>
-	 *             break;
-	 *         default :
-	 *             break;
-	 *     }
-	 * }
 	 */
 	UnionID: {
 		NotSet: 255,
@@ -595,8 +633,6 @@ let v9 = {
 		DailyStatistics: 6,
 		SessionStatistics: 7,
 		LimitsBanding: 8,
-		ChannelReset: 9,
-		TransactionMarker: 10,
 	},
 
 	/**
@@ -606,19 +642,8 @@ let v9 = {
 	 * @property {number} Sell 2
 	 */
 	/**
-	 * A v9․Aggressor Object that contains each of the different values that may be returned from:</br>
+	 * A v9․Aggressor Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.tradeSummary.aggressor
-	 * @type {Aggressor}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.TradeSummary:
-	 *                  var agr = this.pEvent.tradeSummary.aggressor;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	Aggressor: {
 		NoAggressor: 0,
@@ -638,19 +663,8 @@ let v9 = {
 	 * @property {number} RecoveryInProcess 6
 	 */
 	/**
-	 * A v9․HaltReason Object that contains each of the different values that may be returned from:</br>
+	 * A v9․HaltReason Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.securityStatus.haltReason
-	 * @type {HaltReason}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *         case v9.UnionID.SecurityStatus:
-	 *             var hlt = this.pEvent.securityStatus.haltReason;
-	 *             break;
-	 *         default :
-	 *             break;
-	 *     }
-	 * }
 	 */
 	HaltReason: {
 		NotSet: 255,
@@ -681,19 +695,8 @@ let v9 = {
 	 * @property {number} Freeze 201 : Only EUREX Exchange
 	 */
 	/**
-	 * A v9․SecurityType Object that contains each of the different values that may be returned from:</br>
+	 * A v9․SecurityType Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.securityStatus.type
-	 * @type {SecurityType}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *         case v9.UnionID.SecurityStatus:
-	 *             var typ = this.pEvent.securityStatus.type;
-	 *             break;
-	 *         default :
-	 *             break;
-	 *     }
-	 * }
 	 */
 	SecurityType: {
 		NotSet: 0,
@@ -722,19 +725,8 @@ let v9 = {
 	 * @property {number} ImpliedMatchingOFF 6
 	 */
 	/**
-	 * A v9․SecurityEvent Object that contains each of the different values that may be returned from:</br>
+	 * A v9․SecurityEvent object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.securityStatus.securityEvent
-	 * @type {SecurityEvent}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.SecurityStatus:
-	 *                  var sev = this.pEvent.securityStatus.securityEvent;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	SecurityEvent: {
 		NoEvent: 0,
@@ -754,20 +746,9 @@ let v9 = {
 	 * @property {number} BookReset 82
 	 */
 	/**
-	 * A v9․BookType Object that contains each of the different values that may be returned from:</br>
+	 * A v9․BookType Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.orderBook.type
 	 *  - this.pEvent.bookLevel.type
-	 * @type {BookType}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.OrderBook:
-	 *                  var typ = this.pEvent.orderBook.type;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	BookType: {
 		NotSet: 85,
@@ -786,19 +767,8 @@ let v9 = {
 	 * @property {number} Fixing 'W'
 	 */
 	/**
-	 * A v9․DailyStatisticsType Object that contains each of the different values that may be returned from:</br>
+	 * A v9․DailyStatisticsType Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.dailyStatistics.type
-	 * @type {DailyStatisticsType}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.DailyStatistics:
-	 *                  var typ = this.pEvent.dailyStatistics.type;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	DailyStatisticsType: {
 		SettlementPrice: 54,
@@ -819,20 +789,9 @@ let v9 = {
 	 * @property {number} Replace 6
 	 */
 	/**
-	 * A v9․BookAction Object that contains each of the different values that may be returned from:</br>
+	 * A v9․BookAction Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.orderBook.action
 	 *  - this.pEvent.bookLevel.action
-	 * @type {BookAction}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.OrderBook:
-	 *                  var act = this.pEvent.orderBook.action;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	BookAction: {
 		NotSet: 255,
@@ -857,19 +816,8 @@ let v9 = {
 	 * @property {number} ClosePrice 6
 	 */
 	/**
-	 * A v9․SessionStatisticsType Object that contains each of the different values that may be returned from:</br>
+	 * A v9․SessionStatisticsType Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.sessionStatistics.type
-	 * @type {SessionStatisticsType}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *         case v9.UnionID.SessionStatistics:
-	 *                  var typ = this.pEvent.sessionStatistics.type;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	SessionStatisticsType: {
 		NotSet: 127,
@@ -890,46 +838,14 @@ let v9 = {
 	 * @property {number} DailyClosingPrice 10
 	 */
 	/**
-	 * A v9․StateType Object that contains each of the different values that may be returned from:</br>
+	 * A v9․StateType Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.sessionStatistics.stateType
-	 * @type {StateType}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.SessionStatistics:
-	 *                  var stt = this.pEvent.sessionStatistics.stateType;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	StateType: {
 		NotSet: 255,
 		DailyOpenPrice: 0,
 		IndicativeOpeningPrice: 5,
 		DailyClosePrice: 10
-	},
-
-	/**
-	 * @typedef {Object} PutOrCall
-	 * @property {number} NotSet 255
-	 * @property {number} Put 0
-	 * @property {number} Call 1
-	 */
-	/**
-	 * A v9․PutOrCall Object that contains each of the different values that may be returned from:</br>
-	 *  - this.pEvent.PutOrCall.type
-	 * @type {PutOrCall}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     // N/A
-	 * }
-	 */
-	PutOrCall: {
-		NotSet: 255,
-		Put: 0,
-		Call: 1
 	},
 
 	/**
@@ -942,19 +858,8 @@ let v9 = {
 	 * @property {number} NullValue 128
 	 */
 	/**
-	 * A v9․SettleType Object that contains each of the different values that may be returned from:</br>
+	 * A v9․SettleType Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.dailyStatistics.settleType
-	 * @type {SettleType}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.DailyStatistics:
-	 *                  var stl = this.pEvent.dailyStatistics.settleType;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	SettleType: {
 		Final: 1,
@@ -966,78 +871,19 @@ let v9 = {
 	},
 
 	/**
-	 * @typedef {Object} TransactionType
-	 * @property {number} NotSet 255
-	 * @property {number} TransactionStart 0
-	 * @property {number} TransactionEnd 1
-	 */
-	/**
-	 * A v9․TransactionType Object that contains each of the different values that may be returned from:</br>
-	 *  - this.pEvent.transactionMarker.transactionType
-	 * @type {TransactionType}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.TransactionMarker:
-	 *                  var ttp = this.pEvent.transactionMarker.transactionType;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
-	 */
-	TransactionType: {
-		NotSet: 255,
-		TransactionStart: 0,
-		TransactionEnd: 1
-	},
-
-	/**
 	 * @typedef {Object} EventIndicator
 	 * @property {number} NotSet 0
 	 * @property {number} LastOfType 1
 	 * @property {number} EndOfEvent 128
 	 */
 	/**
-	 * A v9․EventIndicator Object that contains each of the different values that may be returned from:</br>
+	 * A v9․EventIndicator Object that contains each of the different values that may be returned from:
 	 *  - this.pEvent.header.eventIndicator
-	 * @type {EventIndicator}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *     switch (this.pEvent.header.unionID) {
-	 *    case v9.UnionID.EventIndicator:
-	 *                  var ind = this.pEvent.header.eventIndicator;
-	 *              break;
-	 *          default :
-	 *              break;
-	 *     }
-	 * }
 	 */
 	EventIndicator: {
 		NotSet: 0,
 		LastOfType: 1,
 		EndOfEvent: 128
-	},
-
-	/**
-	 * @typedef {Object} InvestigateStatus
-	 * @property {number} NotSet 0
-	 * @property {number} UnderInvestigation 1
-	 * @property {number} InvestigationStatus 2
-	 */
-	/**
-	 * A v9․InvestigateStatus Object that contains each of the different values that may be returned from:</br>
-	 *  - N/A
-	 * @type {InvestigateStatus}
-	 * @example
-	 * onEvent(pSymbol, this.pEvent, pRealTime) {
-	 *    // N/A
-	 * }
-	 */
-	InvestigateStatus: {
-		NotSet: 0,
-		UnderInvestigation: 1,
-		InvestigationCompleted: 2
 	},
 
 	/**
@@ -1060,8 +906,6 @@ let v9 = {
 	 */
 	eventCopy(this.pEvent): function {
 	}
-
-	//TODO add MyFeed functions that are dups of v9.feed for param intellisense
 }
 `,
 );
