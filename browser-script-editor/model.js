@@ -29,7 +29,7 @@ const model = monaco.editor.createModel(
     /**
      * @param {v9_Order} pOrder The current order being handled
      */
-    onTrigger(pOrder, pType)
+    onTrigger(pOrder)
     {
         pOrder.entry;
         pOrder.fills;

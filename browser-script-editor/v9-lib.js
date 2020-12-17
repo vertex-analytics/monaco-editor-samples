@@ -425,7 +425,7 @@ let v9 = {
 		 * onOpen is called at the start of each day between the startDate and endDate parameters of a multi-day script
 		 * @param {v9_Meta} pMeta Object representing json meta information. It currently provides the instrument definitions of the supplied symbol
 		 */
-		onOpen() {
+		onOpen(pMeta) {
 		}
 
 		/**
@@ -435,7 +435,7 @@ let v9 = {
 		 * @param {v9_Order} pOrder The current order being handled
 		 * @param {v9.Trigger} pType The type of the current order being handled
 		 */
-		onTrigger()
+		onTrigger(pOrder, pType) //TODO remove pType if Ed actually implements it into pOrder
 		{
 		}
 
@@ -456,7 +456,7 @@ let v9 = {
 		 * @param {Event} pEvent Current event being handled
 		 * @param {boolean} pRealTime Boolean determining whether or not to only handle current events
 		 */
-		onEvent()
+		onEvent(pSymbol, pEvent, pRealTime)
 		{
 		}
 
