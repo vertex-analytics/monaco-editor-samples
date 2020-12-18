@@ -387,8 +387,8 @@ let v9 = {
 		 * The constructor is called when the user instantiates a new v9.feed
 		 * @param {Object} pConfiguration Object containing feed properties
 		 * @param {string} pConfiguration.symbol The current market symbol
-		 * @param {string} pConfiguration.startDate The starting date of the script
-		 * @param {string} pConfiguration.stopDate The ending date of the script
+		 * @param {number} pConfiguration.startDate The starting date of the script
+		 * @param {number} pConfiguration.endDate The ending date of the script
 		 * @param {boolean} pConfiguration.weekends Whether or not to execute on weekends
 		 * @param {boolean} pConfiguration.buildBooks Whether or not the feed handles book building
 		 * @param {Number[]} pConfiguration.trigger Array containing event types that evoke v9.feed.onTrigger()
