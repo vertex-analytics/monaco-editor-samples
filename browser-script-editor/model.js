@@ -246,7 +246,8 @@ let feed = new MyFeed({
     symbol: 'ES',
     startDate: 20200902,
     endDate: 20200902,
-    weekends: false
+	weekends: false,
+	trigger: [v9.Trigger.IcebergOrders, v9.Trigger.StopOrders, v9.Trigger.SweepTrades]
 });
 `,
  'javascript'

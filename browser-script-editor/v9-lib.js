@@ -391,7 +391,7 @@ let v9 = {
 		 * @param {number} pConfiguration.endDate The ending date of the script
 		 * @param {boolean} pConfiguration.weekends Whether or not to execute on weekends
 		 * @param {boolean} pConfiguration.buildBooks Whether or not the feed handles book building
-		 * @param {Number[]} pConfiguration.trigger Array containing event types that evoke v9.feed.onTrigger()
+		 * @param {v9_Trigger[]} pConfiguration.trigger Array containing event types that evoke v9.feed.onTrigger()
 		 * @type {function}
 		 */
 		constructor(pConfiguration)
@@ -613,6 +613,12 @@ let v9 = {
 	// 	}
 	// },
 
+	/**
+	 * @typedef {Object} v9_Trigger
+	 * @property {number} IcebergOrders 1
+	 * @property {number} StopOrders 2
+	 * @property {number} SweepTrades 3
+	 */
 	/**
 	 * A Trigger is a flag that enables the use of the v9.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
 	 *  - v9․Trigger.<property>
