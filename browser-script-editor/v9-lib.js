@@ -481,10 +481,6 @@ let v9 = {
 		 */
 		BookItemA(cnt)
 		{
-			if (!_v9book)	{
-				throw new Error("'books' have not been defined in the configuration");
-			}
-			return _v9book.BookItemA(cnt);
 		}
 
 		/**
@@ -494,10 +490,6 @@ let v9 = {
 		 */
 		BookItemB(cnt)
 		{
-			if (!_v9book)	{
-				throw new Error("'books' have not been defined in the configuration");
-			}
-			return _v9book.BookItemB(cnt);
 		}
 
 		/**
@@ -506,10 +498,6 @@ let v9 = {
 		 */
 		BookRowsA()
 		{
-			if (!_v9book)	{
-				throw new Error("'books' have not been defined in the configuration");
-				}
-			return _v9book.BookRowsA();
 		}
 
 		/**
@@ -518,10 +506,42 @@ let v9 = {
 		 */
 		BookRowsB()
 		{
-			if (!_v9book)	{
-				throw new Error("'books' have not been defined in the configuration");
-				}
-			return _v9book.BookRowsB();
+		}
+
+		//TODO update ords functions with proper descriptions
+		//TODO ask Ed if he can change cnt to level
+		/**
+		 * OrdsItemA returns a specific ask level of the current feed's book as an Object using:
+		 * - this.OrdsItemA(cnt: Number)
+		 * @param {number} - cnt The level of the order you want to know the price and quantity of
+		 */
+		OrdsItemA(cnt)
+		{
+		}
+
+		/**
+		 * OrdsItemB returns a specific bid level of the current feed's book as an Object using:
+		 * - this.OrdsItemB(cnt: Number)
+		 * @param {number} cnt - The level of the order you want to know the price and quantity of
+		 */
+		OrdsItemB(cnt)
+		{
+		}
+
+		/**
+		 * OrdsRowsA returns the number of ask levels within the current feed's book using:
+		 * - this.OrdsRowsA()
+		 */
+		OrdsRowsA()
+		{
+		}
+
+		/**
+		 * OrdsRowsB returns the number of bid levels within the current feed's book using:
+		 * - this.OrdsRowsB()
+		 */
+		OrdsRowsB()
+		{
 		}
 	},
 
