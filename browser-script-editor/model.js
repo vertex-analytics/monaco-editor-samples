@@ -1,12 +1,12 @@
 const model = monaco.editor.createModel(
-`class MyFeed extends v9.feed {
+`class MyFeed extends vX.feed {
     onInit ()
     {
 \t\t
     }
 
     /**
-     * @param {v9_Meta} pMeta Object representing json meta information. It currently provides the instrument definitions of the supplied symbol
+     * @param {vX_Meta} pMeta - Object representing json meta information. It currently provides the instrument definitions of the supplied symbol
      */
     onOpen (pMeta)
     {
@@ -27,135 +27,138 @@ const model = monaco.editor.createModel(
     }
 
     /**
-     * @param {v9_Order} pOrder The current order being handled
+     * @param {string} pSymbol - The name of the current symbol
+	 * @param {number} pDate - The current date as a number
+	 * @param {vX_Order} pObject - The current object being handled
+     * @param {number} pType - **v9.Trigger** The type of the current object
      */
-    onTrigger(pOrder)
+    onTrigger(pSymbol, pDate, pObject, pType)
     {
-        pOrder.entry;
-        pOrder.fills;
-        pOrder.mods;
-        pOrder.orderID;
-        pOrder.price;
-        pOrder.quantity;
-		pOrder.time;
-		pOrder.type;
+        pObject.entry;
+        pObject.fills;
+        pObject.mods;
+        pObject.orderID;
+        pObject.price;
+        pObject.quantity;
+		pObject.time;
     }
 
     /**
-     * @param {string} pSymbol Name of the current symbol
-     * @param {v9_Event} pEvent Current event being handled
-     * @param {boolean} pRealTime Boolean determining whether or not to only handle current events
+     * @param {string} pSymbol - The name of the current symbol
+	 * @param {number} pDate - The current date as a number
+     * @param {vX_Event} pEvent - The current event being handled
+     * @param {boolean} pRealTime - Boolean determining whether or not to only handle current events
      */
-    onEvent(pSymbol, pEvent, pRealTime) {
-		v9;
+    onEvent(pSymbol, pDate, pEvent, pRealTime) {
+		vX;
 
-		v9.UnionID;
-		v9.Aggressor;
-		v9.BookAction;
-		v9.BookType;
-		v9.DailyStatisticsType;
-		v9.HaltReason;
-		v9.SecurityEvent;
-		v9.SecurityType;
-		v9.SessionStatisticsType;
-		v9.SettleType;
-		v9.StateType;
-		v9.Trigger;
-		v9.Align;
+		vX.UnionID;
+		vX.Aggressor;
+		vX.BookAction;
+		vX.BookType;
+		vX.DailyStatisticsType;
+		vX.HaltReason;
+		vX.SecurityEvent;
+		vX.SecurityType;
+		vX.SessionStatisticsType;
+		vX.SettleType;
+		vX.StateType;
+		vX.Trigger;
+		vX.Align;
 
-		v9.UnionID.BookLevel;
-		v9.UnionID.DailyStatistics;
-		v9.UnionID.LimitsBanding;
-		v9.UnionID.NotMapped;
-		v9.UnionID.NotSet;
-		v9.UnionID.OrderBook;
-		v9.UnionID.SecurityStatus;
-		v9.UnionID.SessionStatistics;
-		v9.UnionID.TradeMatch;
-		v9.UnionID.TradeSummary;
-		v9.UnionID.VolumeUpdate;
+		vX.UnionID.BookLevel;
+		vX.UnionID.DailyStatistics;
+		vX.UnionID.LimitsBanding;
+		vX.UnionID.NotMapped;
+		vX.UnionID.NotSet;
+		vX.UnionID.OrderBook;
+		vX.UnionID.SecurityStatus;
+		vX.UnionID.SessionStatistics;
+		vX.UnionID.TradeMatch;
+		vX.UnionID.TradeSummary;
+		vX.UnionID.VolumeUpdate;
 
-		v9.Aggressor.Buy;
-		v9.Aggressor.Sell;
-		v9.Aggressor.NoAggressor;
+		vX.Aggressor.Buy;
+		vX.Aggressor.Sell;
+		vX.Aggressor.NoAggressor;
 
-		v9.BookAction.Change;
-		v9.BookAction.Delete;
-		v9.BookAction.DeleteFrom;
-		v9.BookAction.DeleteThru;
-		v9.BookAction.New;
-		v9.BookAction.NotSet;
-		v9.BookAction.Overlay;
-		v9.BookAction.Replace;
+		vX.BookAction.Change;
+		vX.BookAction.Delete;
+		vX.BookAction.DeleteFrom;
+		vX.BookAction.DeleteThru;
+		vX.BookAction.New;
+		vX.BookAction.NotSet;
+		vX.BookAction.Overlay;
+		vX.BookAction.Replace;
 
-		v9.BookType.Ask;
-		v9.BookType.Bid;
-		v9.BookType.BookReset;
-		v9.BookType.ImpliedAsk;
-		v9.BookType.ImpliedBid;
-		v9.BookType.NotSet;
+		vX.BookType.Ask;
+		vX.BookType.Bid;
+		vX.BookType.BookReset;
+		vX.BookType.ImpliedAsk;
+		vX.BookType.ImpliedBid;
+		vX.BookType.NotSet;
 
-		v9.DailyStatisticsType.ClearedVolume;
-		v9.DailyStatisticsType.FixingPrice;
-		v9.DailyStatisticsType.OpenInterest;
-		v9.DailyStatisticsType.SettlementPrice;
+		vX.DailyStatisticsType.ClearedVolume;
+		vX.DailyStatisticsType.FixingPrice;
+		vX.DailyStatisticsType.OpenInterest;
+		vX.DailyStatisticsType.SettlementPrice;
 
-		v9.HaltReason.NotSet;
-		v9.HaltReason.RecoveryInProcess;
-		v9.HaltReason.SurveillanceIntervention;
-		v9.HaltReason.Unknown;
+		vX.HaltReason.NotSet;
+		vX.HaltReason.RecoveryInProcess;
+		vX.HaltReason.SurveillanceIntervention;
+		vX.HaltReason.Unknown;
 
-		v9.SecurityEvent.ImpliedMatchingOFF;
-		v9.SecurityEvent.ImpliedMatchingON;
-		v9.SecurityEvent.NoCancel;
-		v9.SecurityEvent.NoEvent;
-		v9.SecurityEvent.ResetStatistics;
+		vX.SecurityEvent.ImpliedMatchingOFF;
+		vX.SecurityEvent.ImpliedMatchingON;
+		vX.SecurityEvent.NoCancel;
+		vX.SecurityEvent.NoEvent;
+		vX.SecurityEvent.ResetStatistics;
 
-		v9.SecurityType.NotSet;
-		v9.SecurityType.TradingHalt;
-		v9.SecurityType.Close;
-		v9.SecurityType.NewPriceIndication;
-		v9.SecurityType.ReadyToTrade;
-		v9.SecurityType.NotAvailableForTrading;
-		v9.SecurityType.UnknownorInvalid;
-		v9.SecurityType.PreOpen;
-		v9.SecurityType.PreCross;
-		v9.SecurityType.Cross;
-		v9.SecurityType.PostClose;
-		v9.SecurityType.NoChange;
-		v9.SecurityType.PreClose;
-		v9.SecurityType.Restricted;
-		v9.SecurityType.Freeze;
+		vX.SecurityType.NotSet;
+		vX.SecurityType.TradingHalt;
+		vX.SecurityType.Close;
+		vX.SecurityType.NewPriceIndication;
+		vX.SecurityType.ReadyToTrade;
+		vX.SecurityType.NotAvailableForTrading;
+		vX.SecurityType.UnknownorInvalid;
+		vX.SecurityType.PreOpen;
+		vX.SecurityType.PreCross;
+		vX.SecurityType.Cross;
+		vX.SecurityType.PostClose;
+		vX.SecurityType.NoChange;
+		vX.SecurityType.PreClose;
+		vX.SecurityType.Restricted;
+		vX.SecurityType.Freeze;
 
-		v9.SessionStatisticsType.ClosePrice;
-		v9.SessionStatisticsType.HighTrade;
-		v9.SessionStatisticsType.HighestBid;
-		v9.SessionStatisticsType.LastTrade;
-		v9.SessionStatisticsType.LowTrade;
-		v9.SessionStatisticsType.LowestAsk;
-		v9.SessionStatisticsType.NotSet;
-		v9.SessionStatisticsType.OpenPrice;
+		vX.SessionStatisticsType.ClosePrice;
+		vX.SessionStatisticsType.HighTrade;
+		vX.SessionStatisticsType.HighestBid;
+		vX.SessionStatisticsType.LastTrade;
+		vX.SessionStatisticsType.LowTrade;
+		vX.SessionStatisticsType.LowestAsk;
+		vX.SessionStatisticsType.NotSet;
+		vX.SessionStatisticsType.OpenPrice;
 
-		v9.SettleType.Actual;
-		v9.SettleType.Final;
-		v9.SettleType.Intraday;
-		v9.SettleType.NullValue;
-		v9.SettleType.ReservedBits;
-		v9.SettleType.Rounded;
+		vX.SettleType.Actual;
+		vX.SettleType.Final;
+		vX.SettleType.Intraday;
+		vX.SettleType.NullValue;
+		vX.SettleType.ReservedBits;
+		vX.SettleType.Rounded;
 
-		v9.StateType.DailyClosePrice;
-		v9.StateType.DailyOpenPrice;
-		v9.StateType.IndicativeOpeningPrice;
-		v9.StateType.NotSet;
+		vX.StateType.DailyClosingPrice;
+		vX.StateType.DailyOpeningPrice;
+		vX.StateType.IndicativeOpeningPrice;
+		vX.StateType.NotSet;
 
-		v9.Trigger.IcebergOrders;
-		v9.Trigger.StopOrders;
-		v9.Trigger.SweepTrades;
+		vX.Trigger.IcebergOrders;
+		vX.Trigger.StopOrders;
+		vX.Trigger.TradeSweeps;
 
-		v9.Align.Default;
-		v9.Align.Center;
-		v9.Align.Left;
-		v9.Align.Right;
+		vX.Align.Default;
+		vX.Align.Center;
+		vX.Align.Left;
+		vX.Align.Right;
 
 		pEvent.header.unionID;
 		pEvent.header.instrumentID;
@@ -241,13 +244,13 @@ const model = monaco.editor.createModel(
 	}
 }
 
-let gConsole = new v9.console();
+let gConsole = new vX.console();
 let feed = new MyFeed({
     symbol: 'ES',
     startDate: 20200902,
     endDate: 20200902,
 	weekends: false,
-	trigger: [v9.Trigger.IcebergOrders, v9.Trigger.StopOrders, v9.Trigger.SweepTrades]
+	trigger: [vX.Trigger.IcebergOrders, vX.Trigger.StopOrders, vX.Trigger.TradeSweeps]
 });
 `,
  'javascript'

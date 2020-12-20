@@ -12,7 +12,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 /**
  * Class used for referencing any individual Event from the current feed
  */
-class v9_Event {
+class vX_Event {
 	/**
 	 * Each Event's header object provides access to identifying Event information and is accessed using:
 	 *  - <EventName>.header.<memberName>
@@ -20,7 +20,7 @@ class v9_Event {
 	header:
 	{
 		/**
-		 * **v9.UnionID** Enumerated value used to find the type of an Event object
+		 * **vX.UnionID** Enumerated value used to find the type of an Event object
 		 */
 		unionID: 255,
 		/**
@@ -67,7 +67,7 @@ class v9_Event {
 		 */
 		matches: 0,
 		/**
-		 * **v9.Aggressor** The aggressor of the trade the current Event is summarizing
+		 * **vX.Aggressor** The aggressor of the trade the current Event is summarizing
 		 */
 		aggressor: 0,
 		/**
@@ -131,7 +131,7 @@ class v9_Event {
 		 */
 		price: 0,
 		/**
-		 * **v9.BookType** The type of the current Event
+		 * **vX.BookType** The type of the current Event
 		 */
 		type: 85,
 		/**
@@ -155,7 +155,7 @@ class v9_Event {
 		 */
 		orderID: 0,
 		/**
-		 * **v9.BookAction** The book action of the order corresponding to the current event
+		 * **vX.BookAction** The book action of the order corresponding to the current event
 		 */
 		action: 255,
 		/**
@@ -196,11 +196,11 @@ class v9_Event {
 		 */
 		level: 0,
 		/**
-		 * **v9.BookAction** The book action of the order corresponding to the current event
+		 * **vX.BookAction** The book action of the order corresponding to the current event
 		 */
 		action: 255,
 		/**
-		 * **v9.BookType** The type of the current Event
+		 * **vX.BookType** The type of the current Event
 		 */
 		type: 85,
 		/**
@@ -246,11 +246,11 @@ class v9_Event {
 		 */
 		sessionDate: 0,
 		/**
-		 * **v9.DailyStatisticsType** The type of the current Event
+		 * **vX.DailyStatisticsType** The type of the current Event
 		 */
 		type: 0,
 		/**
-		 * **v9.SettleType** The settlement type of the current Event
+		 * **vX.SettleType** The settlement type of the current Event
 		 */
 		settleType: 0
 	},
@@ -288,15 +288,15 @@ class v9_Event {
 		 */
 		instrumentID: 0,
 		/**
-		 * **v9.StateType** The type of the current Event
+		 * **vX.StateType** The type of the current Event
 		 */
 		stateType: 255,
 		/**
-		 * **v9.BookAction** The book action of the order corresponding to the current event
+		 * **vX.BookAction** The book action of the order corresponding to the current event
 		 */
 		action: 255,
 		/**
-		 * **v9.SessionStatisticsType** The type of the current Event
+		 * **vX.SessionStatisticsType** The type of the current Event
 		 */
 		type: 127,
 		/**
@@ -323,15 +323,15 @@ class v9_Event {
 		 */
 		sessionDate: 0,
 		/**
-		 * **v9.SecurityType** The type of the current Event
+		 * **vX.SecurityType** The type of the current Event
 		 */
 		type: 0,
 		/**
-		 * **v9.HaltReason** The reason why the market has been halted
+		 * **vX.HaltReason** The reason why the market has been halted
 		 */
 		haltReason: 255,
 		/**
-		 * **v9.SecurityEvent** Additional reasoning for the market being halted
+		 * **vX.SecurityEvent** Additional reasoning for the market being halted
 		 */
 		event: 0
 	},
@@ -340,7 +340,7 @@ class v9_Event {
 /**
  * Class used for referencing any individual Order from the current feed
  */
-class v9_Order {
+class vX_Order {
 	/**
 	 * The exact entry time of the current Order in nanoseconds as a BigInt
 	 */
@@ -370,7 +370,7 @@ class v9_Order {
 	 */
 	time: 0n;
 	/**
-	 * The type of the current Order as a v9.Trigger value
+	 * The type of the current Order as a vX.Trigger value
 	 */
 	type: 0;
 };
@@ -378,20 +378,20 @@ class v9_Order {
 /**
  * Base Object used for referencing all major types, classes, and functions for Code.VX
  */
-let v9 = {
+let vX = {
 	/**
 	 * This class' functions should be overridden in each script for handling user actions and symbol events
 	 */
 	feed: class {
 		/**
-		 * The constructor is called when the user instantiates a new v9.feed
+		 * The constructor is called when the user instantiates a new vX.feed
 		 * @param {Object} pConfiguration Object containing feed properties
 		 * @param {string} pConfiguration.symbol The current market symbol
 		 * @param {number} pConfiguration.startDate The starting date of the script
 		 * @param {number} pConfiguration.endDate The ending date of the script
 		 * @param {boolean} pConfiguration.weekends Whether or not to execute on weekends
 		 * @param {boolean} pConfiguration.buildBooks Whether or not the feed handles book building
-		 * @param {v9_Trigger[]} pConfiguration.trigger Array containing event types that evoke v9.feed.onTrigger()
+		 * @param {vX_Trigger[]} pConfiguration.trigger Array containing event types that evoke vX.feed.onTrigger()
 		 * @type {function}
 		 */
 		constructor(pConfiguration)
@@ -406,7 +406,7 @@ let v9 = {
 		}
 
 		/**
-		 * @typedef {Object} v9_Instrument
+		 * @typedef {Object} vX_Instrument
 		 * @property {string} asset The current asset name
 		 * @property {string} contractSymbol The current symbol name
 		 * @property {number} tickSize The percentage of a handle that each tick is worth (divide by 1e10^11)
@@ -414,28 +414,30 @@ let v9 = {
 		 * @property {number} unitOfMeasure The value of each handle in USD
 		 */
 		/**
-		 * @typedef {Object} v9_Meta
+		 * @typedef {Object} vX_Meta
 		 * @property {string} asset The current asset name
 		 * @property {string} date The current date
-		 * @property {v9_Instrument[]} instruments Array containing objects with the properties of each instrument referenced in the current algorithm
+		 * @property {vX_Instrument[]} instruments Array containing objects with the properties of each instrument referenced in the current algorithm
 		 */
 		/**
 		 * **pMeta is accessable**
 		 *
 		 * onOpen is called at the start of each day between the startDate and endDate parameters of a multi-day script
-		 * @param {v9_Meta} pMeta Object representing json meta information. It currently provides the instrument definitions of the supplied symbol
+		 * @param {vX_Meta} pMeta - Object representing json meta information. It currently provides the instrument definitions of the supplied symbol
 		 */
 		onOpen(pMeta) {
 		}
 
 		/**
-		 * **pOrder, pType are accessable**
+		 * **pSymbol, pDate, pOrder, pType are accessable**
 		 *
-		 * onTrigger is called when an order is hit that matches the user defined triggers specified in v9.Feed.Trigger
-		 * @param {v9_Order} pOrder The current order being handled
-		 * @param {v9.Trigger} pType The type of the current order being handled
+		 * onTrigger is called when an order is hit that matches the user defined triggers specified in vX.Feed.Trigger
+		 * @param {string} pSymbol - The name of the current symbol
+		 * @param {number} pDate - The current date as a number
+		 * @param {vX_Order} pOrder - The current order being handled
+		 * @param {number} pType - **v9.Trigger** The type of the current object
 		 */
-		onTrigger(pOrder, pType) //TODO remove pType if Ed actually implements it into pOrder
+		onTrigger(pSymbol, pDate, pOrder, pType)
 		{
 		}
 
@@ -449,14 +451,15 @@ let v9 = {
 		}
 
 		/**
-		 * **pSymbol, pEvent, pRealTime are accessable**
+		 * **pSymbol, pDate, pEvent, pRealTime are accessable**
 		 *
 		 * onEvent is called once for each timestamp tracked in your symbol(s)
-		 * @param {string} pSymbol Name of the current symbol
-		 * @param {Event} pEvent Current event being handled
-		 * @param {boolean} pRealTime Boolean determining whether or not to only handle current events
+		 * @param {string} pSymbol - The name of the current symbol
+		 * @param {number} pDate - The current date as a number
+		 * @param {Event} pEvent - The current event being handled
+		 * @param {boolean} pRealTime - Boolean determining whether or not to only handle current events
 		 */
-		onEvent(pSymbol, pEvent, pRealTime)
+		onEvent(pSymbol, pDate, pEvent, pRealTime)
 		{
 		}
 
@@ -476,25 +479,25 @@ let v9 = {
 
 		/**
 		 * BookItemA returns a specific ask level of the current feed's book as an Object using:
-		 * - this.BookItemA(cnt: Number)
-		 * @param {number} - cnt The level of the order you want to know the price and quantity of
+		 * - BookItemA(level: Number)
+		 * @param {number} - level The level of the order you want to know the price and quantity of
 		 */
-		BookItemA(cnt)
+		BookItemA(level)
 		{
 		}
 
 		/**
 		 * BookItemB returns a specific bid level of the current feed's book as an Object using:
-		 * - this.BookItemB(cnt: Number)
-		 * @param {number} cnt - The level of the order you want to know the price and quantity of
+		 * - BookItemB(level: Number)
+		 * @param {number} level - The level of the order you want to know the price and quantity of
 		 */
-		BookItemB(cnt)
+		BookItemB(level)
 		{
 		}
 
 		/**
 		 * BookRowsA returns the number of ask levels within the current feed's book using:
-		 * - this.BookRowsA()
+		 * - BookRowsA()
 		 */
 		BookRowsA()
 		{
@@ -502,57 +505,55 @@ let v9 = {
 
 		/**
 		 * BookRowsB returns the number of bid levels within the current feed's book using:
-		 * - this.BookRowsB()
+		 * - BookRowsB()
 		 */
 		BookRowsB()
 		{
 		}
 
-		//TODO update ords functions with proper descriptions
-		//TODO ask Ed if he can change cnt to level
 		/**
-		 * OrdsItemA returns a specific ask level of the current feed's book as an Object using:
-		 * - this.OrdsItemA(cnt: Number)
-		 * @param {number} - cnt The level of the order you want to know the price and quantity of
+		 * OrdersItemA returns a specific ask level of the current feed's book as an Object using:
+		 * - OrdersItemA(level: Number)
+		 * @param {number} - level The level of the order you want to know the price and quantity of
 		 */
-		OrdsItemA(cnt)
+		OrdersItemA(level)
 		{
 		}
 
 		/**
-		 * OrdsItemB returns a specific bid level of the current feed's book as an Object using:
-		 * - this.OrdsItemB(cnt: Number)
-		 * @param {number} cnt - The level of the order you want to know the price and quantity of
+		 * OrdersItemB returns a specific bid level of the current feed's book as an Object using:
+		 * - OrdersItemB(level: Number)
+		 * @param {number} level - The level of the order you want to know the price and quantity of
 		 */
-		OrdsItemB(cnt)
+		OrdersItemB(level)
 		{
 		}
 
 		/**
-		 * OrdsRowsA returns the number of ask levels within the current feed's book using:
-		 * - this.OrdsRowsA()
+		 * OrdersRowsA returns the number of ask levels within the current feed's book using:
+		 * - OrdersRowsA()
 		 */
-		OrdsRowsA()
+		OrdersRowsA()
 		{
 		}
 
 		/**
-		 * OrdsRowsB returns the number of bid levels within the current feed's book using:
-		 * - this.OrdsRowsB()
+		 * OrdersRowsB returns the number of bid levels within the current feed's book using:
+		 * - OrdersRowsB()
 		 */
-		OrdsRowsB()
+		OrdersRowsB()
 		{
 		}
 	},
 
 	/**
-	 * The constructor is called when the user instantiates a new v9.console using:
-	 * - new v9.console({ fillColor: String, textColor: String })
+	 * The constructor is called when the user instantiates a new vX.console using:
+	 * - new vX.console({ fillColor: String, textColor: String })
 	 */
 	console: class {
 		/**
-		 * The constructor is called when the user instantiates a new v9.console using:
-		 * - new v9.console(pConfiguration: Object)
+		 * The constructor is called when the user instantiates a new vX.console using:
+		 * - new vX.console(pConfiguration: Object)
 		 * @param {Object} pConfiguration - Object containing console properties
 		 * @param {string} pConfiguration.fillColor - The background color of the console as a hexadecimal string
 		 * @param {string} pConfiguration.textColor - The text color of the console as a hexadecimal string
@@ -578,13 +579,13 @@ let v9 = {
 		 * @typedef {Object} table_Header
 		 * @property {number[]} width - Array containing the width of each cell in pixels
 		 * @property {number[]} digits - Array containing the number of digits past the decimal point to display in each cell
-		 * @property {v9.Align[]} align - Array containing the alignment values of each cell
+		 * @property {vX.Align[]} align - Array containing the alignment values of each cell
 		 * @property {string[]} name - Array containing the name of each cell header
-		 * @property {string[]} format - Array containing the type of each cell as strings. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond
+		 * @property {string[]} format - Array containing the type of each cell as strings. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond, symbol, date
 		 */
 		/**
-		 * The constructor is called when the user instantiates a new v9.table using:
-		 * - new v9.table(pConfiguration: Object)
+		 * The constructor is called when the user instantiates a new vX.table using:
+		 * - new vX.table(pConfiguration: Object)
 		 * @param {Object} pConfiguration - Object containing table properties
 		 * @param {string} pConfiguration.fillColor - The background color of the console as a hexadecimal string
 		 * @param {string} pConfiguration.textColor - The text color of the console as a hexadecimal string
@@ -593,7 +594,7 @@ let v9 = {
 		 * @param {string} pConfiguration.digits - The default number of digits past the decimal point to display for each cell
 		 * @param {string} pConfiguration.align - The default alignment for each cell
 		 * @param {string} pConfiguration.columns - The number of columns displayed within the table
-		 * @param {string} pConfiguration.format - The default format for every column within the table. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond
+		 * @param {string} pConfiguration.format - The default format for every column within the table. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond, symbol, date
 		 * @param {table_Header} pConfiguration.header - Object containing table formatting properties
 		 * @type {function}
 		 */
@@ -602,11 +603,11 @@ let v9 = {
 		}
 	},
 
-	//TODO: Complete sheet intellisense once v9.sheet is in production
+	//TODO: Complete sheet intellisense once vX.sheet is in production
 	// sheet: class {
 	// 	/**
-	// 	 * The constructor is called when the user instantiates a new v9.sheet using:
-	// 	 * - new v9.sheet(pConfiguration: Object)
+	// 	 * The constructor is called when the user instantiates a new vX.sheet using:
+	// 	 * - new vX.sheet(pConfiguration: Object)
 	// 	 */
 	// 	constructor(pConfiguration)
 	// 	{
@@ -614,41 +615,41 @@ let v9 = {
 	// },
 
 	/**
-	 * @typedef {Object} v9_Trigger
+	 * @typedef {Object} vX_Trigger
 	 * @property {number} IcebergOrders 1
 	 * @property {number} StopOrders 2
 	 * @property {number} SweepTrades 3
 	 */
 	/**
-	 * A Trigger is a flag that enables the use of the v9.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
-	 *  - v9․Trigger.<property>
+	 * A Trigger is a flag that enables the use of the vX.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
+	 *  - vX․Trigger.<property>
 	 * \n
-	 * v9.Trigger is used for all Order types in v9.feed.onTrigger()
+	 * vX.Trigger is used for all Order types in vX.feed.onTrigger()
 	 */
 	Trigger: {
 		/**
-		 * TODO
+		 * Invokes v9.feed.onTrigger() on iceberg orders
 		 */
 		IcebergOrders: 1,
 		/**
-		 * TODO
+		 * Invokes v9.feed.onTrigger() on stop orders
 		 */
 		StopOrders: 2,
 		/**
-		 * TODO
+		 * Invokes v9.feed.onTrigger() on trade sweeps
 		 */
-		SweepTrades: 3
+		TradeSweeps: 3
 	},
 
 	/**
-	 * v9.Align allows for the alignment of sheet and table date within cells and is always referenced as:
-	 *  - v9.Align.<property>
+	 * vX.Align allows for the alignment of sheet and table date within cells and is always referenced as:
+	 *  - vX.Align.<property>
 	 * \n
-	 * v9.Align is used for the following v9.table properties:
-	 * - v9.table.align
-	 * - v9.table.header.align
-	 * - v9.sheet.align
-	 * - v9.sheet.header.align
+	 * vX.Align is used for the following vX.table properties:
+	 * - vX.table.align
+	 * - vX.table.header.align
+	 * - vX.sheet.align
+	 * - vX.sheet.header.align
 	 */
 	Align: {
 		/**
@@ -685,7 +686,7 @@ let v9 = {
 	 */
 	/**
 	 * A UnionID marks the type of an event and is always referenced as:
-	 * - v9.UnionID.<property>
+	 * - vX.UnionID.<property>
 	 */
 	UnionID: {
 		NotSet: 255,
@@ -709,10 +710,10 @@ let v9 = {
 	 */
 	/**
 	 * An Aggressor is a type of event and is always referenced as:
-	 * - v9.Aggressor.<property>
+	 * - vX.Aggressor.<property>
 	 *\n
-	 * v9.Aggressor is used for the following event types:
-	 * - this.pEvent.tradeSummary.aggressor
+	 * vX.Aggressor is used for the following event types:
+	 * - pEvent.tradeSummary.aggressor
 	 */
 	Aggressor: {
 		NoAggressor: 0,
@@ -733,10 +734,10 @@ let v9 = {
 	 */
 	/**
 	 * A HaltReason is a type of event and is always referenced as:
-	 * - v9.HaltReason.<property>
+	 * - vX.HaltReason.<property>
 	 *\n
-	 * v9.HaltReason is used for the following event types:
-	 * - this.pEvent.securityStatus.haltReason
+	 * vX.HaltReason is used for the following event types:
+	 * - pEvent.securityStatus.haltReason
 	 */
 	HaltReason: {
 		NotSet: 255,
@@ -768,10 +769,10 @@ let v9 = {
 	 */
 	/**
 	 * A SecurityType is a type of event and is always referenced as:
-	 * - v9.SecurityType.<property>
+	 * - vX.SecurityType.<property>
 	 *\n
-	 * v9.SecurityType is used for the following event types:
-	 * - this.pEvent.securityStatus.type
+	 * vX.SecurityType is used for the following event types:
+	 * - pEvent.securityStatus.type
 	 */
 	SecurityType: {
 		NotSet: 0,
@@ -801,10 +802,10 @@ let v9 = {
 	 */
 	/**
 	 * A SecurityEvent is a type of event and is always referenced as:
-	 * - v9.SecurityEvent.<property>
+	 * - vX.SecurityEvent.<property>
 	 *\n
-	 * v9.SecurityEvent is used for the following event types:
-	 * - this.pEvent.securityStatus.event
+	 * vX.SecurityEvent is used for the following event types:
+	 * - pEvent.securityStatus.event
 	 */
 	SecurityEvent: {
 		NoEvent: 0,
@@ -825,11 +826,11 @@ let v9 = {
 	 */
 	/**
 	 * A BookType is a type of event and is always referenced as:
-	 * - v9.BookType.<property>
+	 * - vX.BookType.<property>
 	 *\n
-	 * v9.BookType is used for the following event types:
-	 * - this.pEvent.orderBook.type
-	 * - this.pEvent.bookLevel.type
+	 * vX.BookType is used for the following event types:
+	 * - pEvent.orderBook.type
+	 * - pEvent.bookLevel.type
 	 */
 	BookType: {
 		NotSet: 85,
@@ -849,10 +850,10 @@ let v9 = {
 	 */
 	/**
 	 * A DailyStatisticsType is a type of event and is always referenced as:
-	 * - v9.DailyStatisticsType.<property>
+	 * - vX.DailyStatisticsType.<property>
 	 *\n
-	 * v9.DailyStatisticsType is used for the following event types:
-	 * - this.pEvent.dailyStatistics.type
+	 * vX.DailyStatisticsType is used for the following event types:
+	 * - pEvent.dailyStatistics.type
 	 */
 	DailyStatisticsType: {
 		SettlementPrice: 54,
@@ -874,13 +875,13 @@ let v9 = {
 	 */
 	/**
 	 * A BookAction is a type of event and is always referenced as:
-	 * - v9.BookAction.<property>
+	 * - vX.BookAction.<property>
 	 *\n
-	 * v9.BookAction is used for the following event types:
-	 * - this.pEvent.orderBook.action
-	 * - this.pEvent.bookLevel.action
-	 * - this.pEvent.dailyStatistics.action
-	 * - this.pEvent.sessionStatistics.action
+	 * vX.BookAction is used for the following event types:
+	 * - pEvent.orderBook.action
+	 * - pEvent.bookLevel.action
+	 * - pEvent.dailyStatistics.action
+	 * - pEvent.sessionStatistics.action
 	 */
 	BookAction: {
 		NotSet: 255,
@@ -906,10 +907,10 @@ let v9 = {
 	 */
 	/**
 	 * A SessionStatisticsType is a type of event and is always referenced as:
-	 * - v9.SessionStatisticsType.<property>
+	 * - vX.SessionStatisticsType.<property>
 	 *\n
-	 * v9.SessionStatisticsType is used for the following event types:
-	 * - this.pEvent.sessionStatistics.type
+	 * vX.SessionStatisticsType is used for the following event types:
+	 * - pEvent.sessionStatistics.type
 	 */
 	SessionStatisticsType: {
 		NotSet: 127,
@@ -931,10 +932,10 @@ let v9 = {
 	 */
 	/**
 	 * A StateType is a type of event and is always referenced as:
-	 * - v9.StateType.<property>
+	 * - vX.StateType.<property>
 	 *\n
-	 * v9.StateType is used for the following event types:
-	 * - this.pEvent.sessionStatistics.stateType
+	 * vX.StateType is used for the following event types:
+	 * - pEvent.sessionStatistics.stateType
 	 */
 	StateType: {
 		NotSet: 255,
@@ -954,10 +955,10 @@ let v9 = {
 	 */
 	/**
 	 * A SettleType is a type of event and is always referenced as:
-	 * - v9.SettleType.<property>
+	 * - vX.SettleType.<property>
 	 *\n
-	 * v9.SettleType is used for the following event types:
-	 * - this.pEvent.dailyStatistics.settleType
+	 * vX.SettleType is used for the following event types:
+	 * - pEvent.dailyStatistics.settleType
 	 */
 	SettleType: {
 		Final: 1,
@@ -970,9 +971,9 @@ let v9 = {
 
 	/**
 	 * Returns a JSON Object representation of the provided Event
-	 * @param {Event} this.pEvent - The Event to be converted to a JSON Object
+	 * @param {Event} pEvent - The Event to be converted to a JSON Object
 	 */
-	eventToJson(this.pEvent): function {
+	eventToJson(pEvent): function {
 	}
 
 	/**
@@ -984,9 +985,9 @@ let v9 = {
 
 	/**
 	 * Returns an identical copy of the provided Event
-	 * @param {Event} this.pEvent - The Event to be copied
+	 * @param {Event} pEvent - The Event to be copied
 	 */
-	eventCopy(this.pEvent): function {
+	eventCopy(pEvent): function {
 	}
 }
 `,
