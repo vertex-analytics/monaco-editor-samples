@@ -566,7 +566,14 @@ let vX = {
 		/**
 		 * Sets the text color of the current line of the console
 		 */
-		textColor (pColor)
+		textColor(pColor)
+		{
+		}
+
+		/**
+		 * Prints one or more strings
+		 */
+		print(...string)
 		{
 		}
 	},
@@ -601,6 +608,13 @@ let vX = {
 		constructor(pConfiguration)
 		{
 		}
+
+		/**
+		 * Prints one or more strings
+		 */
+		print(...string)
+		{
+		}
 	},
 
 	//TODO: Complete sheet intellisense once vX.sheet is in production
@@ -612,6 +626,12 @@ let vX = {
 	// 	constructor(pConfiguration)
 	// 	{
 	// 	}
+	//  /**
+	//   * Prints one or more strings
+	//   */
+	//  print(...string)
+	//  {
+	//  }
 	// },
 
 	/**
