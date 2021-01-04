@@ -15,7 +15,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 class vX_Event {
 	/**
 	 * Each Event's header object provides access to identifying Event information and is accessed using:
-	 *  - <EventName>.header.<memberName>
+	 *  - <eventName>.header.<property>
 	 */
 	header:
 	{
@@ -51,7 +51,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's tradeSummary object provides access to each trade that occurs and is accessed using:
-	 *  - <EventName>.tradeSummary.<property>
+	 *  - <eventName>.tradeSummary.<property>
 	 */
 	tradeSummary: {
 		/**
@@ -86,7 +86,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's tradeMatch object provides access to every order matched in a trade and can be accessed using:
-	 *  - <EventName>.tradeMatch.<property>
+	 *  - <eventName>.tradeMatch.<property>
 	 */
 	tradeMatch: {
 		/**
@@ -121,7 +121,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's orderBook object provides access to every action of every order at all price levels and can be accessed using:
-	 *  - <EventName>.orderBook.<property>
+	 *  - <eventName>.orderBook.<property>
 	 *
 	 * Each Event's orderBook has a one-to-many relationship with Event.bookLevel.level (levels 0-10)
 	 */
@@ -166,7 +166,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's bookLevel object provides access to quote activity and price level summations for levels 1 through 10 on each side of the book.\nEach Event's bookLevel object has a corresponding orderBook event which provides details about the quote itself with a matching nanosecond timestamp.\nProperties of bookLevel can be accessed using:
-	 *  - <EventName>.bookLevel.<property>
+	 *  - <eventName>.bookLevel.<property>
 	 *
 	 * Each Event's bookLevel (levels 0-10) has a many-to-one relationship with Event.orderBook
 	 */
@@ -211,7 +211,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's volumneUpdate object provides access to each session volume update sent by the exchange and can be accessed using:
-	 *  - <EventName>.volumeUpdate.<property>
+	 *  - <eventName>.volumeUpdate.<property>
 	 * */
 	volumeUpdate: {
 		/**
@@ -226,7 +226,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's dailyStatistics object provides access to each of the daily statistics sent by the exchange. Properties of dailyStatistics can be accessed using:
-	 *  - <EventName>.dailyStatistics.<property>
+	 *  - <eventName>.dailyStatistics.<property>
 	 */
 	dailyStatistics: {
 		/**
@@ -257,7 +257,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's limitsBanding object provides access to the session limit levels sent by the exchange and can be accessed using:
-	 *  - <EventName>.limitsBanding.<property>
+	 *  - <eventName>.limitsBanding.<property>
 	 */
 	limitsBanding: {
 		/**
@@ -276,7 +276,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's sessionStatistics object provides access to each of the session statistics from the exchange. Properties of sessionStatistics can be accessed using:
-	 *  - <EventName>.sessionStatistics.<property>
+	 *  - <eventName>.sessionStatistics.<property>
 	 */
 	sessionStatistics: {
 		/**
@@ -307,7 +307,7 @@ class vX_Event {
 
 	/**
 	 * Each Event's securityStatus object provides access to each security message from the exchange and can be accessed using:
-	 *  - <EventName>.securityStatus.<property>
+	 *  - <eventName>.securityStatus.<property>
 	 */
 	securityStatus: {
 		/**
@@ -338,41 +338,54 @@ class vX_Event {
 };
 
 /**
- * Class used for referencing any individual Order from the current feed
+ * TODO
+ * @typedef {Object} vX_Order
+ * @property {bigint} entry The exact entry time of the current Order in nanoseconds as a BigInt
+ * @property {number} fills The number of times this order has been matched in a trade
+ * @property {number} mods The number of times this order has moved price levels or changed quantities
+ * @property {bigint} orderID The current Order's unique ID as a BigInt
+ * @property {number} price The current Order's price
+ * @property {number} quantity The current Order's shown quantity
+ * @property {bigint} time The exact fill time of the current Order in nanoseconds as a BigInt
+ * @property {number} type The type of the current Order as a vX.Trigger value
  */
-class vX_Order {
+/**
+ * vX.Order is an object type that is most commonly referred to within vX.feed.onTrigger() as its pObject parameter and is otherwise referenced as:
+ * vX.Order.<property>
+ */
+vX_Order: {
 	/**
 	 * The exact entry time of the current Order in nanoseconds as a BigInt
 	 */
-	entry: 0n;
+	entry: 0n,
 	/**
 	 * The number of times this order has been matched in a trade
 	 */
-	fills: 0;
+	fills: 0,
 	/**
 	 * The number of times this order has moved price levels or changed quantities
 	 */
-	mods: 0;
+	mods: 0,
 	/**
 	 * The current Order's unique ID as a BigInt
 	 */
-	orderID: 0n;
+	orderID: 0n,
 	/**
 	 * The current Order's price
 	 */
-	price: 0;
+	price: 0,
 	/**
 	 * The current Order's shown quantity
 	 */
-	quantity: 0;
+	quantity: 0,
 	/**
 	 * The exact fill time of the current Order in nanoseconds as a BigInt
 	 */
-	time: 0n;
+	time: 0n,
 	/**
 	 * The type of the current Order as a vX.Trigger value
 	 */
-	type: 0;
+	type: 0,
 };
 
 /**
@@ -391,7 +404,7 @@ let vX = {
 		 * @param {number} pConfiguration.endDate The ending date of the script
 		 * @param {boolean} pConfiguration.weekends Whether or not to execute on weekends
 		 * @param {boolean} pConfiguration.buildBooks Whether or not the feed handles book building
-		 * @param {vX_Trigger[]} pConfiguration.trigger Array containing event types that evoke vX.feed.onTrigger()
+		 * @param {vX_Trigger[]} pConfiguration.triggers Array containing object/order types that evoke vX.feed.onTrigger()
 		 * @type {function}
 		 */
 		constructor(pConfiguration)
@@ -429,15 +442,15 @@ let vX = {
 		}
 
 		/**
-		 * **pSymbol, pDate, pOrder, pType are accessable**
+		 * **pSymbol, pDate, pOrder, pFlag are accessable**
 		 *
 		 * onTrigger is called when an order is hit that matches the user defined triggers specified in vX.Feed.Trigger
 		 * @param {string} pSymbol - The name of the current symbol
 		 * @param {number} pDate - The current date as a number
-		 * @param {vX_Order} pOrder - The current order being handled
-		 * @param {number} pType - **v9.Trigger** The type of the current object
+		 * @param {object|vX_Order} pObject - The current object/order being handled
+		 * @param {number|vX_Trigger} pFlag - The trigger type of the current object/order
 		 */
-		onTrigger(pSymbol, pDate, pOrder, pType)
+		onTrigger(pSymbol, pDate, pObject, pFlag)
 		{
 		}
 
@@ -656,11 +669,15 @@ let vX = {
 	},
 
 	/**
+	 * vX.Trigger is a flag that enables the use of the vX.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
+	 *  - vX․Trigger.<property>
+	 * \n
+	 * vX.Trigger is used in vX.feed.onTrigger() as the pFlag parameter
 	 * @typedef {Object} vX_Trigger
-	 * @property {number} IcebergOrders 1
-	 * @property {number} TradeSweeps 2
-	 * @property {number} StopOrders 4
-	 * @property {number} Trades 8
+	 * @property {number} IcebergOrders Invokes v9.feed.onTrigger() on iceberg orders
+	 * @property {number} TradeSweeps Invokes v9.feed.onTrigger() on trade sweeps
+	 * @property {number} StopOrders Invokes v9.feed.onTrigger() on stop orders
+	 * @property {number} Trades Invokes v9.feed.onTrigger() on all raw trade orders
 	 */
 	/**
 	 * vX.Trigger is a flag that enables the use of the vX.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:

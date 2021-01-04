@@ -29,11 +29,10 @@ const model = monaco.editor.createModel(
     /**
      * @param {string} pSymbol - The name of the current symbol
 	 * @param {number} pDate - The current date as a number
-	 * @param {vX_Order} pObject - The current object being handled
-     * @param {number} pType - **v9.Trigger** The type of the current object
+	 * @param {vX_Order} pObject - The current object/order being handled
+     * @param {vX_Trigger} pFlag - The type of the current object/order
      */
-    onTrigger(pSymbol, pDate, pObject, pType)
-    {
+    onTrigger(pSymbol, pDate, pObject, pFlag) {
         pObject.entry;
         pObject.fills;
         pObject.mods;
@@ -41,6 +40,11 @@ const model = monaco.editor.createModel(
         pObject.price;
         pObject.quantity;
 		pObject.time;
+
+		pFlag.IcebergOrders;
+		pFlag.TradeSweeps;
+		pFlag.StopOrders;
+		pFlag.Trades;
     }
 
     /**
