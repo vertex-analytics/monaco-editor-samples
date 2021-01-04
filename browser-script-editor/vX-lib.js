@@ -6,7 +6,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
  * By: Blake Boris
  * blakeboris.com
  *
- * December 2020
+ * January 2021
  */
 
 /**
@@ -635,16 +635,38 @@ let vX = {
 	// },
 
 	/**
-	 * @typedef {Object} vX_Trigger
-	 * @property {number} IcebergOrders 1
-	 * @property {number} StopOrders 2
-	 * @property {number} SweepTrades 3
+	 * @typedef {Object} vX_Session
+	 * @property {number} Current 0
+	 * @property {number} Previous 1
 	 */
 	/**
-	 * A Trigger is a flag that enables the use of the vX.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
+	 * vX.Session allows the user to reference the current or previous market session without having to manually update the startDate and endDate of their feed and is always referenced as:
+	 *  - vX․Session.<property>
+	 * \n
+	 */
+	Session: {
+		/**
+		 * The current market session as of when the script is run
+		 */
+		Current: 0,
+		/**
+		 * The most recently closed market session as of when the script is run
+		 */
+		Previous: 1
+	},
+
+	/**
+	 * @typedef {Object} vX_Trigger
+	 * @property {number} IcebergOrders 1
+	 * @property {number} TradeSweeps 2
+	 * @property {number} StopOrders 4
+	 * @property {number} Trades 8
+	 */
+	/**
+	 * vX.Trigger is a flag that enables the use of the vX.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
 	 *  - vX․Trigger.<property>
 	 * \n
-	 * vX.Trigger is used for all Order types in vX.feed.onTrigger()
+	 * vX.Trigger is used in vX.feed.onTrigger() as the pFlag parameter
 	 */
 	Trigger: {
 		/**
@@ -652,13 +674,17 @@ let vX = {
 		 */
 		IcebergOrders: 1,
 		/**
-		 * Invokes v9.feed.onTrigger() on stop orders
-		 */
-		StopOrders: 2,
-		/**
 		 * Invokes v9.feed.onTrigger() on trade sweeps
 		 */
-		TradeSweeps: 3
+		TradeSweeps: 2
+		/**
+		 * Invokes v9.feed.onTrigger() on stop orders
+		 */
+		StopOrders: 4,
+		/**
+		 * Invokes v9.feed.onTrigger() on all raw trade orders
+		 */
+		Trades: 8
 	},
 
 	/**
