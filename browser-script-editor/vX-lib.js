@@ -11,8 +11,14 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 
 /**
  * Class used for referencing any individual Event from the current feed
+ * @typedef {object} vX_Event
+ * @property {object} header Each Event's header object provides access to identifying Event information and is accessed using: <eventName>.header.<property>
+ * @property {number} header.unionID ***vX.UnionID** Enumerated value used to find the type of an Event object
  */
-class vX_Event {
+/**
+ * Class used for referencing any individual Event from the current feed
+ */
+vX_Event: {
 	/**
 	 * Each Event's header object provides access to identifying Event information and is accessed using:
 	 *  - <eventName>.header.<property>
