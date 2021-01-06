@@ -590,9 +590,9 @@ let vX = {
 		}
 
 		/**
-		 * Prints one or more strings
+		 * Prints one or more values
 		 */
-		print(...string)
+		print(...value)
 		{
 		}
 	},
@@ -602,12 +602,12 @@ let vX = {
 	 */
 	table: class {
 		/**
-		 * @typedef {Object} table_Header
-		 * @property {number[]} width - Array containing the width of each cell in pixels
-		 * @property {number[]} digits - Array containing the number of digits past the decimal point to display in each cell
-		 * @property {vX.Align[]} align - Array containing the alignment values of each cell
-		 * @property {string[]} name - Array containing the name of each cell header
-		 * @property {string[]} format - Array containing the type of each cell as strings. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond, symbol, date
+		 * @typedef {Object} table_Column
+		 * @property {string} name - The name of the column header
+		 * @property {string} format - The type of the column as a string. Formats include:\nstring, number, bigint, boolean, orderID, time, symbol, date
+		 * @property {number} width - The width of the column in pixels
+		 * @property {number} digits - The number of digits past the decimal point to display for each value within the column
+		 * @property {vX.Align} align - The horizontal alignment of each value within the column
 		 */
 		/**
 		 * The constructor is called when the user instantiates a new vX.table using:
@@ -620,8 +620,8 @@ let vX = {
 		 * @param {string} pConfiguration.digits - The default number of digits past the decimal point to display for each cell
 		 * @param {string} pConfiguration.align - The default alignment for each cell
 		 * @param {string} pConfiguration.columns - The number of columns displayed within the table
-		 * @param {string} pConfiguration.format - The default format for every column within the table. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond, symbol, date
-		 * @param {table_Header} pConfiguration.header - Object containing table formatting properties
+		 * @param {string} pConfiguration.format - The default format for every column within the table. Formats include:\nstring, number, bigint, boolean, orderID, time, symbol, date
+		 * @param {table_Column[]} pConfiguration.header - Array of column objects with their specific formatting properties
 		 * @type {function}
 		 */
 		constructor(pConfiguration)
@@ -629,9 +629,9 @@ let vX = {
 		}
 
 		/**
-		 * Prints one or more strings
+		 * Prints one or more values
 		 */
-		print(...string)
+		print(...value)
 		{
 		}
 	},
@@ -646,9 +646,9 @@ let vX = {
 	// 	{
 	// 	}
 	//  /**
-	//   * Prints one or more strings
-	//   */
-	//  print(...string)
+	// 	* Prints one or more values
+	// 	*/
+	//  print(...value)
 	//  {
 	//  }
 	// },
