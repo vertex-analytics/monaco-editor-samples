@@ -11,8 +11,14 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 
 /**
  * Class used for referencing any individual Event from the current feed
+ * @typedef {object} vX_Event
+ * @property {object} header Each Event's header object provides access to identifying Event information and is accessed using: <eventName>.header.<property>
+ * @property {number} header.unionID ***vX.UnionID** Enumerated value used to find the type of an Event object
  */
-class vX_Event {
+/**
+ * Class used for referencing any individual Event from the current feed
+ */
+vX_Event: {
 	/**
 	 * Each Event's header object provides access to identifying Event information and is accessed using:
 	 *  - <eventName>.header.<property>
@@ -447,7 +453,7 @@ let vX = {
 		 * onTrigger is called when an order is hit that matches the user defined triggers specified in vX.Feed.Trigger
 		 * @param {string} pSymbol - The name of the current symbol
 		 * @param {number} pDate - The current date as a number
-		 * @param {object|vX_Order} pObject - The current object/order being handled
+		 * @param {{}|vX_Order} pObject - The current object/order being handled
 		 * @param {number|vX_Trigger} pFlag - The trigger type of the current object/order
 		 */
 		onTrigger(pSymbol, pDate, pObject, pFlag)
@@ -584,9 +590,9 @@ let vX = {
 		}
 
 		/**
-		 * Prints one or more strings
+		 * Prints one or more values
 		 */
-		print(...string)
+		print(...value)
 		{
 		}
 	},
@@ -596,12 +602,12 @@ let vX = {
 	 */
 	table: class {
 		/**
-		 * @typedef {Object} table_Header
-		 * @property {number[]} width - Array containing the width of each cell in pixels
-		 * @property {number[]} digits - Array containing the number of digits past the decimal point to display in each cell
-		 * @property {vX.Align[]} align - Array containing the alignment values of each cell
-		 * @property {string[]} name - Array containing the name of each cell header
-		 * @property {string[]} format - Array containing the type of each cell as strings. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond, symbol, date
+		 * @typedef {Object} table_Column
+		 * @property {string} name - The name of the column header
+		 * @property {vX_Format} format - **vX.Format** The format by which to display data within the column
+		 * @property {number} width - The width of the column in pixels
+		 * @property {number} digits - The number of digits past the decimal point to display for each value within the column
+		 * @property {vX_Align} align - **vX.Align** The horizontal alignment of each value within the column
 		 */
 		/**
 		 * The constructor is called when the user instantiates a new vX.table using:
@@ -609,13 +615,12 @@ let vX = {
 		 * @param {Object} pConfiguration - Object containing table properties
 		 * @param {string} pConfiguration.fillColor - The background color of the console as a hexadecimal string
 		 * @param {string} pConfiguration.textColor - The text color of the console as a hexadecimal string
-		 * @param {string} pConfiguration.gridColor - The text color of the console as a hexadecimal string
-		 * @param {string} pConfiguration.width - The number of columns to be displayed within the table
+		 * @param {string} pConfiguration.gridColor - The foreground color of the console as a hexadecimal string
+		 * @param {string} pConfiguration.width - The default width for each cell in pixels
 		 * @param {string} pConfiguration.digits - The default number of digits past the decimal point to display for each cell
-		 * @param {string} pConfiguration.align - The default alignment for each cell
-		 * @param {string} pConfiguration.columns - The number of columns displayed within the table
-		 * @param {string} pConfiguration.format - The default format for every column within the table. Formats include:\nstring, number, bigint, boolean, orderID, nanosecond, symbol, date
-		 * @param {table_Header} pConfiguration.header - Object containing table formatting properties
+		 * @param {vX_Align} pConfiguration.align - **vX.Align** The default alignment for each cell
+		 * @param {table_Column[]|number} pConfiguration.columns - An array of individually defined column objects (or the number of default columns to be displayed)
+		 * @param {vX_Format} pConfiguration.format - **vX.Format** The default format by which to display data within every column
 		 * @type {function}
 		 */
 		constructor(pConfiguration)
@@ -623,9 +628,9 @@ let vX = {
 		}
 
 		/**
-		 * Prints one or more strings
+		 * Prints one or more values
 		 */
-		print(...string)
+		print(...value)
 		{
 		}
 	},
@@ -640,12 +645,72 @@ let vX = {
 	// 	{
 	// 	}
 	//  /**
-	//   * Prints one or more strings
-	//   */
-	//  print(...string)
+	// 	* Prints one or more values
+	// 	*/
+	//  print(...value)
 	//  {
 	//  }
 	// },
+
+	/**
+	 * vX.Format allows the user to change how a column's data is displayed and is always referenced as:
+	 *  - vX․Format.<property>
+	 * \n
+	 * vX.Format is used for the following properties:
+	 *  - vX.table.columns
+	 *  - vX.sheet.columns
+	 * @typedef {Object} vX_Format
+	 * @property {number} Number 0 Displays this column's data as a number (Use the digits property to manage the decimal place)
+	 * @property {number} Bigint 1 Displays this column's data as a bigint
+	 * @property {number} Boolean 2 Displays this column's data as a boolean
+	 * @property {number} String 3 Displays this column's data as a string (Slow)
+	 * @property {number} Time 4 Displays this column's data as a time (if the Symbol and Date columns are supplied, data in this column may be selected for viewing in the Events tab)
+	 * @property {number} Symbol 5 Supplies the current symbol name for viewing event times in the Events tab when selecting data from the Time column
+	 * @property {number} Date 6 Supplies the current date for viewing event times in the Events tab when selecting data from the Time column
+	 * @property {number} OrderID 7 Displays this column's data as an orderID
+	 */
+	/**
+	 * vX.Format allows the user to change how a column's data is displayed and is always referenced as:
+	 *  - vX․Format.<property>
+	 * \n
+	 * vX.Format is used for the following properties:
+	 * vX.table.columns
+	 * vX.sheet.columns
+	 */
+	Format: {
+		/**
+		 * Displays this column's data as a number (Use the digits property to manage the decimal place)
+		 */
+		Number: 0,
+		/**
+		 * Displays this column's data as a bigint
+		 */
+		Bigint: 1,
+		/**
+		 * Displays this column's data as a boolean
+		 */
+		Boolean: 2,
+		/**
+		 * Displays this column's data as a string (Slow)
+		 */
+		String: 3,
+		/**
+		 * Displays this column's data as a time (if the Symbol and Date columns are supplied, data in this column may be selected for viewing in the Events tab)
+		 */
+		Time: 4,
+		/**
+		 * Supplies the current symbol name for viewing event times in the Events tab when selecting data from the Time column
+		 */
+		Symbol: 5,
+		/**
+		 * Supplies the current date for viewing event times in the Events tab when selecting data from the Time column
+		 */
+		Date: 6,
+		/**
+		 * Displays this column's data as an orderID
+		 */
+		OrderID: 7
+	},
 
 	/**
 	 * @typedef {Object} vX_Session
@@ -708,7 +773,22 @@ let vX = {
 	 * vX.Align allows for the alignment of sheet and table date within cells and is always referenced as:
 	 *  - vX.Align.<property>
 	 * \n
-	 * vX.Align is used for the following vX.table properties:
+	 * vX.Align is used for the following properties:
+	 * - vX.table.align
+	 * - vX.table.columns
+	 * - vX.sheet.align
+	 * - vX.sheet.columns
+	 * @typedef {Object} vX_Align
+	 * @property {number} Default Aligns data within a cell to its default position
+	 * @property {number} Center Aligns data within a cell to the middle horizontally
+	 * @property {number} Left Aligns data within a cell to the left
+	 * @property {number} Right Aligns data within a cell to the right
+	 */
+	/**
+	 * vX.Align allows for the alignment of sheet and table date within cells and is always referenced as:
+	 *  - vX.Align.<property>
+	 * \n
+	 * vX.Align is used for the following properties:
 	 * - vX.table.align
 	 * - vX.table.header.align
 	 * - vX.sheet.align
