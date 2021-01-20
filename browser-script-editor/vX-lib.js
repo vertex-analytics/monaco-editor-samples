@@ -435,7 +435,7 @@ let vX = {
 		/**
 		 * @typedef {Object} vX_Meta
 		 * @property {string} asset The current asset name
-		 * @property {string} date The current date
+		 * @property {number} date The current date as a number (Ex. 20201231)
 		 * @property {vX_Instrument[]} instruments Array containing objects with the properties of each instrument referenced in the current algorithm
 		 */
 		/**
