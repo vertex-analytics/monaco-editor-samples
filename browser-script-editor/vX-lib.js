@@ -11,12 +11,6 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 
 /**
  * Class used for referencing any individual Event from the current feed
- * @typedef {object} vX_Event
- * @property {object} header Each Event's header object provides access to identifying Event information and is accessed using: <eventName>.header.<property>
- * @property {number} header.unionID ***vX.UnionID** Enumerated value used to find the type of an Event object
- */
-/**
- * Class used for referencing any individual Event from the current feed
  */
 vX_Event: {
 	/**
@@ -435,7 +429,7 @@ let vX = {
 		/**
 		 * @typedef {Object} vX_Meta
 		 * @property {string} asset The current asset name
-		 * @property {string} date The current date
+		 * @property {number} date The current date
 		 * @property {vX_Instrument[]} instruments Array containing objects with the properties of each instrument referenced in the current algorithm
 		 */
 		/**
