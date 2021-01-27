@@ -10,335 +10,114 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
  */
 
 /**
- * Class used for referencing any individual Event from the current feed
+ * @typedef {Object} event_Header
+ * @property {number} unionID Enumerated value used to find the type of an Event object
+ * @property {number} instrumentID The unique instrument identifier for the current exchange
+ * @property {number} sequence The current Event object's session array index
+ * @property {number} channelSequence The packet ID of the current Event
+ * @property {number} instrumentSequence The unique ID of the current within the current instrument
+ * @property {number} milliseconds The exact time of the current Event in milliseconds as a number
+ * @property {bigint} time The exact time of the current Event in nanoseconds as a BigInt
  */
-vX_Event: {
-	/**
-	 * Each Event's header object provides access to identifying Event information and is accessed using:
-	 *  - <eventName>.header.<property>
-	 */
-	header:
-	{
-		/**
-		 * **vX.UnionID** Enumerated value used to find the type of an Event object
-		 */
-		unionID: 255,
-		/**
-		 * The unique instrument identifier for the current exchange
-		 */
-		instrumentID: 0,
-		/**
-		 * The current Event object's session array index
-		 */
-		sequence: 0,
-		/**
-		* The packet ID of the current Event
-		*/
-		channelSequence: 0,
-	   	/**
-		 * The unique ID of the current within the current instrument
-		 */
-		instrumentSequence: 0,
-		/**
-		 * The exact time of the current Event in milliseconds as a number
-		 */
-		milliseconds: 0
-		/**
-		 * The exact time of the current Event in nanoseconds as a BigInt
-		 */
-		time: 0,
-	},
-
-	/**
-	 * Each Event's tradeSummary object provides access to each trade that occurs and is accessed using:
-	 *  - <eventName>.tradeSummary.<property>
-	 */
-	tradeSummary: {
-		/**
-		 * The price of the current Event
-		 */
-		price: 0,
-		/**
-		 * The total quantity matched for the the current Event
-		 */
-		quantity: 0,
-		/**
-		 * The number of upcoming orders that will participate in the current Event
-		 */
-		matches: 0,
-		/**
-		 * **vX.Aggressor** The aggressor of the trade the current Event is summarizing
-		 */
-		aggressor: 0,
-		/**
-		 * Whether or not the trade the current Event is summarizing was implied
-		 */
-		isImplied: false,
-		/**
-		 * Whether or not the current Event is a market summary
-		 */
-		isSnapshot: false,
-		/**
-		 * The accumulated volume of the current session
-		 */
-		volume: 0
-	},
-
-	/**
-	 * Each Event's tradeMatch object provides access to every order matched in a trade and can be accessed using:
-	 *  - <eventName>.tradeMatch.<property>
-	 */
-	tradeMatch: {
-		/**
-		 * The price of the current Event
-		 */
-		price: 0,
-		/**
-		 * The total quantity matched for the current Event
-		 */
-		quantity: 0,
-		/**
-		 * The enumerated value from 0 to number of TradeSummary.matches
-		 */
-		number: 0,
-		/**
-		 * Whether or not the current Event was made by the aggressor of the trade
-		 */
-		isAggressor: 0,
-		/**
-		 * The identifier for the current Event’s order
-		 */
-		orderID: 0,
-		/**
-		 * The original identifier for the current Event’s order : ICE
-		 */
-		auxiliaryID: 0,
-		/**
-		 * These bits are exchange specific. Please refer to the docs
-		 */
-		flags: 0
-	},
-
-	/**
-	 * Each Event's orderBook object provides access to every action of every order at all price levels and can be accessed using:
-	 *  - <eventName>.orderBook.<property>
-	 *
-	 * Each Event's orderBook has a one-to-many relationship with Event.bookLevel.level (levels 0-10)
-	 */
-	orderBook: {
-		/**
-		 * The price of the current Event
-		 */
-		price: 0,
-		/**
-		 * **vX.BookType** The type of the current Event
-		 */
-		type: 85,
-		/**
-		 * The total quantity matched for the current Event
-		 */
-		quantity: 0,
-		/**
-		 * The order priority for execution on the current order book : Lower = higher priority
-		 */
-		priorityID: 0,
-		/**
-		 * The first OrderID assigned because some exchanges change the orderID : Only ICE and Eurex Exchanges
-		 */
-		auxiliaryID: 0,
-		/**
-		 * If an orderID is changed, this is the ID that was just replaced : Eurex
-		 */
-		previousID: 0,
-		/**
-		 * The identifier for the current Event's order
-		 */
-		orderID: 0,
-		/**
-		 * **vX.BookAction** The book action of the order corresponding to the current event
-		 */
-		action: 255,
-		/**
-		 * Whether or not the current Event is a market summary
-		 */
-		isSnapshot: 0
-	},
-
-	/**
-	 * Each Event's bookLevel object provides access to quote activity and price level summations for levels 1 through 10 on each side of the book.\nEach Event's bookLevel object has a corresponding orderBook event which provides details about the quote itself with a matching nanosecond timestamp.\nProperties of bookLevel can be accessed using:
-	 *  - <eventName>.bookLevel.<property>
-	 *
-	 * Each Event's bookLevel (levels 0-10) has a many-to-one relationship with Event.orderBook
-	 */
-	bookLevel: {
-		/**
-		 * The price of the current Event
-		 */
-		price: 0,
-		/**
-		 * The total quantity matched for the the current Event
-		 */
-		quantity: 0,
-		/**
-		 * The number of orders that participated at the current Event’s price level
-		 */
-		orders: 0,
-		/**
-		 * The total implied quantity at the current event’s price level
-		 */
-		impliedQuantity: 0,
-		/**
-		 * The total number of implied orders at the current event’s price level
-		 */
-		impliedOrders: 0,
-		/**
-		 * The price level at which the event occurred
-		 */
-		level: 0,
-		/**
-		 * **vX.BookAction** The book action of the order corresponding to the current event
-		 */
-		action: 255,
-		/**
-		 * **vX.BookType** The type of the current Event
-		 */
-		type: 85,
-		/**
-		 * Whether or not the current Event is the last Event of the packet
-		 */
-		isEndEvent: false
-	},
-
-	/**
-	 * Each Event's volumneUpdate object provides access to each session volume update sent by the exchange and can be accessed using:
-	 *  - <eventName>.volumeUpdate.<property>
-	 * */
-	volumeUpdate: {
-		/**
-		 * The total volume for the session including the current Event
-		 */
-		volume: 0,
-		/**
-		 * The current volume weighted average price : ICE
-		 */
-		vwap: 0
-	},
-
-	/**
-	 * Each Event's dailyStatistics object provides access to each of the daily statistics sent by the exchange. Properties of dailyStatistics can be accessed using:
-	 *  - <eventName>.dailyStatistics.<property>
-	 */
-	dailyStatistics: {
-		/**
-		 * The price of the current Event
-		 */
-		price: 0,
-		/**
-		 * The unique instrument identifier for the current exchange
-		 */
-		instrumentID: 0,
-		/**
-		 * The total number of Events in the current session (Only applies to OpenInterest type)
-		 */
-		size: 0,
-		/**
-		 * The session date pertaining to the current Event (Not always current session)
-		 */
-		sessionDate: 0,
-		/**
-		 * **vX.DailyStatisticsType** The type of the current Event
-		 */
-		type: 0,
-		/**
-		 * **vX.SettleType** The settlement type of the current Event
-		 */
-		settleType: 0
-	},
-
-	/**
-	 * Each Event's limitsBanding object provides access to the session limit levels sent by the exchange and can be accessed using:
-	 *  - <eventName>.limitsBanding.<property>
-	 */
-	limitsBanding: {
-		/**
-		 * The highest price level the contract can trade in this session
-		 */
-		highLimit: 0,
-		/**
-		 * The lowest price level the contract can trade in this session
-		 */
-		lowLimit: 0,
-		/**
-		 * The maximum tradeable range for this session
-		 */
-		maxVariation: 0
-	},
-
-	/**
-	 * Each Event's sessionStatistics object provides access to each of the session statistics from the exchange. Properties of sessionStatistics can be accessed using:
-	 *  - <eventName>.sessionStatistics.<property>
-	 */
-	sessionStatistics: {
-		/**
-		 * The price of the current Event
-		 */
-		price: 0,
-		/**
-		 * The unique instrument identifier for the current exchange
-		 */
-		instrumentID: 0,
-		/**
-		 * **vX.StateType** The type of the current Event
-		 */
-		stateType: 255,
-		/**
-		 * **vX.BookAction** The book action of the order corresponding to the current event
-		 */
-		action: 255,
-		/**
-		 * **vX.SessionStatisticsType** The type of the current Event
-		 */
-		type: 127,
-		/**
-		 * The total number of Events in the current session
-		 */
-		volume: 0
-	},
-
-	/**
-	 * Each Event's securityStatus object provides access to each security message from the exchange and can be accessed using:
-	 *  - <eventName>.securityStatus.<property>
-	 */
-	securityStatus: {
-		/**
-		 * The exchange specific code assigned to a group of related securities, which are concurrently affected by market events
-		 */
-		group: "",
-		/**
-		 * The underlying asset code represented as a String
-		 */
-		asset: "",
-		/**
-		 * The date of the current Event's trading session
-		 */
-		sessionDate: 0,
-		/**
-		 * **vX.SecurityType** The type of the current Event
-		 */
-		type: 0,
-		/**
-		 * **vX.HaltReason** The reason why the market has been halted
-		 */
-		haltReason: 255,
-		/**
-		 * **vX.SecurityEvent** Additional reasoning for the market being halted
-		 */
-		event: 0
-	},
-};
+/**
+ * @typedef {Object} event_TradeSummary
+ * @property {number} price The price of the current Event
+ * @property {number} quantity The total quantity matched for the the current Event
+ * @property {number} matches The number of upcoming orders that will participate in the current Event
+ * @property {number} aggressor **vX.Aggressor* The aggressor of the trade the current Event is summarizing
+ * @property {boolean} isImplied Whether or not the trade the current Event is summarizing was implied
+ * @property {boolean} isSnapshot Whether or not the current Event is a market summary
+ * @property {number} volume The accumulated volume of the current session
+ */
+/**
+ * @typedef {Object} event_TradeMatch
+ * @property {number} price The price of the current Event
+ * @property {number} quantity The total quantity matched for the current Event
+ * @property {number} number The enumerated value from 0 to number of TradeSummary.matches
+ * @property {boolean} isAggressor Whether or not the current Event was made by the aggressor of the trade
+ * @property {number} orderID The identifier for the current Event’s order
+ * @property {number} auxiliaryID The original identifier for the current Event’s order : ICE
+ * @property {number} flags These bits are exchange specific. Please refer to the docs
+ */
+/**
+ * @typedef {Object} event_OrderBook
+ * @property {number} price The price of the current Event
+ * @property {number} type **vX.BookType* The type of the current Event
+ * @property {number} quantity The total quantity matched for the current Event
+ * @property {number} priorityID The order priority for execution on the current order book : Lower = higher priority
+ * @property {number} auxiliaryID The first OrderID assigned because some exchanges change the orderID : Only ICE and Eurex Exchanges
+ * @property {number} previousID If an orderID is changed, this is the ID that was just replaced : Eurex
+ * @property {number} orderID The identifier for the current Event's order
+ * @property {number} action **vX.BookAction* The book action of the order corresponding to the current event
+ * @property {boolean} isSnapshot Whether or not the current Event is a market summary
+ */
+/**
+ * @typedef {Object} event_BookLevel
+ * @property {number} price The price of the current Event
+ * @property {number} quantity The total quantity matched for the the current Event
+ * @property {number} orders The number of orders that participated at the current Event’s price level
+ * @property {number} impliedQuantity The total implied quantity at the current event’s price level
+ * @property {number} impliedOrders The total number of implied orders at the current event’s price level
+ * @property {number} level The price level at which the event occurred
+ * @property {number} action **vX.BookAction* The book action of the order corresponding to the current event
+ * @property {number} type **vX.BookType* The type of the current Event
+ * @property {boolean} isEndEvent Whether or not the current Event is the last Event of the packet
+ */
+/**
+ * @typedef {Object} event_VolumeUpdate
+ * @property {number} volume The total volume for the session including the current Event
+ * @property {number} vwap The current volume weighted average price : ICE
+ */
+/**
+ * @typedef {Object} event_DailyStatistics
+ * @property {number} price The price of the current Event
+ * @property {number} instrumentID The unique instrument identifier for the current exchange
+ * @property {number} size The total number of Events in the current session (Only applies to OpenInterest type)
+ * @property {number} sessionDate The session date pertaining to the current Event (Not always current session)
+ * @property {number} type **vX.DailyStatisticsType* The type of the current Event
+ * @property {number} settleType **vX.SettleType* The settlement type of the current Event
+ */
+/**
+ * @typedef {Object} event_LimitsBanding
+ * @property {number} highLimit The highest price level the contract can trade in this session
+ * @property {number} lowLimit The lowest price level the contract can trade in this session
+ * @property {number} maxVariation The maximum tradeable range for this session
+ */
+/**
+ * @typedef {Object} event_SessionStatistics
+ * @property {number} price The price of the current Event
+ * @property {number} instrumentID The unique instrument identifier for the current exchange
+ * @property {number} stateType **vX.StateType* The type of the current Event
+ * @property {number} action **vX.BookAction* The book action of the order corresponding to the current event
+ * @property {number} type **vX.SessionStatisticsType* The type of the current Event
+ * @property {number} volume The total number of Events in the current session
+ */
+/**
+ * @typedef {Object} event_SecurityStatus
+ * @property {string} group The exchange specific code assigned to a group of related securities, which are concurrently affected by market events
+ * @property {string} asset The underlying asset code represented as a String
+ * @property {number} sessionDate The date of the current Event's trading session
+ * @property {number} type **vX.SecurityType* The type of the current Event
+ * @property {number} haltReason **vX.HaltReason* The reason why the market has been halted
+ * @property {number} event **vX.SecurityEvent* Additional reasoning for the market being halted
+ */
+/**
+ * Class used for referencing any individual Event from the current feed
+ * @typedef {Object} vX_Event
+ * @property {event_Header} header Each Event's header object provides access to identifying Event information and is accessed using:\n - <eventName>.header.<property>
+ * @property {event_TradeSummary} tradeSummary Each Event's tradeSummary object provides access to each trade that occurs and is accessed using:\n - <eventName>.tradeSummary.<property>
+ * @property {event_TradeMatch} tradeMatch Each Event's tradeMatch object provides access to every order matched in a trade and can be accessed using:\n - <eventName>.tradeMatch.<property>
+ * @property {event_OrderBook} orderBook Each Event's orderBook object provides access to every action of every order at all price levels and can be accessed using:\n - <eventName>.orderBook.<property>\n\nEach Event's orderBook has a one-to-many relationship with Event.bookLevel.level (levels 0-10)
+ * @property {event_BookLevel} bookLevel Each Event's bookLevel object provides access to quote activity and price level summations for levels 1 through 10 on each side of the book.\nEach Event's bookLevel object has a corresponding orderBook event which provides details about the quote itself with a matching nanosecond timestamp.\nProperties of bookLevel can be accessed using:\n - <eventName>.bookLevel.<property>\n\nEach Event's bookLevel (levels 0-10) has a many-to-one relationship with Event.orderBook
+ * @property {event_VolumeUpdate} volumeUpdate Each Event's volumneUpdate object provides access to each session volume update sent by the exchange and can be accessed using:\n - <eventName>.volumeUpdate.<property>
+ * @property {event_DailyStatistics} dailyStatistics Each Event's dailyStatistics object provides access to each of the daily statistics sent by the exchange. Properties of dailyStatistics can be accessed using:\n - <eventName>.dailyStatistics.<property>
+ * @property {event_LimitsBanding} limitsBanding Each Event's limitsBanding object provides access to the session limit levels sent by the exchange and can be accessed using:\n - <eventName>.limitsBanding.<property>
+ * @property {event_SessionStatistics} sessionStatistics Each Event's sessionStatistics object provides access to each of the session statistics from the exchange. Properties of sessionStatistics can be accessed using:\n - <eventName>.sessionStatistics.<property>
+ * @property {event_SecurityStatus} securityStatus Each Event's securityStatus object provides access to each security message from the exchange and can be accessed using:\n - <eventName>.securityStatus.<property>
+ */
 
 /**
- * TODO
+ * vX.Order is an object type that is most commonly referred to within vX.feed.onTrigger() as its pObject parameter and is otherwise referenced as:\n - vX.Order.<property>
  * @typedef {Object} vX_Order
  * @property {bigint} entry The exact entry time of the current Order in nanoseconds as a BigInt
  * @property {number} fills The number of times this order has been matched in a trade
@@ -349,44 +128,6 @@ vX_Event: {
  * @property {bigint} time The exact fill time of the current Order in nanoseconds as a BigInt
  * @property {number} type The type of the current Order as a vX.Trigger value
  */
-/**
- * vX.Order is an object type that is most commonly referred to within vX.feed.onTrigger() as its pObject parameter and is otherwise referenced as:
- * vX.Order.<property>
- */
-vX_Order: {
-	/**
-	 * The exact entry time of the current Order in nanoseconds as a BigInt
-	 */
-	entry: 0n,
-	/**
-	 * The number of times this order has been matched in a trade
-	 */
-	fills: 0,
-	/**
-	 * The number of times this order has moved price levels or changed quantities
-	 */
-	mods: 0,
-	/**
-	 * The current Order's unique ID as a BigInt
-	 */
-	orderID: 0n,
-	/**
-	 * The current Order's price
-	 */
-	price: 0,
-	/**
-	 * The current Order's shown quantity
-	 */
-	quantity: 0,
-	/**
-	 * The exact fill time of the current Order in nanoseconds as a BigInt
-	 */
-	time: 0n,
-	/**
-	 * The type of the current Order as a vX.Trigger value
-	 */
-	type: 0,
-};
 
 /**
  * Base Object used for referencing all major types, classes, and functions for Code.VX
@@ -491,9 +232,16 @@ let vX = {
 		}
 
 		/**
+		 * @typedef {Object} vX_BookItem
+		 * @property {number} price The price level of the book item
+		 * @property {number} orders The amount of orders at the price level of the book item
+		 * @property {number} quantity The total quantity of the orders at the price level of the book item
+		 */
+		/**
 		 * BookItemA returns a specific ask level of the current feed's book as an Object using:
 		 * - BookItemA(level: Number)
-		 * @param {number} - level The level of the order you want to know the price and quantity of
+		 * @param {number} level The level of the order you want to know the price level, order count, and quantity total of
+		 * @returns {vX_BookItem}
 		 */
 		BookItemA(level)
 		{
@@ -502,7 +250,8 @@ let vX = {
 		/**
 		 * BookItemB returns a specific bid level of the current feed's book as an Object using:
 		 * - BookItemB(level: Number)
-		 * @param {number} level - The level of the order you want to know the price and quantity of
+		 * @param {number} level The level of the order you want to know the price and quantity of
+		 * @returns {vX_BookItem}
 		 */
 		BookItemB(level)
 		{
@@ -511,6 +260,7 @@ let vX = {
 		/**
 		 * BookRowsA returns the number of ask levels within the current feed's book using:
 		 * - BookRowsA()
+		 * @returns {number}
 		 */
 		BookRowsA()
 		{
@@ -519,44 +269,45 @@ let vX = {
 		/**
 		 * BookRowsB returns the number of bid levels within the current feed's book using:
 		 * - BookRowsB()
+		 * @returns {number}
 		 */
 		BookRowsB()
 		{
 		}
 
-		/**
-		 * OrdersItemA returns a specific ask level of the current feed's book as an Object using:
-		 * - OrdersItemA(level: Number)
-		 * @param {number} - level The level of the order you want to know the price and quantity of
-		 */
-		OrdersItemA(level)
-		{
-		}
+		// /**
+		//  * OrdersItemA returns a specific ask level of the current feed's book as an Object using:
+		//  * - OrdersItemA(level: Number)
+		//  * @param {number} - level The level of the order you want to know the price and quantity of
+		//  */
+		// OrdersItemA(level)
+		// {
+		// }
 
-		/**
-		 * OrdersItemB returns a specific bid level of the current feed's book as an Object using:
-		 * - OrdersItemB(level: Number)
-		 * @param {number} level - The level of the order you want to know the price and quantity of
-		 */
-		OrdersItemB(level)
-		{
-		}
+		// /**
+		//  * OrdersItemB returns a specific bid level of the current feed's book as an Object using:
+		//  * - OrdersItemB(level: Number)
+		//  * @param {number} level - The level of the order you want to know the price and quantity of
+		//  */
+		// OrdersItemB(level)
+		// {
+		// }
 
-		/**
-		 * OrdersRowsA returns the number of ask levels within the current feed's book using:
-		 * - OrdersRowsA()
-		 */
-		OrdersRowsA()
-		{
-		}
+		// /**
+		//  * OrdersRowsA returns the number of ask levels within the current feed's book using:
+		//  * - OrdersRowsA()
+		//  */
+		// OrdersRowsA()
+		// {
+		// }
 
-		/**
-		 * OrdersRowsB returns the number of bid levels within the current feed's book using:
-		 * - OrdersRowsB()
-		 */
-		OrdersRowsB()
-		{
-		}
+		// /**
+		//  * OrdersRowsB returns the number of bid levels within the current feed's book using:
+		//  * - OrdersRowsB()
+		//  */
+		// OrdersRowsB()
+		// {
+		// }
 	},
 
 	/**

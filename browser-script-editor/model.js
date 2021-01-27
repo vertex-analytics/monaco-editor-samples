@@ -45,7 +45,7 @@ let feed = new MyFeed({
     startDate: 20200902,
     endDate: 20200902,
 	weekends: false,
-	trigger: [vX.Trigger.IcebergOrders, vX.Trigger.StopOrders, vX.Trigger.TradeSweeps]
+	trigger: []
 });
 `,
  'javascript'
