@@ -210,7 +210,7 @@ let vX = {
 		 * onEvent is called once for each timestamp tracked in your symbol(s)
 		 * @param {string} pSymbol - The name of the current symbol
 		 * @param {number} pDate - The current date as a number
-		 * @param {Event} pEvent - The current event being handled
+		 * @param {vX_Event} pEvent - The current event being handled
 		 * @param {boolean} pRealTime - Boolean determining whether or not to only handle current events
 		 */
 		onEvent(pSymbol, pDate, pEvent, pRealTime)
@@ -246,6 +246,8 @@ let vX = {
 		BookItemA(level)
 		{
 		}
+
+
 
 		/**
 		 * BookItemB returns a specific bid level of the current feed's book as an Object using:
@@ -859,23 +861,26 @@ let vX = {
 
 	/**
 	 * Returns a JSON Object representation of the provided Event
-	 * @param {Event} pEvent - The Event to be converted to a JSON Object
+	 * @param {vX_Event} The Event to be converted to a JSON Object
+	 * @returns {Object} The JSON Object representation of the provided Event
 	 */
-	eventToJson(pEvent): function {
+	eventToJson(pEvent) function {
 	}
 
 	/**
 	 * Returns an identical copy of the provided Object
 	 * @param {Object} pObject - The Object to be copied
+	 * @returns {Object} The copy of the provided Object
 	 */
-	objectCopy(pObject): function {
+	objectCopy(pObject) function {
 	}
 
 	/**
 	 * Returns an identical copy of the provided Event
-	 * @param {Event} pEvent - The Event to be copied
+	 * @param {vX_Event} The Event to be copied
+	 * @returns {vX_Event} The copy of the provided Event
 	 */
-	eventCopy(pEvent): function {
+	eventCopy(pEvent) function {
 	}
 }
 `,
