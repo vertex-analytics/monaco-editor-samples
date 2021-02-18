@@ -141,8 +141,20 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			 * The constructor is called when the user instantiates a new vX.feed
 			 * @param {Object} pConfiguration Object containing feed properties
 			 * @param {string} pConfiguration.symbol The current market symbol
-			 * @param {number} pConfiguration.startDate The starting date of the script
-			 * @param {number} pConfiguration.endDate The ending date of the script
+			 * @param {number|string} pConfiguration.startDate The starting date of the script
+			 * Formats include:
+			 *  * yyyymmdd
+			 *  * 'yyyymmdd'
+			 *  * 'mm/dd/yyyy'
+			 *  * 'mm-dd-yyyy'
+			 *  * 'yyyy-mm-dd'
+			 * @param {number|string} pConfiguration.endDate The ending date of the script
+			 * Formats include:
+			 *  * yyyymmdd
+			 *  * 'yyyymmdd'
+			 *  * 'mm/dd/yyyy'
+			 *  * 'mm-dd-yyyy'
+			 *  * 'yyyy-mm-dd'
 			 * @param {boolean} pConfiguration.weekends Whether or not to execute on weekends
 			 * @param {boolean} pConfiguration.buildBooks Whether or not the feed handles book building
 			 * @param {vX_Trigger[]} pConfiguration.triggers Array containing object/order types that evoke vX.feed.onTrigger()
