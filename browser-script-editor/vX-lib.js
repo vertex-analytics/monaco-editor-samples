@@ -141,7 +141,17 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			 * The constructor is called when the user instantiates a new vX.feed
 			 * @param {Object} pConfiguration Object containing feed properties
 			 * @param {string} pConfiguration.symbol The current market symbol
+			 *
+			 * Defaults:
+			 *  * Code: XCME
+			 *  * Type: FUT
+			 *
+			 * Formats include:
+			 *  * Code:Type:Symbol (Ex: 'XCME:FUT:NQ')
+			 *  * Type:Symbol (Ex: 'FUT:NQ')
+			 *  * Symbol (Ex: 'NQ', 'NQH0')
 			 * @param {number|string} pConfiguration.startDate The starting date of the script
+			 *
 			 * Formats include:
 			 *  * yyyymmdd
 			 *  * 'yyyymmdd'
@@ -149,6 +159,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			 *  * 'mm-dd-yyyy'
 			 *  * 'yyyy-mm-dd'
 			 * @param {number|string} pConfiguration.endDate The ending date of the script
+			 *
 			 * Formats include:
 			 *  * yyyymmdd
 			 *  * 'yyyymmdd'
