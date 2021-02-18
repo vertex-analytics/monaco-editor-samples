@@ -876,10 +876,10 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 
 		/**
 		 * Returns a JSON Object representation of the provided Event
-		 * @param {vX_Event} The Event to be converted to a JSON Object
+		 * @param {vX_Event} pEvent The Event to be converted to a JSON Object
 		 * @returns {Object} The JSON Object representation of the provided Event
 		 */
-		eventToJson(pEvent) function {
+		eventToJson(pEvent) {
 		}
 
 		/**
@@ -887,15 +887,15 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		 * @param {Object} pObject - The Object to be copied
 		 * @returns {Object} The copy of the provided Object
 		 */
-		objectCopy(pObject) function {
+		objectCopy(pObject) {
 		}
 
 		/**
 		 * Returns an identical copy of the provided Event
-		 * @param {vX_Event} The Event to be copied
+		 * @param {vX_Event} pEvent The Event to be copied
 		 * @returns {vX_Event} The copy of the provided Event
 		 */
-		eventCopy(pEvent) function {
+		eventCopy(pEvent) {
 		}
 	}
 	`,
