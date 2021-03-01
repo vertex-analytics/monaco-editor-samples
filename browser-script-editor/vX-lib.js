@@ -336,8 +336,12 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		},
 
 		/**
+		 * @typedef {Object} console_Column
+		 * @property {string} name - The name of the column header
+		 */
+		/**
 		 * The constructor is called when the user instantiates a new vX.console using:
-		 * - new vX.console({ fillColor: String, textColor: String })
+		 * - new vX.console(pConfiguration: Object)
 		 */
 		console: class {
 			/**
@@ -346,6 +350,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			 * @param {Object} pConfiguration - Object containing console properties
 			 * @param {string} pConfiguration.fillColor - The background color of the console as a hexadecimal string
 			 * @param {string} pConfiguration.textColor - The text color of the console as a hexadecimal string
+			 * @param {console_Column[]|number} pConfiguration.columns - An array of individually defined column objects (or the number of default columns to be displayed)
 			 * @type {function}
 			 */
 			constructor(pConfiguration)
@@ -354,6 +359,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 
 			/**
 			 * Sets the text color of the current line of the console
+			 * @param {string} pColor - The text color of the console as a hexadecimal string
 			 */
 			textColor(pColor)
 			{
