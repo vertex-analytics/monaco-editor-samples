@@ -213,8 +213,9 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			 * @param {number} pDate - The current date as a number
 			 * @param {{}|vX_Order} pObject - The current object/order being handled
 			 * @param {number|vX_Trigger} pFlag - The trigger type of the current object/order
+    		 * @param {vX_Event} pEvent - The current event being handled
 			 */
-			onTrigger(pSymbol, pDate, pObject, pFlag)
+			onTrigger(pSymbol, pDate, pObject, pFlag, pEvent)
 			{
 			}
 
