@@ -140,9 +140,9 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			/**
 			 * The constructor is called when the user instantiates a new vX.feed
 			 * @param {Object} pConfiguration Object containing feed properties
-			 * @param {string} pConfiguration.symbol The current market symbol
+			 * @param {string|string[]} pConfiguration.symbol The current market symbol(s) as a string or array of strings
 			 *
-			 * Defaults:
+			 * Defaults include:
 			 *  * Code: XCME
 			 *  * Type: FUT
 			 *
@@ -207,7 +207,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			/**
 			 * **pSymbol, pDate, pOrder, pFlag are accessable**
 			 *
-			 * onTrigger is called when an order is hit that matches the user defined triggers specified in vX.Feed.Trigger
+			 * onTrigger is called when an order/object/event matches the user defined triggers specified in vX.Feed.Trigger
 			 * @param {string} pSymbol - The name of the current symbol
 			 * @param {number} pDate - The current date as a number
 			 * @param {{}|vX_Order} pObject - The current object/order being handled
