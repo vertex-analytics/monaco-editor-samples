@@ -192,8 +192,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			 */
 			/**
 			 * @typedef {Object} vX_Meta
-			 * @property {string} asset The current asset name
-			 * @property {number} date The current date
+			 * @property {number} date The current date formatted as a number (yyyymmdd)
 			 * @property {vX_Instrument[]} instruments Array containing objects with the properties of each instrument referenced in the current algorithm
 			 */
 			/**
