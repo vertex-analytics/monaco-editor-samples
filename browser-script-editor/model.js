@@ -7,7 +7,7 @@ const model = monaco.editor.createModel(
     }
 
     /**
-     * onOpen is called at the start of each day including and in between your feed’s startDate and endDate parameters
+     * onOpen is called at the start of each day including and in between your feed's startDate and endDate parameters
      * @param {vX_Meta} pMeta - Object representing json meta information. It currently provides the instrument definitions of the supplied symbol
      */
     onOpen(pMeta) {
