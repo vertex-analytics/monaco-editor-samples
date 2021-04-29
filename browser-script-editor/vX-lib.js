@@ -926,6 +926,16 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		 */
 		eventCopy(pEvent) {
 		}
+
+		/**
+		 * Handles multiple triggers at once to avoid handling the same object/order/event multiple times
+		 * @param {number} pFlag - The type of the current object/order
+		 * @param {vX_Trigger|vX_Trigger[]} pTrigger - **vX.Trigger** Specified trigger(s) to test
+		 * @returns {boolean} Whether or not the current object/order/event should be triggered
+		 */
+         flagTest(pFlag, pTrigger)
+         {
+         }
 	}
 	`,
 );

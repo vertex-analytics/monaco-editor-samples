@@ -24,7 +24,7 @@ const model = monaco.editor.createModel(
      * @param {string} pSymbol - The name of the current symbol
      * @param {number} pDate - The current date as a number
      * @param {vX_Order} pObject - The current object/order being handled
-     * @param {number|vX_Trigger} pFlag - The type of the current object/order
+     * @param {number} pFlag - The type of the current object/order
      * @param {vX_Event} pEvent - The current event being handled
      */
     onTrigger(pSymbol, pDate, pObject, pFlag, pEvent) {
