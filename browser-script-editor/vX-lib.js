@@ -429,6 +429,40 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		// },
 
 		/**
+		 * vX.Import allows the user to import data from separate files into the current script:
+		 *  - vX․Import.<property>
+		 * \n
+		 * vX.Import is used for the following functions:
+		 * - vX.importFile()
+		 * @typedef {Object} vX_Import
+		 * @property {number} CSV Comma Separated Values file format
+		 * @property {number} TXT Text file format
+		 * @property {number} JSON JavaScript Object Notation file format
+		 */
+		/**
+		 * vX.Import allows the user to import data from separate files into the current script:
+		 *  - vX․Import.<property>
+		 * \n
+		 * vX.Import is used for the following functions:
+		 * - vX.importFile()
+		 * @type {vX_Import}
+		 */
+		Import: {
+			/**
+			 * Comma Separated Values file format
+			 */
+			CSV: 0,
+			/**
+			 * Text file format
+			 */
+			TXT: 1,
+			/**
+			 * JavaScript Object Notation file format
+			 */
+			JSON: 2
+		},
+
+		/**
 		 * vX.Format allows the user to change how a column's data is displayed and is always referenced as:
 		 *  - vX․Format.<property>
 		 * \n
@@ -450,8 +484,8 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		 *  - vX․Format.<property>
 		 * \n
 		 * vX.Format is used for the following properties:
-		 * vX.table.columns
-		 * vX.sheet.columns
+		 * - vX.table.columns
+		 * - vX.sheet.columns
 		 * @type {vX_Format}
 		 */
 		Format: {
@@ -490,6 +524,8 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		},
 
 		/**
+		 * vX.Session allows the user to reference the current or previous market session without having to manually update the startDate and endDate of their feed and is always referenced as:
+		 * - vX.Session.<property>
 		 * @typedef {Object} vX_Session
 		 * @property {number} Current 0
 		 * @property {number} Previous 1
@@ -515,8 +551,8 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		 * vX.Trigger is a flag that enables the use of the vX.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
 		 *  - vX․Trigger.<property>
 		 * \n
-		 * vX.Trigger is used in vX.feed.onTrigger() as the pFlag parameter
-		 * @typedef {Object} vX_Trigger
+		 * vX.Trigger is used for the following functions:
+		 * - vX.flagTest()
 		 * @property {number} IcebergOrders Invokes v9.feed.onTrigger() on iceberg orders
 		 * @property {number} TradeSweeps Invokes v9.feed.onTrigger() on trade sweeps
 		 * @property {number} StopOrders Invokes v9.feed.onTrigger() on stop orders
@@ -526,7 +562,8 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		 * vX.Trigger is a flag that enables the use of the vX.feed.onTrigger() function when referenced within the initialization of the feed and is always referenced as:
 		 *  - vX․Trigger.<property>
 		 * \n
-		 * vX.Trigger is used in vX.feed.onTrigger() as the pFlag parameter
+		 * vX.Trigger is used for the following functions:
+		 * - vX.flagTest()
 		 * @type {vX_Trigger}
 		 */
 		Trigger: {
@@ -904,7 +941,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		},
 
 		/**
-		 * Returns a JSON Object representation of the provided Event
+		 * Converts the provided Event into its corresponding JSON representation
 		 * @param {vX_Event} pEvent The Event to be converted to a JSON Object
 		 * @returns {Object} The JSON Object representation of the provided Event
 		 */
@@ -912,7 +949,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		}
 
 		/**
-		 * Returns an identical copy of the provided Object
+		 * Creates an identical copy of the provided Object
 		 * @param {Object} pObject - The Object to be copied
 		 * @returns {Object} The copy of the provided Object
 		 */
@@ -920,7 +957,7 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		}
 
 		/**
-		 * Returns an identical copy of the provided Event
+		 * Creates an identical copy of the provided Event
 		 * @param {vX_Event} pEvent The Event to be copied
 		 * @returns {vX_Event} The copy of the provided Event
 		 */
@@ -933,9 +970,21 @@ monaco.languages.typescript.javascriptDefaults.addExtraLib(
 		 * @param {vX_Trigger|vX_Trigger[]} pTrigger - **vX.Trigger** Specified trigger(s) to test
 		 * @returns {boolean} Whether or not the current object/order/event should be triggered
 		 */
-         flagTest(pFlag, pTrigger)
-         {
-         }
+		flagTest(pFlag, pTrigger)
+		{
+		}
+
+		/**
+		 * Retrieves the contents of a separate file as either an object (header) or an array of arrays (no header)
+		 * @param {string} pPath - The path to the file to be imported (Just the name of the file if in the root of the imports section)
+		 * @param {Object} pConfiguration - Object containing file properties
+		 * @param {boolean} pConfiguration.header - Whether or not the file contains a header for type/column names
+		 * @param {vX_Import} pConfiguration.type - **vX.Import** The type of file to be imported
+		 * @returns {Object|array[]} The contents of the specified file as either an object (header) or an array of arrays (no header)
+		 */
+		importFile(pPath, pConfiguration)
+		{
+		}
 	}
 	`,
 );
